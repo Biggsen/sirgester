@@ -10,22 +10,26 @@ var LoginView = Parse.View.extend({
 	},
 
 	login: function() {
+		clearError();
+		displayMessage("Sending login information ...");
 		var username = this.$el.find("#username").val();
 		var password = this.$el.find("#password").val();
 		
 		Parse.User.logIn(username, password, {
 			success: function(user) {
-				//window.location = "list.html";
-				alert('login successfull');
+				clearMessage();
+				$("#errormessage").append("login successfull");
 			},
 			error: function(user, error) {
-				//$(".error").removeClass('is-hidden');
-				alert('login unsuccessfull');
+				clearMessage();
+				displayError(error.message);
 			}
 		});
 	},
 
 	signup: function() {
+		clearError();
+		displayMessage("Sending signup information ...");
 		var username = this.$el.find("#su_username").val();
 		var password = this.$el.find("#su_password").val();
 		var email = this.$el.find("#su_email").val();
@@ -37,12 +41,12 @@ var LoginView = Parse.View.extend({
 		
 		user.signUp(null, {
 			success: function(user) {
-				//$(".success").removeClass('is-hidden');
-				alert('signup successfull');
+				clearMessage();
+				$("#errormessage").append("sigup successfull");
 			},
 			error: function(user, error) {
-				//$(".error").removeClass('is-hidden');
-				alert('sigup unsuccessfull');
+				clearMessage();
+				displayError(error.message);
 			}
 		});
 	}
@@ -51,3 +55,21 @@ var LoginView = Parse.View.extend({
 $(document).ready(function() {
 	var view = new LoginView();
 });
+
+function clearMessage() {
+	$("#message").empty();
+}
+
+function displayMessage(message) {
+	clearError();
+	$("#message").append(message);
+}
+
+function clearError() {
+	$("#errormessage").empty();
+}
+
+function displayError(message) {
+	clearError();
+	$("#errormessage").append(message);
+}
