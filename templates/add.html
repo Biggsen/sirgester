@@ -1,0 +1,23 @@
+<h1>Book</h1>
+<label>name:</label>
+<input id="bookname" value="" />
+<label>author:</label>
+<input id="author" value="" />
+<label>genre:</label>
+<!--input id="genre" value=""/-->
+<div>
+<div id="genreContainer">
+	<select id="list-genre">
+	</select>
+	<script id="genreTpl" type="text/template">
+		<option value="{{ objectId }} ">{{ name }}</option>
+	</script>
+	<button id="newGenre" class="btn">New genre</button>
+	<button id="editGenre" class="btn">Edit genre</button>
+</div>
+</div>	
+<label>totalpages:</label>
+<input id="totalpages" value="" type="number" />
+<label>current page:</label>
+<input id="currpage" value="" type="number" />
+<button id="savebook" class="btn">Save</button> 

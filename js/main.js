@@ -72,6 +72,34 @@ var LoginView = Parse.View.extend({
 	}
 });
 
+var BookView = Parse.View.extend({
+
+	tagName: "li",
+
+	events: {
+		"click #removeBook"   : "clear",
+	},
+
+	initialize: function() {
+		_.bindAll(this, 'render', 'remove' );
+		this.model.bind('change', this.render);
+		this.model.bind('destroy', this.remove);
+	},
+
+	render: function(book) {
+		var html = tpl.get('book'); // $('#bookListTemplate').html();
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+		return this;
+	},
+
+	// Remove the item, destroy the model.
+    clear: function() {
+    	if(confirm("Are you sure you want to delete?"))
+    		alert('book deleted');
+      		//this.model.destroy();
+    }
+});
+
 var BookListView = Parse.View.extend({
 
 	el: "#content",
@@ -82,7 +110,8 @@ var BookListView = Parse.View.extend({
 
 	initialize: function() {
 		window.location.hash = "#list";
-		_.bindAll(this, 'render' );
+
+		_.bindAll(this, 'render', 'addOne', 'addAll' );
 
 		this.books = new Books();
 		this.books.query = new Parse.Query(Book);
@@ -95,26 +124,31 @@ var BookListView = Parse.View.extend({
 			return book.percentageLeft();
 		}
 
+		this.books.bind('add',     this.addOne);
+     	this.books.bind('reset',   this.addAll);
 		this.books.bind('all',     this.render);
 		this.books.fetch();
+
+		var html = tpl.get('list'); // $('#bookListTemplate').html();
+		this.$el.html(html);
 	},
 
 	render: function(){
-		var html = tpl.get('list'); // $('#bookListTemplate').html();
-		this.$el.empty();
-		this.$el.append(html);
-
-		var tmpl = $('#bookTpl').html();
-		this.books.each(function(book) {
-			    		
-    		if(parseFloat(book.get("currentPage")) < parseFloat(book.get("totalpages")))
-			{
-				var html = Mustache.to_html(tmpl, book.toJSON());
-				$('.books').append(html);
-			}
-		});
-		
+		return this;
 	},
+
+	// Add a single book item to the list by creating a view for it, and
+    // appending its element to the `<ul>`.
+    addOne: function(book) {
+      var view = new BookView({model: book});
+      this.$("#books").append(view.render().el);
+    },
+
+    // Add all items in the Book collection at once.
+    addAll: function(collection, filter) {
+      this.$el.find("#books").html("");
+      this.books.each(this.addOne);
+    },
 
 	logout: function() {
 		Parse.User.logOut();
@@ -125,28 +159,21 @@ var BookListView = Parse.View.extend({
 	}
 });
 
-/*
-var AppView = Parse.View.extend({
+var EditView = Parse.View.extend({
 
-	el: $("#main"),
+	el: "#content",
 
 	initialize: function() {
+		alert(this.options.objectId);
 		this.render();
 	},
 
 	render: function() {
-		if(Parse.User.current())
-			new BookListView();
-		else
-		{	
-			if(!window.location.toString().endsWith("tabr1"))
-				window.location = window.location + "?#tabr1";
-			new LoginView();
-		}
-
+		var html = tpl.get('add'); // $('#bookListTemplate').html();
+		this.$el.html(html);
 	}
 });
-*/
+
 
 var Book = Parse.Object.extend("Book", {
 
@@ -211,6 +238,9 @@ var Book = Parse.Object.extend("Book", {
     	_.each(json, function(value, key) {
       		data[key] = this.get(key);
     	}, this);
+    	data["objectId"] =  this.id;
+    	data["createdAt"] =  this.createdAt;
+    	data["updatedAt"] =  this.updatedAt; 
     	var nextMileStone = this.nextMilestone();
     	data["percentage"] =  this.percentage(); 
     	data["nextMilestone"] = nextMileStone;
@@ -219,10 +249,10 @@ var Book = Parse.Object.extend("Book", {
     	data["pagesToMilestone"] = this.pagesToMilestone(nextMileStone);
     	return data;
   	},
-  	get: function(attr) {
+  	/*get: function(attr) {
     	var value = Parse.Object.prototype.get.call(this, attr);
     	return _.isFunction(value) ? value.call(this) : value;
-  	},
+  	},*/
 });
 
 var Books = Parse.Collection.extend({
@@ -240,6 +270,7 @@ var AppRouter = Parse.Router.extend({
 		"login": 		"login", 
 		"signup": 		"login",
 		"list":  		"list", 
+		"edit/:id": 	"edit", 
 		"book": 		"book",
 		"suggest": 		"suggest",
 	},
@@ -263,11 +294,17 @@ var AppRouter = Parse.Router.extend({
 		else
 			this.login();
 	},
+
+	edit: function(id) {
+		new EditView({
+			objectId: id,
+		});
+	}
 });
 
 $(document).ready(function() {
 
-	tpl.loadTemplates(['login', 'list'], function () {
+	tpl.loadTemplates(['login', 'list', 'book'], function () {
 	    new AppRouter();
 		//new AppView();
 		Parse.history.start();
