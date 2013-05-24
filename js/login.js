@@ -14,10 +14,18 @@ var LoginView = Parse.View.extend({
 	},
 
 	render: function() {
-		var html = $('#loginTemplate').html();
+		var html = tpl.get('login');//  $('#loginTemplate').html();
 		//var html = Mustache.to_html(tmpl);
 		this.$el.empty();
 		this.$el.append(html);
+
+		$.getScript("js/kickstart.js");
+			/*.done(function(script, textStatus) {
+			  console.log( textStatus );
+			})
+			.fail(function(jqxhr, settings, exception) {
+			  console.log( exception );
+			});*/
 	},
 
 
@@ -54,7 +62,6 @@ var LoginView = Parse.View.extend({
 		
 		user.signUp(null, {
 			success: function(user) {
-				clearMessage();
 				$("#errormessage").append("sigup successfull");
 			},
 			error: function(user, error) {
@@ -78,7 +85,7 @@ var BookListView = Parse.View.extend({
 	},
 
 	render: function(){
-		var html = $('#bookListTemplate').html();
+		var html = tpl.get('booklist'); // $('#bookListTemplate').html();
 		//var html = Mustache.to_html(tmpl);
 		this.$el.empty();
 		this.$el.append(html);
@@ -89,7 +96,7 @@ var BookListView = Parse.View.extend({
 		new LoginView();
 
 		//TODO: Fix this, needed to reload kickstart.js - no causes the window to flicker
-		window.location.reload(true);
+		//window.location.reload(true);
 	}
 });
 
@@ -128,10 +135,52 @@ var AppRouter = Parse.Router.extend({
 
 $(document).ready(function() {
 
-	new AppRouter();
-	new AppView();
-	Parse.history.start();
+	tpl.loadTemplates(['booklist', 'login'], function () {
+	    new AppRouter();
+		new AppView();
+		Parse.history.start();
+	});
 });
+
+
+tpl = {
+ 
+    // Hash of preloaded templates for the app
+    templates:{},
+ 
+    // Recursively pre-load all the templates for the app.
+    // This implementation should be changed in a production environment. All the template files should be
+    // concatenated in a single file.
+    loadTemplates:function (names, callback) {
+ 
+        var that = this;
+ 
+        var loadTemplate = function (index) {
+            var name = names[index];
+            console.log('Loading template: ' + name);
+
+            
+
+            $.get('templates/' + name + '.html', function (data) {
+                that.templates[name] = data;
+                index++;
+                if (index < names.length) {
+                    loadTemplate(index);
+                } else {
+                    callback();
+                }
+            });
+        }
+ 
+        loadTemplate(0);
+    },
+ 
+    // Get template by name from hash of preloaded templates
+    get:function (name) {
+        return this.templates[name];
+    }
+ 
+};
 
 function clearMessage() {
 	$("#message").empty();
