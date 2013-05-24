@@ -1,0 +1,22 @@
+<button id="logout" class="green">Logout</button> 
+<h1>List books</h1>
+<ul class="books">
+	<script id="bookTpl" type="text/template">
+		<li>  
+			<p class='books-title'>{{ name }}</p>
+			<p class='books-details'>
+				<span class='books-author'>{{ author }} - </span>
+				<span class='books-genre'>{{ genre }} - </span>
+				<span class='books-pages'>{{ totalpages }} pages</span>
+				<div>You have got {{ percentageLeft }}% to next milestone. At page {{ pagesToMilestone }} you will have read {{ nextMilestone }}%. You have only got {{ pagesToNextMilestone }} pages to go!</div>
+			    <div class='progressbar'>
+			    	<span class='progressbar-inner' style='width: {{ percentage }}%'>{{ percentage }}%</span>
+			    </div>
+			</p>
+			<a href='javascript:events.edit({{ objectId }})' class='btn btn-right'>edit</a>
+			<a href='javascript:events.update({{ objectId }})' class='btn btn-right'>update</a>
+			<a href='javascript:events.remove({{ objectId }})' class='btn btn-right'>delete</a>
+			<a href='javascript:events.shelf({{ objectId }})' class='btn btn-right'>TODO</a>
+		</li>
+	</script>
+</ul>
