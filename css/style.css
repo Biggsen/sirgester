@@ -161,24 +161,64 @@ display:block;
 	MODULES
 -----------------------------------*/
 
+/* Logo */
+
+.mod-logo {
+	padding-bottom: .05em;
+}
+
 .mod-logo h1 {
 	font-family: 'Berkshire Swash', cursive;
-	font-size: 6em;
-	text-align: center;
-	text-shadow: 2px 2px 1px #fff;
 }
 
 .mod-logo h1 span {
-	position: relative;
-	top: -42px;
 	font-family: 'Abril Fatface', cursive;
-	font-size: .3em;
 }
 
 .mod-logo p {
-	margin-top: -2.9em;
-	padding-left: 4.5em;
-	text-align: center;
-	font-size: 1.25em;
 	color: #9d9d9d;
+}
+
+@media screen and (max-width: 480px) {
+	.mod-logo h1 {
+		font-size: 1.8em;
+		text-align: left;
+	}
+
+	.mod-logo h1 span {
+		position: relative;
+		top: -12px;
+		font-size: .6em;
+	}
+
+	.mod-logo p {
+		margin-top: -2.6em;
+		text-align: right;
+		font-size: 1em;
+		color: #9d9d9d;
+	}
+
+}
+
+@media screen and (min-width: 481px) {
+	.mod-logo h1 {
+		font-size: 6em;
+		text-align: center;
+		text-shadow: 2px 2px 1px #fff;
+	}
+
+	.mod-logo h1 span {
+		position: relative;
+		top: -42px;
+		font-family: 'Abril Fatface', cursive;
+		font-size: .3em;
+	}
+
+	.mod-logo p {
+		margin-top: -2.9em;
+		text-align: center;
+		font-size: 1.25em;
+		color: #9d9d9d;
+	}
+
 }
