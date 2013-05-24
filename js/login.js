@@ -2,12 +2,24 @@ Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8Y
 
 var LoginView = Parse.View.extend({
 
-	el: "#loginForm",
+	el: "#content",
 
 	events: {
 		"click #login": 	"login",
 		"click #signup": 	"signup",
 	},
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		var html = $('#loginTemplate').html();
+		//var html = Mustache.to_html(tmpl);
+		this.$el.empty();
+		this.$el.append(html);
+	},
+
 
 	login: function() {
 		clearError();
@@ -19,6 +31,7 @@ var LoginView = Parse.View.extend({
 			success: function(user) {
 				clearMessage();
 				$("#errormessage").append("login successfull");
+				new BookListView();
 			},
 			error: function(user, error) {
 				clearMessage();
@@ -52,8 +65,72 @@ var LoginView = Parse.View.extend({
 	}
 });
 
+var BookListView = Parse.View.extend({
+
+	el: "#content",
+	
+	events: {
+		"click #logout": "logout"
+	},
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function(){
+		var html = $('#bookListTemplate').html();
+		//var html = Mustache.to_html(tmpl);
+		this.$el.empty();
+		this.$el.append(html);
+	},
+
+	logout: function() {
+		Parse.User.logOut();
+		new LoginView();
+
+		//TODO: Fix this, needed to reload kickstart.js - no causes the window to flicker
+		window.location.reload(true);
+	}
+});
+
+var AppView = Parse.View.extend({
+
+	el: $("#main"),
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		if(Parse.User.current())
+			//alert('logged in');
+			new BookListView();
+		else
+			new LoginView();
+
+	}
+});
+
+var AppRouter = Parse.Router.extend({
+	routes: {
+		"book": 		"book",
+		"suggest": 	"	suggest",
+	},
+
+	book: function() {
+		alert('book router');
+	},
+
+	suggest: function() {
+		alert('suggest router');
+	},
+});
+
 $(document).ready(function() {
-	var view = new LoginView();
+
+	new AppRouter();
+	new AppView();
+	Parse.history.start();
 });
 
 function clearMessage() {
