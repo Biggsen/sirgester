@@ -5,17 +5,17 @@ var LoginView = Parse.View.extend({
 	el: "#content",
 
 	events: {
-		"click #login": 	"login",
-		"click #signup": 	"signup",
+		"click #login_button": 	"login",
+		"click #signup_button": 	"signUpp",
 	},
 
 	initialize: function() {
+		window.location.hash = "#login";
 		this.render();
 	},
 
 	render: function() {
 		var html = tpl.get('login');//  $('#loginTemplate').html();
-		//var html = Mustache.to_html(tmpl);
 		this.$el.empty();
 		this.$el.append(html);
 
@@ -40,7 +40,7 @@ var LoginView = Parse.View.extend({
 				clearMessage();
 				$("#errormessage").append("login successfull");
 				new BookListView();
-			},
+			},	
 			error: function(user, error) {
 				clearMessage();
 				displayError(error.message);
@@ -81,6 +81,7 @@ var BookListView = Parse.View.extend({
 	},
 
 	initialize: function() {
+		window.location.hash = "#list";
 		this.render();
 	},
 
@@ -100,6 +101,7 @@ var BookListView = Parse.View.extend({
 	}
 });
 
+/*
 var AppView = Parse.View.extend({
 
 	el: $("#main"),
@@ -110,26 +112,50 @@ var AppView = Parse.View.extend({
 
 	render: function() {
 		if(Parse.User.current())
-			//alert('logged in');
 			new BookListView();
 		else
+		{	
+			if(!window.location.toString().endsWith("tabr1"))
+				window.location = window.location + "?#tabr1";
 			new LoginView();
+		}
 
 	}
 });
+*/
+String.prototype.endsWith = function(pattern) {
+    var d = this.length - pattern.length;
+    return d >= 0 && this.lastIndexOf(pattern) === d;
+};
 
 var AppRouter = Parse.Router.extend({
 	routes: {
+		"": 			"index",
+		"login": 		"login", 
+		"signup": 		"login",
+		"list":  		"list", 
 		"book": 		"book",
-		"suggest": 	"	suggest",
+		"suggest": 		"suggest",
 	},
 
-	book: function() {
-		alert('book router');
+	index: function() {
+		if(Parse.User.current()) {
+			new BookListView();
+		}
+		else {
+			this.login();
+		}
 	},
 
-	suggest: function() {
-		alert('suggest router');
+	login: function() {
+		new LoginView();
+	},
+
+	list: function() {
+		if(Parse.User.current()) 
+			new BookListView();
+		else
+			this.login();
 	},
 });
 
@@ -137,7 +163,7 @@ $(document).ready(function() {
 
 	tpl.loadTemplates(['booklist', 'login'], function () {
 	    new AppRouter();
-		new AppView();
+		//new AppView();
 		Parse.history.start();
 	});
 });
@@ -158,8 +184,6 @@ tpl = {
         var loadTemplate = function (index) {
             var name = names[index];
             console.log('Loading template: ' + name);
-
-            
 
             $.get('templates/' + name + '.html', function (data) {
                 that.templates[name] = data;
@@ -182,12 +206,14 @@ tpl = {
  
 };
 
+//TODO: more generic handling of error messages
 function clearMessage() {
 	$("#message").empty();
 }
 
 function displayMessage(message) {
 	clearError();
+	clearMessage();
 	$("#message").append(message);
 }
 
