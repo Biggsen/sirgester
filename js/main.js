@@ -159,6 +159,21 @@ var BookListView = Parse.View.extend({
 	}
 });
 
+var PasswordView = Parse.View.extend({
+
+	el: "#content",
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		var html = tpl.get('password'); // $('#bookListTemplate').html();
+		this.$el.html(html);
+		return this;
+	}
+});
+
 var EditView = Parse.View.extend({
 
 	el: "#content",
@@ -166,6 +181,7 @@ var EditView = Parse.View.extend({
 	initialize: function() {
 		alert(this.options.objectId);
 		this.render();
+		return this;
 	},
 
 	render: function() {
@@ -269,6 +285,7 @@ var AppRouter = Parse.Router.extend({
 		"": 			"index",
 		"login": 		"login", 
 		"signup": 		"login",
+		"newpassword":	"password",
 		"list":  		"list", 
 		"edit/:id": 	"edit", 
 		"book": 		"book",
@@ -288,6 +305,10 @@ var AppRouter = Parse.Router.extend({
 		new LoginView();
 	},
 
+	password: function() {
+		new PasswordView();
+	},
+
 	list: function() {
 		if(Parse.User.current()) 
 			new BookListView();
@@ -304,7 +325,7 @@ var AppRouter = Parse.Router.extend({
 
 $(document).ready(function() {
 
-	tpl.loadTemplates(['login', 'list', 'book'], function () {
+	tpl.loadTemplates(['login', 'list', 'book', 'password'], function () {
 	    new AppRouter();
 		//new AppView();
 		Parse.history.start();
