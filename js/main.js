@@ -224,13 +224,15 @@ var BookDetailsView = Parse.View.extend({
 		"click #edit":  	"edit",
 		"click #save":  	"save", 
 		"submit":  			"save", 
+		"click #delete": 	"delete", 
 	},
 
 	initialize: function() {
 		
-		_.bindAll(this, 'render', 'save');
+		_.bindAll(this, 'render', 'save', 'delete');
 
 		this.model.bind('change', this.render);
+		//this.model.bind('destroy', this.remove);
 		this.render();
 	},	
 
@@ -254,7 +256,15 @@ var BookDetailsView = Parse.View.extend({
 
 	edit: function() {
 		window.location.hash = "#edit/" + this.model.id;
-	}
+	},
+	
+	// Remove the item, destroy the model.
+    delete: function() {
+    	if(confirm("Are you sure you want to delete?")) {
+    		this.model.destroy();
+    		window.location.hash = "#list";
+      	}
+    }
 });
 
 var BookView = Parse.View.extend({
@@ -263,7 +273,6 @@ var BookView = Parse.View.extend({
 
 	events: {
 		"click #book"   	: "details",
-		"click #removeBook"	: "clear",
 	},
 
 	initialize: function() {
@@ -285,13 +294,6 @@ var BookView = Parse.View.extend({
 	details: function() {
 		window.location.hash = "#details/" + this.model.id;
 	},
-
-	// Remove the item, destroy the model.
-    clear: function() {
-    	if(confirm("Are you sure you want to delete?"))
-    		alert('book deleted');
-      		//this.model.destroy();
-    }
 });
 
 var BookListView = Parse.View.extend({
@@ -402,7 +404,7 @@ var EditView = Parse.View.extend({
 	},
 
 	render: function() {
-		var html = tpl.get('add'); // $('#bookListTemplate').html();
+		var html = tpl.get('add'); 	
 		this.$el.html(html);
 	}
 });
