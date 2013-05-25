@@ -186,8 +186,8 @@ var GenreListView = Parse.View.extend({
 	el: "#genre",
 
 	events: {
-		"click #newGenre": 		"new",
-		"click #editGenre": 	"edit"
+		"click #editGenre": 	"edit",
+		"click #newGenre": 		"newgenre",
 	},
 
 	initialize: function() {
@@ -216,12 +216,13 @@ var GenreListView = Parse.View.extend({
       this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');
     },
 
-    new: function() {
+    newgenre: function() {
     	window.location.hash = "#genre";
     	return false;
     },
 
     edit: function() {
+    	alert('edit');
     	window.location.hash = "#genre/" + this.model.get("genre");
     	return false;
     }
@@ -232,8 +233,12 @@ var BookEditView = Parse.View.extend({
 	el: $("#content"),
 
 	events: {
-		//"click #savebook":  	"savebook", 
-		"submit":  			"savebook", 
+		"click #savebook":  				"savebook", 
+		//"submit":  							"savebook", 
+		"change input#bookname":			"validateBook",
+		"change input#author":				"validateBook",
+		"change input#totalpages":			"validateBook",
+		"change input#currpage":			"validateBook",
 	},
 
 	initialize: function() {
@@ -243,13 +248,43 @@ var BookEditView = Parse.View.extend({
 		var html = tpl.get('add'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		
-		
+		if(this.genresView) this.genresView.close();
+
 		this.genresView = new GenreListView({
 			model: this.model
 		});
-	},	
+	},
+
+	validate: function(elements) {
+		var result = true;
+		_.each(elements, function( element ){
+			var el = this.$(element)
+			if(el.val().length == 0) {
+				el.addClass('error');
+				result = false;
+			} else {
+				el.removeClass('error');
+			}
+		});
+		return result;
+	},
+
+	validateBook: function() {
+		return this.validate(['#bookname', '#author', '#totalpages', '#currpage']);
+	},
 
 	savebook: function() {
+		
+		if(!this.validateBook()) {	
+			displayError("No empty boxes allowed");
+			return false;
+		}
+
+		if(parseFloat(this.$("#currpage")) >= parseFloat(this.$("#totalpages").val())) {
+			displayWarning("Have you read the book already?");
+			return false;
+		}	
+
 		this.model.save({
 			name: this.$el.find("#bookname").val(),
 			author: this.$el.find("#author").val(),
@@ -265,7 +300,7 @@ var BookEditView = Parse.View.extend({
 			}
 		});
 		return false;
-	},
+	}
 });
 
 var BookDetailsView = Parse.View.extend({
