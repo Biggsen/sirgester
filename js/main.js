@@ -7,6 +7,7 @@ var LoginView = Parse.View.extend({
 	events: {
 		"click #login_button": 		"login",
 		"click #signup_button": 	"signup",
+		//"change input": 	 		"validate"
 	},
 
 	initialize: function() {
@@ -15,6 +16,8 @@ var LoginView = Parse.View.extend({
 	},
 
 	render: function() {
+		clearError();
+
 		var html = tpl.get('login');//  $('#loginTemplate').html();
 		this.$el.empty();
 		this.$el.append(html);
@@ -28,29 +31,54 @@ var LoginView = Parse.View.extend({
 			});*/
 	},
 
+	user: function() {
+		return {
+			name : this.$el.find("#username").val(),
+			password: this.$el.find("#password").val(),  
+		}
+	},
+
+	validate: function() {
+
+		var user = this.user();
+
+		if(user.name.length == 0)
+			this.$el.find("#username").addClass('error');
+		else
+			this.$el.find("#username").removeClass('error');
+
+		if(user.password.length == 0)
+			this.$el.find("#password").addClass('error');
+		else
+			this.$el.find("#password").removeClass('error');
+
+		return user.name.length > 0 && user.password.length > 0;
+	},
 
 	login: function() {
 		clearError();
-		displayMessage("Sending login information ...");
-		var username = this.$el.find("#username").val();
-		var password = this.$el.find("#password").val();
+
+		var user = this.user();
+
+		//if(!this.validate())
+		//	return;
 		
-		Parse.User.logIn(username, password, {
+		Parse.User.logIn(user.name, user.password, {
 			success: function(user) {
-				clearMessage();
-				$("#errormessage").append("login successfull");
 				new BookListView();
 			},	
 			error: function(user, error) {
-				clearMessage();
 				displayError(error.message);
+				/*new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: error.message
+				});*/
 			}
 		});
 	},
 
 	signup: function() {
-		clearError();
-		displayMessage("Sending signup information ...");
 		var username = this.$el.find("#su_username").val();
 		var password = this.$el.find("#su_password").val();
 		var email = this.$el.find("#su_email").val();
@@ -62,11 +90,18 @@ var LoginView = Parse.View.extend({
 		
 		user.signUp(null, {
 			success: function(user) {
-				$("#errormessage").append("sigup successfull");
+				new NotificationView({
+					type: 'success',
+					icon: 'ok ',
+					text: "You have been signed up for the gester"
+				});
 			},
 			error: function(user, error) {
-				clearMessage();
-				displayError(error.message);
+				new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: error.message
+				});
 			}
 		});
 	}
@@ -109,6 +144,7 @@ var BookListView = Parse.View.extend({
 	},
 
 	initialize: function() {
+		clearError();
 		window.location.hash = "#list";
 
 		_.bindAll(this, 'render', 'addOne', 'addAll' );
@@ -159,19 +195,46 @@ var BookListView = Parse.View.extend({
 	}
 });
 
+/*<!-- Error -->
+<div class="notice error"><i class="icon-remove-sign icon-large"></i> This is an Error Notice 
+<a href="#close" class="icon-remove"></a></div>
+
+<!-- Warning -->
+<div class="notice warning"><i class="icon-warning-sign icon-large"></i> This is a Warning Notice 
+<a href="#close" class="icon-remove"></a></div>
+
+<!-- Success -->
+<div class="notice success"><i class="icon-ok icon-large"></i> This is a Success Notice 
+<a href="#close" class="icon-remove"></a></div>*/
+var NotificationView = Parse.View.extend({
+
+	el: "#notifications",
+
+	initialize: function() {
+		var html = tpl.get('notification');
+		this.$el.html(Mustache.to_html(html, this.options));
+	}
+
+});
+
+var EmptyView = Parse.View.extend({
+
+	el: "#notifications",
+
+	initialize: function() {
+		this.$el.html('');
+	}
+
+});
+
 var PasswordView = Parse.View.extend({
 
 	el: "#content",
 
 	initialize: function() {
-		this.render();
-	},
-
-	render: function() {
 		var html = tpl.get('password'); // $('#bookListTemplate').html();
 		this.$el.html(html);
-		return this;
-	}
+	},
 });
 
 var EditView = Parse.View.extend({
@@ -293,6 +356,7 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	index: function() {
+		
 		if(Parse.User.current()) {
 			new BookListView();
 		}
@@ -302,14 +366,17 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	login: function() {
+		
 		new LoginView();
 	},
 
 	password: function() {
+		
 		new PasswordView();
 	},
 
 	list: function() {
+		
 		if(Parse.User.current()) 
 			new BookListView();
 		else
@@ -317,6 +384,7 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	edit: function(id) {
+		
 		new EditView({
 			objectId: id,
 		});
@@ -325,13 +393,12 @@ var AppRouter = Parse.Router.extend({
 
 $(document).ready(function() {
 
-	tpl.loadTemplates(['login', 'list', 'book', 'password'], function () {
+	tpl.loadTemplates(['login', 'list', 'book', 'password', 'notification'], function () {
 	    new AppRouter();
 		//new AppView();
 		Parse.history.start();
 	});
 });
-
 
 tpl = {
  
@@ -370,6 +437,16 @@ tpl = {
  
 };
 
+
+Parse.View.prototype.close = function () {
+    console.log('Closing view ' + this);
+    if (this.beforeClose) {
+        this.beforeClose();
+    }
+    //this.remove();
+    this.unbind();
+};
+
 //TODO: more generic handling of error messages
 function clearMessage() {
 	$("#message").empty();
@@ -381,12 +458,19 @@ function displayMessage(message) {
 	$("#message").append(message);
 }
 
+var notice;
+
 function clearError() {
-	$("#errormessage").empty();
+
+	new EmptyView();
+
 }
 
 function displayError(message) {
-	clearMessage();
-	clearError();
-	$("#errormessage").append(message);
+	
+	new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: message
+				});
 }
