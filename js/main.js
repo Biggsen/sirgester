@@ -191,9 +191,9 @@ var BookEditView = Parse.View.extend({
 	},	
 
 	save: function() {
-		if(this.model.isNew()) {
-			alert('is new');
-		} else {
+		//if(this.model.isNew()) {
+		//	alert('is new');
+		//} else {
 			this.model.save({
 				name: this.$el.find("#bookname").val(),
 				author: this.$el.find("#author").val(),
@@ -208,7 +208,7 @@ var BookEditView = Parse.View.extend({
 					displayMessage(error.message);
 				}
 			});
-		}
+		//}
 	},
 
 	details: function() {
@@ -284,11 +284,6 @@ var BookView = Parse.View.extend({
 
 	details: function() {
 		window.location.hash = "#details/" + this.model.id;
-		/*new BookEditView({
-			model: this.model
-		});*/
-		//this.undelegateEvents();
-		//delete this;
 	},
 
 	// Remove the item, destroy the model.
@@ -304,7 +299,8 @@ var BookListView = Parse.View.extend({
 	el: "#content",
 	
 	events: {
-		"click #logout": "logout"
+		"click #logout": 	"logout",
+		"click #add":   	"addnewbook"	
 	},
 
 	initialize: function() {
@@ -350,9 +346,13 @@ var BookListView = Parse.View.extend({
       this.books.each(this.addOne);
     },
 
+    addnewbook: function() {
+		window.location.hash = "#add"
+    },
+
 	logout: function() {
 		Parse.User.logOut();
-		new LoginView();
+		window.location.hash = "#login";
 
 		//TODO: Fix this, needed to reload kickstart.js - no causes the window to flicker
 		//window.location.reload(true);
@@ -419,8 +419,8 @@ var Book = Parse.Object.extend("Book", {
 		"name": "",
 		"genre" : "",
 		"author": "",
-		"totalpages": 1,
-		"currentPage": 1,
+		"totalpages": 100,
+		"currentPage": 0,
 		"shelfed": false
 	},
 
@@ -504,6 +504,7 @@ var AppRouter = Parse.Router.extend({
 		"signup": 		"login",
 		"newpassword":	"password",
 		"list":  		"list", 
+		"add": 			"add", 
 		"edit/:id": 	"edit", 
 		"details/:id": 	"details", 
 		"book": 		"book",
@@ -549,6 +550,21 @@ var AppRouter = Parse.Router.extend({
 			});
 		}
 		else {
+			this.login();
+		}
+	},
+
+	add: function() {
+		if(Parse.User.current()) {
+			if(this.currentView) this.currentView.close();
+
+	    	this.currentView = new BookEditView({
+	    		el: "#content",
+	    		model: new Book({
+	    			username: Parse.User.current().get("username")
+	    		})
+			});
+		} else {	
 			this.login();
 		}
 	},
