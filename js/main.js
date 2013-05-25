@@ -213,11 +213,6 @@ var BookEditView = Parse.View.extend({
 
 	details: function() {
 		window.location.hash = "#details/" + this.model.id;
-		/*new BookDetailsView({
-			model: this.model
-		});*/
-		//this.undelegateEvents();
-		//delete this;
 	},
 });
 
@@ -226,22 +221,39 @@ var BookDetailsView = Parse.View.extend({
 	el: $("#content"),
 
 	events: {
-		"click #editBook":  	"edit"
+		"click #edit":  	"edit",
+		"click #save":  	"save", 
+		"submit":  			"save", 
 	},
 
 	initialize: function() {
-		//window.location.hash = "#details/" + this.model.id;
+		
+		_.bindAll(this, 'render', 'save');
+
+		this.model.bind('change', this.render);
+		this.render();
+	},	
+
+	render: function() {
 		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
-	},	
+	},
+
+	save: function() {
+		this.model.save({
+				currentPage: this.$el.find("#currpage").val()
+			},{
+				success: function( instance ) {
+					displaySuccess("Book was saved");
+				},
+				error: function(object, error) {
+					displayMessage(error.message);
+				}
+			});
+	},
 
 	edit: function() {
 		window.location.hash = "#edit/" + this.model.id;
-		/*new BookEditView({
-			model: this.model
-		});*/
-		//this.undelegateEvents();
-		//delete this;
 	}
 });
 
@@ -271,7 +283,7 @@ var BookView = Parse.View.extend({
 	},
 
 	details: function() {
-		window.location.hash = "#edit/" + this.model.id;
+		window.location.hash = "#details/" + this.model.id;
 		/*new BookEditView({
 			model: this.model
 		});*/
