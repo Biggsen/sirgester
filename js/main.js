@@ -175,6 +175,7 @@ var BookEditView = Parse.View.extend({
 	events: {
 		"click #details":  	"details",
 		"click #save":  	"save", 
+		"submit":  			"save", 
 	},
 
 	initialize: function() {
@@ -229,7 +230,7 @@ var BookDetailsView = Parse.View.extend({
 		_.bindAll(this, 'render', 'save', 'delete', 'shelf');
 
 		this.model.bind('change', this.render);
-		//this.model.bind('destroy', this.remove);
+		this.model.bind('create', this.render);
 		this.render();
 	},	
 
@@ -280,7 +281,9 @@ var BookDetailsView = Parse.View.extend({
     delete: function() {
     	if(confirm("Are you sure you want to delete?")) {
     		this.model.destroy();
-    		window.location.hash = "#list";
+    		this.model = new Book();
+    		displaySuccess("Book was deleted");
+    		this.render();
       	}
     }
 });
@@ -296,7 +299,7 @@ var BookView = Parse.View.extend({
 	initialize: function() {
 		_.bindAll(this, 'render', 'remove' );
 		this.model.bind('change', this.render);
-		this.model.bind('destroy', this.remove);
+		//this.model.bind('destroy', this.remove);
 	},
 
 	render: function() {
