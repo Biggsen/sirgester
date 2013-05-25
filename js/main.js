@@ -191,24 +191,20 @@ var BookEditView = Parse.View.extend({
 	},	
 
 	save: function() {
-		//if(this.model.isNew()) {
-		//	alert('is new');
-		//} else {
-			this.model.save({
-				name: this.$el.find("#bookname").val(),
-				author: this.$el.find("#author").val(),
-				genre: this.$el.find("#list-genre option:selected").text(),  //TODO use val to get Id
-				totalpages: this.$el.find("#totalpages").val(),
-				currentPage: this.$el.find("#currpage").val()
-			},{
-				success: function( instance ) {
-					displaySuccess("Book was saved");
-				},
-				error: function(object, error) {
-					displayMessage(error.message);
-				}
-			});
-		//}
+		this.model.save({
+			name: this.$el.find("#bookname").val(),
+			author: this.$el.find("#author").val(),
+			genre: this.$el.find("#list-genre option:selected").text(),  //TODO use val to get Id
+			totalpages: this.$el.find("#totalpages").val(),
+			currentPage: this.$el.find("#currpage").val()
+		},{
+			success: function( instance ) {
+				displaySuccess("Book was saved");
+			},
+			error: function(object, error) {
+				displayMessage(error.message);
+			}
+		});
 	},
 
 	details: function() {
@@ -225,11 +221,12 @@ var BookDetailsView = Parse.View.extend({
 		"click #save":  	"save", 
 		"submit":  			"save", 
 		"click #delete": 	"delete", 
+		"click #shelf": 	"shelf", 
 	},
 
 	initialize: function() {
 		
-		_.bindAll(this, 'render', 'save', 'delete');
+		_.bindAll(this, 'render', 'save', 'delete', 'shelf');
 
 		this.model.bind('change', this.render);
 		//this.model.bind('destroy', this.remove);
@@ -239,6 +236,10 @@ var BookDetailsView = Parse.View.extend({
 	render: function() {
 		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+
+		if(this.model.get("shelfed")) {
+			this.$el.find("#shelf").html("unshelf");
+		}
 	},
 
 	save: function() {
@@ -247,6 +248,23 @@ var BookDetailsView = Parse.View.extend({
 			},{
 				success: function( instance ) {
 					displaySuccess("Book was saved");
+				},
+				error: function(object, error) {
+					displayMessage(error.message);
+				}
+			});
+	},
+
+	shelf: function() {
+		var shelfValue = !this.model.get("shelfed");
+		this.model.save({
+				shelfed: shelfValue
+			},{
+				success: function( instance ) {
+					if(shelfValue)
+						displaySuccess("Book was shelfed");
+					else
+						displaySuccess("Book was unshelfed");
 				},
 				error: function(object, error) {
 					displayMessage(error.message);
@@ -283,8 +301,14 @@ var BookView = Parse.View.extend({
 
 	render: function() {
 		if(parseFloat(this.model.get("currentPage")) < parseFloat(this.model.get("totalpages"))) {
-			var html = tpl.get('book'); 
+			var html = tpl.get('book'); 	
 			this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+
+			if(this.model.get("shelfed")) {
+				var del = this.$el.find("#shelfed").html();
+				this.$el.find("#shelfed").html("<del>" + del + "</del>");
+			}
+
 		} else {
 			this.$el.html('');
 		}
@@ -314,9 +338,10 @@ var BookListView = Parse.View.extend({
 		this.books = new Books();
 		this.books.query = new Parse.Query(Book);
 		//TODO: fix, so we can skip get("username")
-		this.books.query.equalTo("shelfed", false);
+		//this.books.query.equalTo("shelfed", false);
 		this.books.query.equalTo("username", Parse.User.current().get("username"));
 		this.books.query.ascending("name"); 
+		//this.books.query.ascending("shelfed"); 
 
 		this.books.comparator = function (book) {
 			return book.percentageLeft();
@@ -345,7 +370,16 @@ var BookListView = Parse.View.extend({
     // Add all items in the Book collection at once.
     addAll: function(collection, filter) {
       this.$el.find("#books").html("");
-      this.books.each(this.addOne);
+      //this.books.each(this.addOne);
+      this.books.each(function (book) { 
+      	if(!book.get("shelfed"))
+      		this.addOne(book);
+      	}, this);
+
+     	this.books.each(function (book) { 
+      	if(book.get("shelfed"))
+      		this.addOne(book);
+      	}, this);
     },
 
     addnewbook: function() {

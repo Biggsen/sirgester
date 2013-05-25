@@ -1,23 +1,9 @@
  <div id="book">
-	<h6>{{ name }}</h6>
+	<h6 id="shelfed">{{ name }}</h6>
 	<div class="mod-progress">
 		<div class="mod-progressbar">
 	    	<span class="progressbar-inner blue" style="width: {{ percentage }}%"></span>
 	    </div>
 	    <p>{{ percentageLeft }} / {{ percentage }}%</p>
-	</div>
-    
-	<p class="books-details hide">
-		<span class='books-author'>{{ author }} - </span>
-		<span class='books-genre'>{{ genre }} - </span>
-		<span class='books-pages'>{{ totalpages }} pages</span>
-		<div class="hide">You have got {{ percentageLeft }}% to next milestone. At page {{ pagesToMilestone }} you will have read {{ nextMilestone }}%. You have only got {{ pagesToNextMilestone }} pages to go!</div>
-	    
-	</p>
-	<div class="hide">
-		<a href='#edit/{{ objectId }}' class='btn btn-right'>edit</a>
-		<a href='javascript:events.update({{ objectId }})' class='btn btn-right'>update</a>
-		<a href='#' id="removeBook" class='btn btn-right'>delete</a>
-		<a href='javascript:events.shelf({{ objectId }})' class='btn btn-right'>TODO</a>
 	</div>
 <div>
