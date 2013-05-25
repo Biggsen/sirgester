@@ -170,7 +170,7 @@ var GenreListView = Parse.View.extend({
 
 var BookEditView = Parse.View.extend({
 
-	el: "#content",
+	el: $("#content"),
 
 	events: {
 		"click #details":  	"details",
@@ -179,11 +179,11 @@ var BookEditView = Parse.View.extend({
 
 	initialize: function() {
 
-		_.bindAll(this, 'save');
+		_.bindAll(this, 'save', 'details');
 
 		var html = tpl.get('add'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
-		window.location.hash = "#edit/" + this.model.id;
+		
 		
 		this.genresView = new GenreListView({
 			model: this.model
@@ -212,34 +212,36 @@ var BookEditView = Parse.View.extend({
 	},
 
 	details: function() {
-		new BookDetailsView({
+		window.location.hash = "#details/" + this.model.id;
+		/*new BookDetailsView({
 			model: this.model
-		});
-		this.undelegateEvents();
-		delete this;
+		});*/
+		//this.undelegateEvents();
+		//delete this;
 	},
 });
 
 var BookDetailsView = Parse.View.extend({
 
-	el: "#content",
+	el: $("#content"),
 
 	events: {
 		"click #editBook":  	"edit"
 	},
 
 	initialize: function() {
-		window.location.hash = "#details/" + this.model.id;
-		var html = tpl.get('bookDetail'); 
+		//window.location.hash = "#details/" + this.model.id;
+		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 	},	
 
 	edit: function() {
-		new BookEditView({
+		window.location.hash = "#edit/" + this.model.id;
+		/*new BookEditView({
 			model: this.model
-		});
-		this.undelegateEvents();
-		delete this;
+		});*/
+		//this.undelegateEvents();
+		//delete this;
 	}
 });
 
@@ -269,11 +271,12 @@ var BookView = Parse.View.extend({
 	},
 
 	details: function() {
-		new BookEditView({
+		window.location.hash = "#edit/" + this.model.id;
+		/*new BookEditView({
 			model: this.model
-		});
-		this.undelegateEvents();
-		delete this;
+		});*/
+		//this.undelegateEvents();
+		//delete this;
 	},
 
 	// Remove the item, destroy the model.
@@ -498,7 +501,11 @@ var AppRouter = Parse.Router.extend({
 	index: function() {
 		
 		if(Parse.User.current()) {
-			new BookListView();
+			if(this.currentView) this.currentView.close();
+
+	    	this.currentView = new BookListView({
+	    		el: "#content",
+			});
 		}
 		else {
 			this.login();
@@ -506,37 +513,74 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	login: function() {
-		
-		new LoginView();
+		if(this.currentView) this.currentView.close();
+
+    	this.currentView = new LoginView({
+    		el: "#content",
+		});
 	},
 
 	password: function() {
-		
-		new PasswordView();
+		if(this.currentView) this.currentView.close();
+
+    	this.currentView = new PasswordView({
+    		el: "#content",
+		});
 	},
 
 	list: function() {
-		
-		if(Parse.User.current()) 
-			new BookListView();
-		else
+		if(Parse.User.current()) {
+			if(this.currentView) this.currentView.close();
+
+	    	this.currentView = new BookListView({
+	    		el: "#content",
+			});
+		}
+		else {
 			this.login();
+		}
 	},
 
 	edit: function(id) {
-/*		
-		new EditView({
-			objectId: id,
-		});*/
+		if(Parse.User.current()) {
+			var query = new Parse.Query(Book);
+			query.get(id, {
+			 	success: function(book) {
+			 		if(this.currentView) this.currentView.close();
+
+			    	this.currentView = new BookEditView({
+			    		el: "#content",
+			    		model: book
+					});
+				},
+				error: function(object, error) {
+					displayMessage(error.message);
+				}
+			});
+		} else {	
+			this.login();
+		}
 	},
 
 	details: function(id) {
-		/*
 		if(Parse.User.current()) {
-			alert('load details here ' + id);
+			var query = new Parse.Query(Book);
+			query.get(id, {
+			 	success: function(book) {
+			 		if(this.currentView) this.currentView.close();
+
+			    	this.currentView = new BookDetailsView({
+			    		el: "#content",
+			    		model: book
+					});
+				},
+				error: function(object, error) {
+					displayMessage(error.message);
+				}
+			});
 		} else {	
 			this.login();
-		}*/
+		}
 	}
 });
 
@@ -592,7 +636,8 @@ Parse.View.prototype.close = function () {
     if (this.beforeClose) {
         this.beforeClose();
     }
-    this.remove();
+    //this.remove();
+    this.undelegateEvents();
     this.unbind();
 };
 
