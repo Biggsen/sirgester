@@ -84,6 +84,7 @@ var LoginView = Parse.View.extend({
 				displayError(error.message);
 			}
 		});
+		return false;
 	},
 
 	signup: function() {
@@ -112,6 +113,7 @@ var LoginView = Parse.View.extend({
 				});
 			}
 		});
+		return false
 	}
 });
 
@@ -230,14 +232,13 @@ var BookEditView = Parse.View.extend({
 	el: $("#content"),
 
 	events: {
-		"click #details":  	"details",
-		"click #save":  	"save", 
-		"submit":  			"save", 
+		//"click #savebook":  	"savebook", 
+		"submit":  			"savebook", 
 	},
 
 	initialize: function() {
 
-		_.bindAll(this, 'save', 'details');
+		_.bindAll(this, 'savebook' );
 
 		var html = tpl.get('add'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
@@ -248,7 +249,7 @@ var BookEditView = Parse.View.extend({
 		});
 	},	
 
-	save: function() {
+	savebook: function() {
 		this.model.save({
 			name: this.$el.find("#bookname").val(),
 			author: this.$el.find("#author").val(),
@@ -263,10 +264,7 @@ var BookEditView = Parse.View.extend({
 				displayMessage(error.message);
 			}
 		});
-	},
-
-	details: function() {
-		window.location.hash = "#details/" + this.model.id;
+		return false;
 	},
 });
 
@@ -277,7 +275,7 @@ var BookDetailsView = Parse.View.extend({
 	events: {
 		"click #edit":  	"edit",
 		"click #save":  	"save", 
-		"submit":  			"save", 
+		//"submit":  			"save", 
 		"click #delete": 	"delete", 
 		"click #shelf": 	"shelf", 
 	},
@@ -311,6 +309,7 @@ var BookDetailsView = Parse.View.extend({
 					displayMessage(error.message);
 				}
 			});
+		return false;
 	},
 
 	shelf: function() {
@@ -328,10 +327,12 @@ var BookDetailsView = Parse.View.extend({
 					displayMessage(error.message);
 				}
 			});
+		return false;
 	},
 
 	edit: function() {
 		window.location.hash = "#edit/" + this.model.id;
+		return false;
 	},
 	
 	// Remove the item, destroy the model.
@@ -342,6 +343,7 @@ var BookDetailsView = Parse.View.extend({
     		displaySuccess("Book was deleted");
     		this.render();
       	}
+      	return false;
     }
 });
 
@@ -373,6 +375,7 @@ var BookView = Parse.View.extend({
 
 	details: function() {
 		window.location.hash = "#details/" + this.model.id;
+		return false;
 	},
 });
 
@@ -441,12 +444,14 @@ var BookListView = Parse.View.extend({
     },
 
     addnewbook: function() {
-		window.location.hash = "#add"
+		window.location.hash = "#add";
+		return false;
     },
 
 	logout: function() {
 		Parse.User.logOut();
 		window.location.hash = "#login";
+		return false;
 
 		//TODO: Fix this, needed to reload kickstart.js - no causes the window to flicker
 		//window.location.reload(true);
@@ -663,6 +668,7 @@ var AppRouter = Parse.Router.extend({
 		} else {	
 			this.login();
 		}
+		return false;
 	},
 
 	edit: function(id) {
@@ -806,6 +812,7 @@ Parse.View.prototype.close = function () {
     //this.remove();
     this.undelegateEvents();
     this.unbind();
+    delete this;
 };
 
 //TODO: more generic handling of error messages
