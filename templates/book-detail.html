@@ -1,0 +1,21 @@
+ <div id="book-details">
+	<h6>{{ name }}</h6>
+  
+	<p class="books-details">
+	 	<span class='books-author'>{{ author }} - </span>
+		<span class='books-genre'>{{ genre }} - </span>
+		<span class='books-pages'>{{ totalpages }} pages</span>
+		<div>Your are at page {{ currentPage }} of {{ totalpages }}.</div>
+		<div class="">You have got {{ percentageLeft }}% to next milestone.</div> 
+		<div class="">At page {{ pagesToMilestone }} you will have read {{ nextMilestone }}%.</div> 
+		<div class="">You have only got {{ pagesToNextMilestone }} pages to go!</div>
+	    
+	</p>
+
+	<div class="">
+		<button id="editBook" class='btn btn-right'>edit</button>
+		<button class='btn btn-right'>update</button>
+		<button class='btn btn-right'>delete</button>
+		<button class='btn btn-right'>shelf</button>
+	</div>
+<div>

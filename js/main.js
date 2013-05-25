@@ -45,7 +45,6 @@ var LoginView = Parse.View.extend({
 	},
 
 	validate: function(elements) {
-
 		var result = true;
 		_.each(elements, function( element ){
 			var el = this.$(element)
@@ -116,12 +115,121 @@ var LoginView = Parse.View.extend({
 	}
 });
 
+var Genre = Parse.Object.extend("Genre", {
+	defaults: {
+		name: '',
+	}
+});
+
+var Genres = Parse.Collection.extend({
+	model: Genre,
+});
+
+var GenreOptionView = Parse.View.extend({
+
+	tagName: "option",
+
+	initialize: function() {
+		var html = tpl.get('genre-option'); 
+		this.$el.attr('value', this.model.id);
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+	},
+
+});
+
+var GenreListView = Parse.View.extend({
+	
+	el: "#genre",
+
+	initialize: function() {
+
+		_.bindAll(this, 'addOne', 'addAll' );
+		this.genres = new Genres();
+		//this.genres.bind('all',     this.render);
+		this.genres.bind('reset',   this.addAll);
+		this.genres.fetch();
+
+		var html = tpl.get('genre-list'); 
+		this.$el.html(html);
+	},
+
+	// Add a single book item to the list by creating a view for it, and
+    // appending its element to the `<ul>`.
+    addOne: function(genre) {
+      var view = new GenreOptionView({model: genre});
+      this.$("#list-genre").append(view.render().el);
+    },
+
+    // Add all items in the Book collection at once.
+    addAll: function(collection, filter) {
+      this.$el.find("#list-genre").html("");
+      this.genres.each(this.addOne);
+      this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');
+    },
+});
+
+var BookEditView = Parse.View.extend({
+
+	el: "#content",
+
+	events: {
+		"click #details":  	"details"
+	},
+
+	initialize: function() {
+		
+		var html = tpl.get('add'); 
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+		window.location.hash = "#edit/" + this.model.id;
+		
+		this.genresView = new GenreListView({
+			model: this.model
+		});
+	},	
+
+	render: function() {
+
+	},
+
+	details: function() {
+		new BookDetailsView({
+			model: this.model
+		});
+		this.undelegateEvents();
+		delete this;
+	},
+});
+
+var BookDetailsView = Parse.View.extend({
+
+	el: "#content",
+
+	events: {
+		"click #editBook":  	"edit"
+	},
+
+	initialize: function() {
+		window.location.hash = "#details/" + this.model.id;
+		var html = tpl.get('bookDetail'); 
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+	},	
+
+	edit: function() {
+		new BookEditView({
+			model: this.model
+		});
+		this.undelegateEvents();
+		delete this;
+	}
+});
+
 var BookView = Parse.View.extend({
 
 	tagName: "li",
 
 	events: {
-		"click #removeBook"   : "clear",
+		"click #book"   	: "details",
+		"click #removeBook"	: "clear",
 	},
 
 	initialize: function() {
@@ -130,10 +238,22 @@ var BookView = Parse.View.extend({
 		this.model.bind('destroy', this.remove);
 	},
 
-	render: function(book) {
-		var html = tpl.get('book'); // $('#bookListTemplate').html();
-		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+	render: function() {
+		if(parseFloat(this.model.get("currentPage")) < parseFloat(this.model.get("totalpages"))) {
+			var html = tpl.get('book'); 
+			this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+		} else {
+			this.$el.html('');
+		}
 		return this;
+	},
+
+	details: function() {
+		new BookEditView({
+			model: this.model
+		});
+		this.undelegateEvents();
+		delete this;
 	},
 
 	// Remove the item, destroy the model.
@@ -241,7 +361,7 @@ var PasswordView = Parse.View.extend({
 	el: "#content",
 
 	initialize: function() {
-		var html = tpl.get('password'); // $('#bookListTemplate').html();
+		var html = tpl.get('password'); 
 		this.$el.html(html);
 	},
 });
@@ -330,11 +450,11 @@ var Book = Parse.Object.extend("Book", {
     	data["createdAt"] =  this.createdAt;
     	data["updatedAt"] =  this.updatedAt; 
     	var nextMileStone = this.nextMilestone();
-    	data["percentage"] =  this.percentage(); 
+    	data["percentage"] =  parseFloat(this.percentage()).toFixed(0); 
     	data["nextMilestone"] = nextMileStone;
     	data["pagesToNextMilestone"] = this.pagesToNextMilestone();
-    	data["percentageLeft"] = this.percentageLeft();
-    	data["pagesToMilestone"] = this.pagesToMilestone(nextMileStone);
+    	data["percentageLeft"] = parseFloat(this.percentageLeft()).toFixed(0);
+    	data["pagesToMilestone"] = this.mileStonePage(nextMileStone);
     	return data;
   	},
   	/*get: function(attr) {
@@ -360,6 +480,7 @@ var AppRouter = Parse.Router.extend({
 		"newpassword":	"password",
 		"list":  		"list", 
 		"edit/:id": 	"edit", 
+		"details/:id": 	"details", 
 		"book": 		"book",
 		"suggest": 		"suggest",
 	},
@@ -393,16 +514,25 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	edit: function(id) {
-		
+/*		
 		new EditView({
 			objectId: id,
-		});
+		});*/
+	},
+
+	details: function(id) {
+		/*
+		if(Parse.User.current()) {
+			alert('load details here ' + id);
+		} else {	
+			this.login();
+		}*/
 	}
 });
 
 $(document).ready(function() {
 
-	tpl.loadTemplates(['login', 'list', 'book', 'password', 'notification'], function () {
+	tpl.loadTemplates(['login', 'list', 'book', 'password', 'notification', 'book-detail', 'add', 'genre-list', 'genre-option'], function () {
 	    new AppRouter();
 		//new AppView();
 		Parse.history.start();
@@ -452,7 +582,7 @@ Parse.View.prototype.close = function () {
     if (this.beforeClose) {
         this.beforeClose();
     }
-    //this.remove();
+    this.remove();
     this.unbind();
 };
 
