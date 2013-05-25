@@ -125,6 +125,48 @@ var Genres = Parse.Collection.extend({
 	model: Genre,
 });
 
+var GenreEditView = Parse.View.extend({
+
+	el: "#content",
+
+	events: {
+		"click #savegenre": 	"save",
+		"click #deletegenre": 	"delete", 
+	},
+
+	initialize: function() {
+		_.bindAll(this, 'save', 'delete');
+		var html = tpl.get('genre-edit');
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+	},
+
+	save: function() {
+		this.model.save({
+				name: this.$el.find("#name").val()
+			},{
+				success: function( instance ) {
+					displaySuccess("Genre was saved");
+				},
+				error: function(object, error) {
+					displayMessage(error.message);
+				}
+			});
+		
+		return false;
+	},
+
+	delete: function() {
+		if(confirm("Are you sure you want to delete?")) {
+    		this.model.destroy();
+    		this.model = new Genre();
+    		displaySuccess("Genre was deleted");
+    		this.render();
+      	}
+		return false;
+	}
+
+});
+
 var GenreOptionView = Parse.View.extend({
 
 	tagName: "option",
@@ -140,6 +182,11 @@ var GenreOptionView = Parse.View.extend({
 var GenreListView = Parse.View.extend({
 	
 	el: "#genre",
+
+	events: {
+		"click #newGenre": 		"new",
+		"click #editGenre": 	"edit"
+	},
 
 	initialize: function() {
 
@@ -166,6 +213,16 @@ var GenreListView = Parse.View.extend({
       this.genres.each(this.addOne);
       this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');
     },
+
+    new: function() {
+    	window.location.hash = "#genre";
+    	return false;
+    },
+
+    edit: function() {
+    	window.location.hash = "#genre/" + this.model.get("genre");
+    	return false;
+    }
 });
 
 var BookEditView = Parse.View.extend({
@@ -543,7 +600,9 @@ var AppRouter = Parse.Router.extend({
 		"list":  		"list", 
 		"add": 			"add", 
 		"edit/:id": 	"edit", 
-		"details/:id": 	"details", 
+		"details/:id": 	"details",
+		"genre":  		"genre",  
+		"genre/:id": 	"genre", 
 		"book": 		"book",
 		"suggest": 		"suggest",
 	},
@@ -646,16 +705,59 @@ var AppRouter = Parse.Router.extend({
 		} else {	
 			this.login();
 		}
+	},
+
+	genre: function(id) {
+		if(Parse.User.current()) {
+			if(!id)
+			{
+				if(this.currentView) this.currentView.close();
+
+		    	this.currentView = new GenreEditView({
+		    		el: "#content",
+		    		model: new Genre()
+				});
+			} else {
+				var query = new Parse.Query(Genre);
+				query.equalTo("name", id)
+				query.find({
+				 	success: function(genre) {
+				 		if(this.currentView) this.currentView.close();
+
+				    	this.currentView = new GenreEditView({
+				    		el: "#content",
+				    		model: genre[0]
+						});
+					},
+					error: function(object, error) {
+						displayMessage(error.message);
+					}
+				});
+			}
+		} else {	
+			this.login();
+		}
 	}
 });
 
 $(document).ready(function() {
 
-	tpl.loadTemplates(['login', 'list', 'book', 'password', 'notification', 'book-detail', 'add', 'genre-list', 'genre-option'], function () {
-	    new AppRouter();
-		//new AppView();
-		Parse.history.start();
-	});
+	tpl.loadTemplates([
+			'login', 
+			'list', 
+			'book', 
+			'password', 
+			'notification', 
+			'book-detail', 
+			'add', 
+			'genre-list', 
+			'genre-option', 
+			'genre-edit'], 
+		function () {
+		    new AppRouter();
+			//new AppView();
+			Parse.history.start();
+		});
 });
 
 tpl = {
