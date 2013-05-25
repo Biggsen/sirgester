@@ -5,18 +5,24 @@ var LoginView = Parse.View.extend({
 	el: "#content",
 
 	events: {
-		"click #login_button": 		"login",
-		"click #signup_button": 	"signup",
-		//"change input": 	 		"validate"
+		"click #login_button": 				"login",
+		"click #signup_button": 			"signup",
+		"change input#username":			"validateLogin",
+		"change input#password":			"validateLogin",
+		"change input#su_username":			"validateSignUp",
+		"change input#su_email":			"validateSignUp",
+		"change input#su_password":			"validateSignUp",
+		"change input#su_confirmpassword":	"validateSignUp",
 	},
 
 	initialize: function() {
 		window.location.hash = "#login";
+		_.bindAll(this, 'validate' );
 		this.render();
 	},
 
 	render: function() {
-		clearError();
+		clearNotification();
 
 		var html = tpl.get('login');//  $('#loginTemplate').html();
 		this.$el.empty();
@@ -38,30 +44,38 @@ var LoginView = Parse.View.extend({
 		}
 	},
 
-	validate: function() {
+	validate: function(elements) {
 
-		var user = this.user();
+		var result = true;
+		_.each(elements, function( element ){
+			var el = this.$(element)
+			if(el.val().length == 0) {
+				el.addClass('error');
+				result = false;
+			} else {
+				el.removeClass('error');
+			}
+		});
+		return result;
+	},
 
-		if(user.name.length == 0)
-			this.$el.find("#username").addClass('error');
-		else
-			this.$el.find("#username").removeClass('error');
+	validateLogin: function() {
+		return this.validate(['#username', '#password']);
+	},
 
-		if(user.password.length == 0)
-			this.$el.find("#password").addClass('error');
-		else
-			this.$el.find("#password").removeClass('error');
-
-		return user.name.length > 0 && user.password.length > 0;
+	validateSignUp: function() {
+		return this.validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
 	},
 
 	login: function() {
-		clearError();
+		clearNotification();
 
 		var user = this.user();
 
-		//if(!this.validate())
-		//	return;
+		if(!this.validateLogin()) {	
+			displayError("No empty boxes allowed");
+			return;
+		}
 		
 		Parse.User.logIn(user.name, user.password, {
 			success: function(user) {
@@ -69,11 +83,6 @@ var LoginView = Parse.View.extend({
 			},	
 			error: function(user, error) {
 				displayError(error.message);
-				/*new NotificationView({
-					type: 'error',
-					icon: 'remove',
-					text: error.message
-				});*/
 			}
 		});
 	},
@@ -144,7 +153,7 @@ var BookListView = Parse.View.extend({
 	},
 
 	initialize: function() {
-		clearError();
+		clearNotification();
 		window.location.hash = "#list";
 
 		_.bindAll(this, 'render', 'addOne', 'addAll' );
@@ -453,14 +462,14 @@ function clearMessage() {
 }
 
 function displayMessage(message) {
-	clearError();
+	clearNotification();
 	clearMessage();
 	$("#message").append(message);
 }
 
 var notice;
 
-function clearError() {
+function clearNotification() {
 
 	new EmptyView();
 
