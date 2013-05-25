@@ -222,3 +222,45 @@ display:block;
 	}
 
 }
+
+/* Booklist */
+.mod-booklist {
+	list-style: none;
+	margin-left: 0;
+}
+
+.mod-booklist h6 {
+	float: left;
+	margin: 4px 0 2px 0;
+}
+
+/* Progress */
+.mod-progress {
+	float: left;
+	width: 100%;
+	height: 35px;
+}
+
+.mod-progress p {
+	margin: 0;
+}
+
+/* Progressbar */
+.mod-progressbar {
+	float: left;
+	width: 80%;
+	height: 16px;
+	margin: 2px 10px 0 0;
+	padding: 0 1px 3px 1px;
+	background: #ddd;
+	border-radius: 10px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.3), 1px 1px 1px rgba(255,255,255,1);
+}
+
+.progressbar-inner {
+	position: relative;
+	top: 0px;
+	display: inline-block;
+	height: 14px;
+	border-radius: 10px;
+}
