@@ -300,17 +300,13 @@ var BookView = Parse.View.extend({
 	},
 
 	render: function() {
-		if(parseFloat(this.model.get("currentPage")) < parseFloat(this.model.get("totalpages"))) {
-			var html = tpl.get('book'); 	
-			this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 
-			if(this.model.get("shelfed")) {
-				var del = this.$el.find("#shelfed").html();
-				this.$el.find("#shelfed").html("<del>" + del + "</del>");
-			}
+		var html = tpl.get('book'); 	
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 
-		} else {
-			this.$el.html('');
+		if(this.model.get("shelfed")) {
+			var del = this.$el.find("#shelfed").html();
+			this.$el.find("#shelfed").html("<del>" + del + "</del>");
 		}
 		return this;
 	},
@@ -363,8 +359,10 @@ var BookListView = Parse.View.extend({
 	// Add a single book item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(book) {
-      var view = new BookView({model: book});
-      this.$("#books").append(view.render().el);
+      	if(parseFloat(book.get("currentPage")) < parseFloat(book.get("totalpages"))) { 
+      		var view = new BookView({model: book});
+      		this.$("#books").append(view.render().el);
+  		}
     },
 
     // Add all items in the Book collection at once.
