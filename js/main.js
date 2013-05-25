@@ -222,8 +222,7 @@ var GenreListView = Parse.View.extend({
     },
 
     edit: function() {
-    	alert('edit');
-    	window.location.hash = "#genre/" + this.model.get("genre");
+    	window.location.hash = "#genre/" + this.$el.find("#list-genre option:selected").text();  //TODO use val to get Id
     	return false;
     }
 });
