@@ -282,3 +282,11 @@ display:block;
 	height: 10px;
 	border-radius: 10px;
 }
+
+/* Book details */
+.mod-bookdetails input {
+	width: 100px;
+	margin-top: -5px;
+	padding: 10px;
+	font-size: 1.4em;
+}
