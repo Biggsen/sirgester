@@ -1,132 +1,5 @@
 Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8YTMSjIwCmE4x8ZX0ICktwpZ");
 
-var LoginView = Parse.View.extend({
-
-	el: "#content",
-
-	events: {
-		"click #login_button": 				"login",
-		"click #signup_button": 			"signup",
-		"change input#username":			"validateLogin",
-		"change input#password":			"validateLogin",
-		"change input#su_username":			"validateSignUp",
-		"change input#su_email":			"validateSignUp",
-		"change input#su_password":			"validateSignUp",
-		"change input#su_confirmpassword":	"validateSignUp",
-	},
-
-	initialize: function() {
-		window.location.hash = "#login";
-		_.bindAll(this, 'validate' );
-		this.render();
-	},
-
-	render: function() {
-		clearNotification();
-
-		var html = tpl.get('login');//  $('#loginTemplate').html();
-		this.$el.empty();
-		this.$el.append(html);
-
-		$.getScript("js/kickstart.js");
-			/*.done(function(script, textStatus) {
-			  console.log( textStatus );
-			})
-			.fail(function(jqxhr, settings, exception) {
-			  console.log( exception );
-			});*/
-	},
-
-	user: function() {
-		return {
-			name : this.$el.find("#username").val(),
-			password: this.$el.find("#password").val(),  
-		}
-	},
-
-	validate: function(elements) {
-		var result = true;
-		_.each(elements, function( element ){
-			var el = this.$(element)
-			if(el.val().length == 0) {
-				el.addClass('error');
-				result = false;
-			} else {
-				el.removeClass('error');
-			}
-		});
-		return result;
-	},
-
-	validateLogin: function() {
-		return this.validate(['#username', '#password']);
-	},
-
-	validateSignUp: function() {
-		return this.validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
-	},
-
-	login: function() {
-		clearNotification();
-
-		var user = this.user();
-
-		if(!this.validateLogin()) {	
-			displayError("No empty boxes allowed");
-			return;
-		}
-		
-		Parse.User.logIn(user.name, user.password, {
-			success: function(user) {
-				new BookListView();
-			},	
-			error: function(user, error) {
-				displayError(error.message);
-			}
-		});
-		return false;
-	},
-
-	signup: function() {
-		var username = this.$el.find("#su_username").val();
-		var password = this.$el.find("#su_password").val();
-		var email = this.$el.find("#su_email").val();
-
-		var user = new Parse.User();
-		user.set("username", username);
-		user.set("password", password);
-		user.set("email", email);
-		
-		user.signUp(null, {
-			success: function(user) {
-				new NotificationView({
-					type: 'success',
-					icon: 'ok ',
-					text: "You have been signed up for the gester"
-				});
-			},
-			error: function(user, error) {
-				new NotificationView({
-					type: 'error',
-					icon: 'remove',
-					text: error.message
-				});
-			}
-		});
-		return false
-	}
-});
-
-var Genre = Parse.Object.extend("Genre", {
-	defaults: {
-		name: '',
-	}
-});
-
-var Genres = Parse.Collection.extend({
-	model: Genre,
-});
-
 var GenreEditView = Parse.View.extend({
 
 	el: "#content",
@@ -304,12 +177,13 @@ var BookEditView = Parse.View.extend({
 
 var BookDetailsView = Parse.View.extend({
 
-	el: $("#content"),
+	//el: "#book-details",
+	tagName: "div",
 
 	events: {
 		"click #edit":  	"edit",
 		"click #save":  	"save", 
-		//"submit":  			"save", 
+		"submit":  			"save", 
 		"click #delete": 	"delete", 
 		"click #shelf": 	"shelf", 
 	},
@@ -320,16 +194,17 @@ var BookDetailsView = Parse.View.extend({
 
 		this.model.bind('change', this.render);
 		this.model.bind('create', this.render);
-		this.render();
+//		this.render();
 	},	
 
 	render: function() {
 		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
-
+		this.$el.addClass("js-book-details");
 		if(this.model.get("shelfed")) {
 			this.$el.find("#shelf").html("unshelf");
 		}
+		return this;
 	},
 
 	save: function() {
@@ -390,8 +265,8 @@ var BookView = Parse.View.extend({
 	},
 
 	initialize: function() {
-		_.bindAll(this, 'render', 'remove' );
-		this.model.bind('change', this.render);
+		_.bindAll(this, 'render', 'remove', 'details' );
+		//this.model.bind('change', this.render);
 		//this.model.bind('destroy', this.remove);
 	},
 
@@ -404,11 +279,26 @@ var BookView = Parse.View.extend({
 			var del = this.$el.find("#shelfed").html();
 			this.$el.find("#shelfed").html("<del>" + del + "</del>");
 		}
+
+		var detailView = new BookDetailsView( {model: this.model });
+		var eldetail = detailView.render().el;
+		$(eldetail).addClass('hide');
+		$(eldetail).attr('id', 'show_' + this.model.id);
+		this.$el.find('#book-details').append(eldetail);
+
+
 		return this;
 	},
 
 	details: function() {
-		window.location.hash = "#details/" + this.model.id;
+		var elm = $('#show_' + this.model.id);
+		if(elm.hasClass('hide')){
+			$(".js-book-details").addClass('hide');
+			elm.removeClass('hide');
+		} else {
+			elm.addClass('hide');
+		}
+		//window.location.hash = "#details/" + this.model.id;
 		return false;
 	},
 });
@@ -424,7 +314,6 @@ var BookListView = Parse.View.extend({
 
 	initialize: function() {
 		clearNotification();
-		window.location.hash = "#list";
 
 		_.bindAll(this, 'render', 'addOne', 'addAll' );
 
@@ -492,28 +381,6 @@ var BookListView = Parse.View.extend({
 	}
 });
 
-
-var NotificationView = Parse.View.extend({
-
-	el: "#notifications",
-
-	initialize: function() {
-		var html = tpl.get('notification');
-		this.$el.html(Mustache.to_html(html, this.options));
-	}
-
-});
-
-var EmptyView = Parse.View.extend({
-
-	el: "#notifications",
-
-	initialize: function() {
-		this.$el.html('');
-	}
-
-});
-
 var PasswordView = Parse.View.extend({
 
 	el: "#content",
@@ -538,6 +405,157 @@ var EditView = Parse.View.extend({
 		var html = tpl.get('add'); 	
 		this.$el.html(html);
 	}
+});
+
+var LoginView = Parse.View.extend({
+
+	el: "#content",
+
+	events: {
+		"click #login_button": 				"login",
+		"click #signup_button": 			"signup",
+		"change input#username":			"validateLogin",
+		"change input#password":			"validateLogin",
+		"change input#su_username":			"validateSignUp",
+		"change input#su_email":			"validateSignUp",
+		"change input#su_password":			"validateSignUp",
+		"change input#su_confirmpassword":	"validateSignUp",
+	},
+
+	initialize: function() {
+		window.location.hash = "#login";
+		_.bindAll(this, 'validate' );
+		this.render();
+	},
+
+	render: function() {
+		clearNotification();
+
+		var html = tpl.get('login');//  $('#loginTemplate').html();
+		this.$el.empty();
+		this.$el.append(html);
+
+		$.getScript("js/kickstart.js");
+			/*.done(function(script, textStatus) {
+			  console.log( textStatus );
+			})
+			.fail(function(jqxhr, settings, exception) {
+			  console.log( exception );
+			});*/
+	},
+
+	user: function() {
+		return {
+			name : this.$el.find("#username").val(),
+			password: this.$el.find("#password").val(),  
+		}
+	},
+
+	validate: function(elements) {
+		var result = true;
+		_.each(elements, function( element ){
+			var el = this.$(element)
+			if(el.val().length == 0) {
+				el.addClass('error');
+				result = false;
+			} else {
+				el.removeClass('error');
+			}
+		});
+		return result;
+	},
+
+	validateLogin: function() {
+		return this.validate(['#username', '#password']);
+	},
+
+	validateSignUp: function() {
+		return this.validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
+	},
+
+	login: function() {
+		clearNotification();
+
+		var user = this.user();
+
+		if(!this.validateLogin()) {	
+			displayError("No empty boxes allowed");
+			return;
+		}
+		
+		Parse.User.logIn(user.name, user.password, {
+			success: function(user) {
+				window.location.hash = "#list";
+			},	
+			error: function(user, error) {
+				displayError(error.message);
+			}
+		});
+		return false;
+	},
+
+	signup: function() {
+		var username = this.$el.find("#su_username").val();
+		var password = this.$el.find("#su_password").val();
+		var email = this.$el.find("#su_email").val();
+
+		var user = new Parse.User();
+		user.set("username", username);
+		user.set("password", password);
+		user.set("email", email);
+		
+		user.signUp(null, {
+			success: function(user) {
+				new NotificationView({
+					type: 'success',
+					icon: 'ok ',
+					text: "You have been signed up for the gester"
+				});
+			},
+			error: function(user, error) {
+				new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: error.message
+				});
+			}
+		});
+		return false
+	}
+});
+
+var NotificationView = Parse.View.extend({
+
+	el: "#notifications",
+
+	initialize: function() {
+		var html = tpl.get('notification');
+		this.$el.html(Mustache.to_html(html, this.options));
+	}
+
+});
+
+
+
+var EmptyView = Parse.View.extend({
+
+	el: "#notifications",
+
+	initialize: function() {
+		this.$el.html('');
+	}
+
+});
+
+
+var Genre = Parse.Object.extend("Genre", {
+	defaults: {
+		name: '',
+	}
+});
+
+var Genres = Parse.Collection.extend({
+	model: Genre,
 });
 
 
@@ -625,9 +643,105 @@ var Books = Parse.Collection.extend({
 	model: Book
 });
 
+Parse.View.prototype.close = function () {
+    console.log('Closing view ' + this);
+    if (this.beforeClose) {
+        this.beforeClose();
+    }
+    //this.remove();
+    this.undelegateEvents();
+    this.unbind();
+    delete this;
+};
+
+//TODO: more generic handling of error messages
+function clearMessage() {
+	$("#message").empty();
+}
+
+function displayMessage(message) {
+	clearNotification();
+	clearMessage();
+	$("#message").append(message);
+}
+
+var notice;
+
+function clearNotification() {
+
+	new EmptyView();
+
+}
+
+/*<!-- Error -->
+<div class="notice error"><i class="icon-remove-sign icon-large"></i> This is an Error Notice 
+<a href="#close" class="icon-remove"></a></div>
+
+<!-- Warning -->
+<div class="notice warning"><i class="icon-warning-sign icon-large"></i> This is a Warning Notice 
+<a href="#close" class="icon-remove"></a></div>
+
+<!-- Success -->
+<div class="notice success"><i class="icon-ok icon-large"></i> This is a Success Notice 
+<a href="#close" class="icon-remove"></a></div>*/
+function displaySuccess(message) {
+	
+	new NotificationView({
+					type: 'success',
+					icon: 'ok',
+					text: message
+				});
+}
+
+function displayError(message) {
+	
+	new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: message
+				});
+}
+
 String.prototype.endsWith = function(pattern) {
     var d = this.length - pattern.length;
     return d >= 0 && this.lastIndexOf(pattern) === d;
+};
+
+tpl = {
+ 
+    // Hash of preloaded templates for the app
+    templates:{},
+ 
+    // Recursively pre-load all the templates for the app.
+    // This implementation should be changed in a production environment. All the template files should be
+    // concatenated in a single file.
+    loadTemplates:function (names, callback) {
+ 
+        var that = this;
+ 
+        var loadTemplate = function (index) {
+            var name = names[index];
+            console.log('Loading template: ' + name);
+
+            $.get('templates/' + name + '.html', function (data) {
+                that.templates[name] = data;
+                index++;
+                if (index < names.length) {
+                    loadTemplate(index);
+                } else {
+                    callback();
+                }
+            });
+        }
+ 
+        loadTemplate(0);
+    },
+ 
+    // Get template by name from hash of preloaded templates
+    get:function (name) {
+        return this.templates[name];
+    }
+ 
 };
 
 var AppRouter = Parse.Router.extend({
@@ -799,101 +913,3 @@ $(document).ready(function() {
 			Parse.history.start();
 		});
 });
-
-tpl = {
- 
-    // Hash of preloaded templates for the app
-    templates:{},
- 
-    // Recursively pre-load all the templates for the app.
-    // This implementation should be changed in a production environment. All the template files should be
-    // concatenated in a single file.
-    loadTemplates:function (names, callback) {
- 
-        var that = this;
- 
-        var loadTemplate = function (index) {
-            var name = names[index];
-            console.log('Loading template: ' + name);
-
-            $.get('templates/' + name + '.html', function (data) {
-                that.templates[name] = data;
-                index++;
-                if (index < names.length) {
-                    loadTemplate(index);
-                } else {
-                    callback();
-                }
-            });
-        }
- 
-        loadTemplate(0);
-    },
- 
-    // Get template by name from hash of preloaded templates
-    get:function (name) {
-        return this.templates[name];
-    }
- 
-};
-
-
-Parse.View.prototype.close = function () {
-    console.log('Closing view ' + this);
-    if (this.beforeClose) {
-        this.beforeClose();
-    }
-    //this.remove();
-    this.undelegateEvents();
-    this.unbind();
-    delete this;
-};
-
-//TODO: more generic handling of error messages
-function clearMessage() {
-	$("#message").empty();
-}
-
-function displayMessage(message) {
-	clearNotification();
-	clearMessage();
-	$("#message").append(message);
-}
-
-var notice;
-
-function clearNotification() {
-
-	new EmptyView();
-
-}
-
-/*<!-- Error -->
-<div class="notice error"><i class="icon-remove-sign icon-large"></i> This is an Error Notice 
-<a href="#close" class="icon-remove"></a></div>
-
-<!-- Warning -->
-<div class="notice warning"><i class="icon-warning-sign icon-large"></i> This is a Warning Notice 
-<a href="#close" class="icon-remove"></a></div>
-
-<!-- Success -->
-<div class="notice success"><i class="icon-ok icon-large"></i> This is a Success Notice 
-<a href="#close" class="icon-remove"></a></div>*/
-function displaySuccess(message) {
-	
-	new NotificationView({
-					type: 'success',
-					icon: 'ok',
-					text: message
-				});
-}
-
-function displayError(message) {
-	
-	new NotificationView({
-					type: 'error',
-					icon: 'remove',
-					text: message
-				});
-}
-

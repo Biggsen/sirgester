@@ -1,4 +1,4 @@
- <div id="book-details" class="mod-bookdetails">
+ 
 	<p>
 	 	<span class='books-author'><strong>Author: </strong>{{ author }}</span><br/>
 		<span class='books-genre'><strong>Genre: </strong>{{ genre }}</span>
@@ -7,11 +7,10 @@
 		You've only got <strong>{{ pagesToNextMilestone }}</strong> pages to go!</p>
 	<form> 
 		<br>
-		<input id="currpage" value="{{ currentPage }}" type="number" pattern="[0-9]*"/>
-		<button id="save" class='green large icon-update'> Update</button>
+		<input id="currpage" value="{{ currentPage }}" type="number" pattern="[0-9]*" min="0"/>
+		<button id="save" type="submit" class='green large icon-update'> Update</button>
 	</form>
 	<br/>
 	<button id="edit" class='large'><i class="icon-edit"></i></button>
 	<button id="shelf" class='large'><i class="icon-pause"></i></button>
 	<button id="delete" class='large'><i class="icon-trash"></i></button>
-<div>
