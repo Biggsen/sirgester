@@ -242,12 +242,12 @@ form.vertical{
 	form.vertical .chzn-choices{display:block;margin-bottom:10px;}
 
 	form.vertical .input-pair input{ float: left; width: 49%; }
-	form.vertical .input-pair input:first-child { width: 48%; margin-right: 10px; }
+	form.vertical .input-pair input:first-child { width: 47%; margin-right: 10px; }
 	form.vertical .input-pair-with-icon { float: left; width: 100%;}
-	form.vertical .input-pair-with-icon input{ float: left; width: 45%; margin-right: 10px; }
+	form.vertical .input-pair-with-icon input{ float: left; width: 43%; margin-right: 10px; }
 	.input-pair .button { float: left; }
 
-	form.vertical .select-with-icon select { width: 92%; float: left; margin-right: 10px; }
+	form.vertical .select-with-icon select { width: 90%; float: left; margin-right: 10px; }
 	form.vertical select { font-size: 1em; border-color: #ccc;}
 	
 	/* radios & checks */
