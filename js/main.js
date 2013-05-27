@@ -294,7 +294,9 @@ var BookView = Parse.View.extend({
 		var elm = $('#show_' + this.model.id);
 		if(elm.hasClass('hide')){
 			$(".js-book-details").addClass('hide');
+			$('#books li').removeClass('is-active');
 			elm.removeClass('hide');
+			this.$el.addClass('is-active');
 		} else {
 			elm.addClass('hide');
 		}

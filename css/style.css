@@ -242,6 +242,17 @@ display:block;
 	padding: 5px 0 0 0;
 }
 
+.mod-booklist .is-active {
+	margin: 0 -15px 0 -15px;
+	padding: 5px 15px 10px 15px;
+	background: #fff;
+}
+
+.mod-booklist .is-active hr {
+	display: none;
+}
+
+
 .mod-booklist h6 {
 	float: left;
 	margin: 2px 0 0 0;
