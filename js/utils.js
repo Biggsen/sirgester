@@ -1,3 +1,17 @@
+function validate(elements) {
+    var result = true;
+    _.each(elements, function( element ){
+        var el = this.$(element)
+        if(el.val().length == 0) {
+            el.addClass('error');
+            result = false;
+        } else {
+            el.removeClass('error');
+        }
+    });
+    return result;
+}
+
 //TODO: more generic handling of error messages
 function clearMessage() {
     $("#message").empty();

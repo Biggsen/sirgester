@@ -146,22 +146,8 @@ var BookAddView = Parse.View.extend({
 		//this.$el.find("#genre").append(this.genresView.render().el);
 	},
 
-	validate: function(elements) {
-		var result = true;
-		_.each(elements, function( element ){
-			var el = this.$(element)
-			if(el.val().length == 0) {
-				el.addClass('error');
-				result = false;
-			} else {
-				el.removeClass('error');
-			}
-		});
-		return result;
-	},
-
 	validateBook: function() {
-		return this.validate(['#bookname', '#author', '#totalpages', '#currpage']);
+		return validate(['#bookname', '#author', '#totalpages', '#currpage']);
 	},
 
 	savebook: function() {
@@ -222,22 +208,8 @@ var BookEditView = Parse.View.extend({
 		});
 	},
 
-	validate: function(elements) {
-		var result = true;
-		_.each(elements, function( element ){
-			var el = this.$(element)
-			if(el.val().length == 0) {
-				el.addClass('error');
-				result = false;
-			} else {
-				el.removeClass('error');
-			}
-		});
-		return result;
-	},
-
 	validateBook: function() {
-		return this.validate(['#bookname', '#author', '#totalpages', '#currpage']);
+		return validate(['#bookname', '#author', '#totalpages', '#currpage']);
 	},
 
 	savebook: function() {
@@ -552,26 +524,12 @@ var LoginView = Parse.View.extend({
 		}
 	},
 
-	validate: function(elements) {
-		var result = true;
-		_.each(elements, function( element ){
-			var el = this.$(element)
-			if(el.val().length == 0) {
-				el.addClass('error');
-				result = false;
-			} else {
-				el.removeClass('error');
-			}
-		});
-		return result;
-	},
-
 	validateLogin: function() {
-		return this.validate(['#username', '#password']);
+		return validate(['#username', '#password']);
 	},
 
 	validateSignUp: function() {
-		return this.validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
+		return validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
 	},
 
 	login: function() {
