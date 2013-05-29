@@ -1,4 +1,8 @@
+/* Init parse */
+
 Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8YTMSjIwCmE4x8ZX0ICktwpZ");
+
+/* Genre Views */
 
 var GenreEditView = Parse.View.extend({
 
@@ -20,10 +24,10 @@ var GenreEditView = Parse.View.extend({
 				name: this.$el.find("#name").val()
 			},{
 				success: function( instance ) {
-					displaySuccess("Genre was saved");
+					Notify.success("Genre was saved");
 				},
 				error: function(object, error) {
-					displayMessage(error.message);
+					Notify.error(error.message);
 				}
 			});
 		
@@ -34,7 +38,7 @@ var GenreEditView = Parse.View.extend({
 		if(confirm("Are you sure you want to delete?")) {
     		this.model.destroy();
     		this.model = new Genre();
-    		displaySuccess("Genre was deleted");
+    		Notify.success("Genre was deleted");
     		this.render();
       	}
 		return false;
@@ -117,6 +121,8 @@ var GenreListView = Parse.View.extend({
     }
 });
 
+/* Book Views */
+
 var BookAddView = Parse.View.extend({
 
 	el: $("#content"),
@@ -132,7 +138,7 @@ var BookAddView = Parse.View.extend({
 
 	initialize: function() {
 
-		_.bindAll(this, 'savebook' );
+		_.bindAll(this, 'savebook', 'validateBook' );
 
 		var html = tpl.get('add'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
@@ -143,22 +149,28 @@ var BookAddView = Parse.View.extend({
 			model: this.model
 		});
 
+		this.model.set("username", Parse.User.current().get("username"));
+
 		//this.$el.find("#genre").append(this.genresView.render().el);
 	},
 
 	validateBook: function() {
-		return validate(['#bookname', '#author', '#totalpages', '#currpage']);
+		if(this.submit)
+			return validate(['#bookname', '#author', '#totalpages', '#currpage']);
 	},
 
 	savebook: function() {
 		
+		this.submit = true;
+
 		if(!this.validateBook()) {	
-			displayError("No empty boxes allowed");
+			//Notify.success("No empty boxes allowed");
+			Notify.error("No empty boxes allowed");
 			return false;
 		}
 
 		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
-			displayWarning("Have you read this book already?");
+			Notify.warn("Have you read this book already?");
 			return false;
 		}	
 
@@ -170,10 +182,10 @@ var BookAddView = Parse.View.extend({
 			currentPage: this.$el.find("#currpage").val()
 		},{
 			success: function( instance ) {
-				displaySuccess("Book was saved");
+				Notify.success("Book was saved");
 			},
 			error: function(object, error) {
-				displayMessage(error.message);
+				Notify.error(error.message);
 			}
 		});
 		return false;
@@ -215,12 +227,12 @@ var BookEditView = Parse.View.extend({
 	savebook: function() {
 		
 		if(!this.validateBook()) {	
-			displayError("No empty boxes allowed");
+			Notify.error("No empty boxes allowed");
 			return false;
 		}
 
 		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
-			displayWarning("Have you read this book already?");
+			Notify.warn("Have you read this book already?");
 			return false;
 		}	
 
@@ -232,10 +244,10 @@ var BookEditView = Parse.View.extend({
 			currentPage: this.$el.find("#currpage").val()
 		},{
 			success: function( instance ) {
-				displaySuccess("Book was saved");
+				Notify.success("Book was saved");
 			},
 			error: function(object, error) {
-				displayMessage(error.message);
+				Notify.error(error.message);
 			}
 		});
 		return false;
@@ -279,10 +291,10 @@ var BookDetailsView = Parse.View.extend({
 				currentPage: this.$el.find("#currpage").val()
 			},{
 				success: function( instance ) {
-					displaySuccess("Book was saved");
+					Notify.success("Book was saved");
 				},
 				error: function(object, error) {
-					displayMessage(error.message);
+					Notify.error(error.message);
 				}
 			});
 		return false;
@@ -295,12 +307,12 @@ var BookDetailsView = Parse.View.extend({
 			},{
 				success: function( instance ) {
 					if(shelfValue)
-						displaySuccess("Book was shelfed");
+						Notify.success("Book was shelfed");
 					else
-						displaySuccess("Book was unshelfed");
+						Notify.success("Book was unshelfed");
 				},
 				error: function(object, error) {
-					displayMessage(error.message);
+					Notify.error(error.message);
 				}
 			});
 		return false;
@@ -316,7 +328,7 @@ var BookDetailsView = Parse.View.extend({
     	if(confirm("Are you sure you want to delete?")) {
     		this.model.destroy();
     		this.model = new Book();
-    		displaySuccess("Book was deleted");
+    		Notify.success("Book was deleted");
     		this.render();
       	}
       	return false;
@@ -386,7 +398,7 @@ var BookListView = Parse.View.extend({
 	},
 
 	initialize: function() {
-		clearNotification();
+		Notify.clear();
 
 		_.bindAll(this, 'render', 'addOne', 'addAll' );
 
@@ -448,11 +460,10 @@ var BookListView = Parse.View.extend({
 		Parse.User.logOut();
 		window.location.hash = "#login";
 		return false;
-
-		//TODO: Fix this, needed to reload kickstart.js - no causes the window to flicker
-		//window.location.reload(true);
 	}
 });
+
+/* Login Views */
 
 var PasswordView = Parse.View.extend({
 
@@ -462,22 +473,6 @@ var PasswordView = Parse.View.extend({
 		var html = tpl.get('password'); 
 		this.$el.html(html);
 	},
-});
-
-var EditView = Parse.View.extend({
-
-	el: "#content",
-
-	initialize: function() {
-		alert(this.options.objectId);
-		this.render();
-		return this;
-	},
-
-	render: function() {
-		var html = tpl.get('add'); 	
-		this.$el.html(html);
-	}
 });
 
 var LoginView = Parse.View.extend({
@@ -497,12 +492,11 @@ var LoginView = Parse.View.extend({
 
 	initialize: function() {
 		window.location.hash = "#login";
-		_.bindAll(this, 'validate' );
 		this.render();
 	},
 
 	render: function() {
-		clearNotification();
+		Notify.clear();
 
 		var html = tpl.get('login');//  $('#loginTemplate').html();
 		this.$el.empty();
@@ -525,20 +519,25 @@ var LoginView = Parse.View.extend({
 	},
 
 	validateLogin: function() {
-		return validate(['#username', '#password']);
+		if(this.triedLogin)
+			return validate(['#username', '#password']);
 	},
 
 	validateSignUp: function() {
-		return validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
+		if(this.triedSumbit)
+			return validate(['#su_username', '#su_password', '#su_confirmpassword', '#su_email']);
 	},
 
 	login: function() {
-		clearNotification();
+
+		this.triedLogin = true
+
+		Notify.clear();
 
 		var user = this.user();
 
 		if(!this.validateLogin()) {	
-			displayError("No empty boxes allowed");
+			Notify.error("No empty boxes allowed");
 			return;
 		}
 		
@@ -547,13 +546,16 @@ var LoginView = Parse.View.extend({
 				window.location.hash = "#list";
 			},	
 			error: function(user, error) {
-				displayError(error.message);
+				Notify.error(error.message);
 			}
 		});
 		return false;
 	},
 
 	signup: function() {
+
+		this.triedSumbit = true
+
 		var username = this.$el.find("#su_username").val();
 		var password = this.$el.find("#su_password").val();
 		var email = this.$el.find("#su_email").val();
@@ -565,23 +567,57 @@ var LoginView = Parse.View.extend({
 		
 		user.signUp(null, {
 			success: function(user) {
-				new NotificationView({
-					type: 'success',
-					icon: 'ok ',
-					text: "You have been signed up for the gester"
-				});
+				Notify.success("You have been signed up for sir gester");
 			},
 			error: function(user, error) {
-				new NotificationView({
-					type: 'error',
-					icon: 'remove',
-					text: error.message
-				});
+				Notify.error(error.message);
 			}
 		});
 		return false
 	}
 });
+
+/* Notifications */
+
+var Notify = {
+
+	success: function(message) {
+		if(this.notify) this.notify.close();
+		
+		this.notify = new NotificationView({
+					type: 'success',
+					icon: 'ok',
+					text: message
+				});	
+	},
+
+	warn: function(message) {
+		if(this.notify) this.notify.close();
+
+		this.notify = new NotificationView({
+					type: 'warning',
+					icon: 'warning',
+					text: message
+				});	
+	},
+
+	error: function(message) {
+		
+		if(this.notify) this.notify.close();
+
+		this.notify = new NotificationView({
+					type: 'error',
+					icon: 'remove',
+					text: message
+				});
+	},
+
+	clear: function() {
+		if(this.notify) this.notify.close();
+
+		this.notify = new EmptyView();
+	}
+}
 
 var NotificationView = Parse.View.extend({
 
@@ -615,6 +651,7 @@ Parse.View.prototype.close = function () {
     delete this;
 };
 
+/* App routing */
 
 var AppRouter = Parse.Router.extend({
 	routes: {
@@ -632,139 +669,84 @@ var AppRouter = Parse.Router.extend({
 		"suggest": 		"suggest",
 	},
 
-	index: function() {
-		
-		if(Parse.User.current()) {
-			if(this.currentView) this.currentView.close();
-
-	    	this.currentView = new BookListView({
-	    		el: "#content",
-			});
-		}
-		else {
-			this.login();
-		}
-	},
-
 	login: function() {
-		if(this.currentView) this.currentView.close();
-
-    	this.currentView = new LoginView({
-    		el: "#content",
-		});
+		return this.showView(null, LoginView);
 	},
 
 	password: function() {
-		if(this.currentView) this.currentView.close();
+		return this.showView(null, PasswordView);
+	},
 
-    	this.currentView = new PasswordView({
-    		el: "#content",
-		});
+	index: function() {
+		if(!Parse.User.current()) this.login();
+		return this.showView(null, BookListView);
 	},
 
 	list: function() {
-		if(Parse.User.current()) {
-			if(this.currentView) this.currentView.close();
-
-	    	this.currentView = new BookListView({
-	    		el: "#content",
-			});
-		}
-		else {
-			this.login();
-		}
+		if(!Parse.User.current()) this.login();
+		return this.showView(null, BookListView);
 	},
 
 	add: function() {
-		if(Parse.User.current()) {
-			if(this.currentView) this.currentView.close();
-
-	    	this.currentView = new BookAddView({
-	    		el: "#content",
-	    		model: new Book({
-	    			username: Parse.User.current().get("username")
-	    		})
-			});
-		} else {	
-			this.login();
-		}
-		return false;
+		if(!Parse.User.current()) this.login();
+		return this.showView(new Book(), BookAddView);
 	},
 
 	edit: function(id) {
-		if(Parse.User.current()) {
-			var query = new Parse.Query(Book);
-			query.get(id, {
-			 	success: function(book) {
-			 		if(this.currentView) this.currentView.close();
-
-			    	this.currentView = new BookEditView({
-			    		el: "#content",
-			    		model: book
-					});
-				},
-				error: function(object, error) {
-					displayMessage(error.message);
-				}
-			});
-		} else {	
-			this.login();
-		}
+		if(!Parse.User.current()) this.login();
+		return this.showViewQuery(id, Book, BookEditView);
 	},
 
 	details: function(id) {
-		if(Parse.User.current()) {
-			var query = new Parse.Query(Book);
-			query.get(id, {
-			 	success: function(book) {
-			 		if(this.currentView) this.currentView.close();
-
-			    	this.currentView = new BookDetailsView({
-			    		el: "#content",
-			    		model: book
-					});
-				},
-				error: function(object, error) {
-					displayMessage(error.message);
-				}
-			});
-		} else {	
-			this.login();
-		}
+		if(!Parse.User.current()) this.login();
+		return this.showViewQuery(id, Book, BookDetailsView);
 	},
 
-	genre: function(id) {
-		if(Parse.User.current()) {
-			if(!id)
-			{
-				if(this.currentView) this.currentView.close();
-
-		    	this.currentView = new GenreEditView({
-		    		el: "#content",
-		    		model: new Genre()
-				});
-			} else {
-				var query = new Parse.Query(Genre);
-				query.equalTo("name", id)
-				query.find({
-				 	success: function(genre) {
-				 		if(this.currentView) this.currentView.close();
-
-				    	this.currentView = new GenreEditView({
-				    		el: "#content",
-				    		model: genre[0]
-						});
-					},
-					error: function(object, error) {
-						displayMessage(error.message);
-					}
-				});
+	showViewQuery: function(id, Constructor, View) {
+		var self = this;
+		var query = new Parse.Query(Constructor);
+		query.get(id, {
+		 	success: function(book) {
+		 		self.showView(book, View);
+			},
+			error: function(object, error) {
+				Notify.error(error.message);
 			}
-		} else {	
-			this.login();
+		});
+	},
+
+	showView: function(model, View) {
+		if(this.currentView) this.currentView.close();
+
+    	this.currentView = new View({
+    		el: "#content",
+    		model: (model) ? model : null
+		});
+		return false;
+	},
+
+	/*TODO need to fix this */
+	genre: function(id) {
+		if(!Parse.User.current()) this.login();
+		if(!id) {
+			this.showView(new Genre(), GenreEditView)
+		} else {
+			var self = this;
+			var query = new Parse.Query(Genre);
+			query.equalTo("name", id)
+			query.find({
+			 	success: function(genre) {
+			 		self.showView(genre[0], GenreEditView)
+				},
+				error: function(object, error) {
+					Notify.error(error.message);
+				}
+			});
 		}
 	}
 });
+
+/* main */
 
 $(document).ready(function() {
 

@@ -12,62 +12,6 @@ function validate(elements) {
     return result;
 }
 
-//TODO: more generic handling of error messages
-function clearMessage() {
-    $("#message").empty();
-}
-
-function displayMessage(message) {
-    clearNotification();
-    clearMessage();
-    $("#message").append(message);
-}
-
-var notice;
-
-function clearNotification() {
-
-    new EmptyView();
-
-}
-
-/*<!-- Error -->
-<div class="notice error"><i class="icon-remove-sign icon-large"></i> This is an Error Notice 
-<a href="#close" class="icon-remove"></a></div>
-
-<!-- Warning -->
-<div class="notice warning"><i class="icon-warning-sign icon-large"></i> This is a Warning Notice 
-<a href="#close" class="icon-remove"></a></div>
-
-<!-- Success -->
-<div class="notice success"><i class="icon-ok icon-large"></i> This is a Success Notice 
-<a href="#close" class="icon-remove"></a></div>*/
-function displaySuccess(message) {
-	
-	new NotificationView({
-					type: 'success',
-					icon: 'ok',
-					text: message
-				});
-}
-
-function displayWarning(message) {
-	new NotificationView({
-					type: 'warning',
-					icon: 'warning',
-					text: message
-				});	
-}
-
-function displayError(message) {
-	
-	new NotificationView({
-					type: 'error',
-					icon: 'remove',
-					text: message
-				});
-}
-
 String.prototype.endsWith = function(pattern) {
     var d = this.length - pattern.length;
     return d >= 0 && this.lastIndexOf(pattern) === d;
