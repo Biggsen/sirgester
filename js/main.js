@@ -57,24 +57,41 @@ var GenreOptionView = Parse.View.extend({
 var GenreListView = Parse.View.extend({
 	
 	el: "#genre",
+	//tagName: "div",
 
 	events: {
 		"click #editGenre": 	"edit",
 		"click #newGenre": 		"newgenre",
+		"click #addgenre":		"addgenre",
 	},
 
 	initialize: function() {
 
-		_.bindAll(this, 'addOne', 'addAll' );
+		_.bindAll(this, 'render', 'addOne', 'addAll' );
 		this.genres = new Genres();
 		//this.genres.bind('all',     this.render);
 		this.genres.bind('reset',   this.addAll);
 		this.genres.fetch();
 
-		var html = tpl.get('genre-list'); 
-		this.$el.html(html);
+		this.$el.html(tpl.get('genre-list'));
 	},
 
+	render: function() {
+		
+		return this;
+	},
+
+	addgenre: function() {
+		/*if(this.genresView2) this.genresView2.close();
+
+		this.genresView2 = new GenreListView({
+			model: this.model
+		});*/
+
+		this.$el.append(tpl.get('genre-list'));
+		//alert('add g');
+//		this.$el.append(this.render().el);
+	},
 	// Add a single book item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(genre) {
@@ -86,7 +103,7 @@ var GenreListView = Parse.View.extend({
     addAll: function(collection, filter) {
       this.$el.find("#list-genre").html("");
       this.genres.each(this.addOne);
-      this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');
+		      this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');
     },
 
     newgenre: function() {
@@ -99,6 +116,84 @@ var GenreListView = Parse.View.extend({
     	return false;
     }
 });
+
+var BookAddView = Parse.View.extend({
+
+	el: $("#content"),
+
+	events: {
+		"click #savebook":  				"savebook", 
+		//"submit":  							"savebook", 
+		"change input#bookname":			"validateBook",
+		"change input#author":				"validateBook",
+		"change input#totalpages":			"validateBook",
+		"change input#currpage":			"validateBook",
+	},
+
+	initialize: function() {
+
+		_.bindAll(this, 'savebook' );
+
+		var html = tpl.get('add'); 
+		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+		
+		if(this.genresView) this.genresView.close();
+
+		this.genresView = new GenreListView({
+			model: this.model
+		});
+
+		//this.$el.find("#genre").append(this.genresView.render().el);
+	},
+
+	validate: function(elements) {
+		var result = true;
+		_.each(elements, function( element ){
+			var el = this.$(element)
+			if(el.val().length == 0) {
+				el.addClass('error');
+				result = false;
+			} else {
+				el.removeClass('error');
+			}
+		});
+		return result;
+	},
+
+	validateBook: function() {
+		return this.validate(['#bookname', '#author', '#totalpages', '#currpage']);
+	},
+
+	savebook: function() {
+		
+		if(!this.validateBook()) {	
+			displayError("No empty boxes allowed");
+			return false;
+		}
+
+		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
+			displayWarning("Have you read this book already?");
+			return false;
+		}	
+
+		this.model.save({
+			name: this.$el.find("#bookname").val(),
+			author: this.$el.find("#author").val(),
+			genre: this.$el.find("#list-genre option:selected").text(),  //TODO use val to get Id
+			totalpages: this.$el.find("#totalpages").val(),
+			currentPage: this.$el.find("#currpage").val()
+		},{
+			success: function( instance ) {
+				displaySuccess("Book was saved");
+			},
+			error: function(object, error) {
+				displayMessage(error.message);
+			}
+		});
+		return false;
+	}
+});
+
 
 var BookEditView = Parse.View.extend({
 
@@ -117,7 +212,7 @@ var BookEditView = Parse.View.extend({
 
 		_.bindAll(this, 'savebook' );
 
-		var html = tpl.get('add'); 
+		var html = tpl.get('edit'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		
 		if(this.genresView) this.genresView.close();
@@ -152,8 +247,8 @@ var BookEditView = Parse.View.extend({
 			return false;
 		}
 
-		if(parseFloat(this.$("#currpage")) >= parseFloat(this.$("#totalpages").val())) {
-			displayWarning("Have you read the book already?");
+		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
+			displayWarning("Have you read this book already?");
 			return false;
 		}	
 
@@ -699,6 +794,14 @@ function displaySuccess(message) {
 				});
 }
 
+function displayWarning(message) {
+	new NotificationView({
+					type: 'warning',
+					icon: 'warning',
+					text: message
+				});	
+}
+
 function displayError(message) {
 	
 	new NotificationView({
@@ -813,7 +916,7 @@ var AppRouter = Parse.Router.extend({
 		if(Parse.User.current()) {
 			if(this.currentView) this.currentView.close();
 
-	    	this.currentView = new BookEditView({
+	    	this.currentView = new BookAddView({
 	    		el: "#content",
 	    		model: new Book({
 	    			username: Parse.User.current().get("username")
@@ -910,6 +1013,7 @@ $(document).ready(function() {
 			'notification', 
 			'book-detail', 
 			'add', 
+			'edit',
 			'genre-list', 
 			'genre-option', 
 			'genre-edit'], 
