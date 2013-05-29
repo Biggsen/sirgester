@@ -291,10 +291,14 @@ var BookView = Parse.View.extend({
 	},
 
 	details: function() {
+
+		//prepare
+		$('#books li').removeClass('is-active');
+
 		var elm = $('#show_' + this.model.id);
 		if(elm.hasClass('hide')){
 			$(".js-book-details").addClass('hide');
-			$('#books li').removeClass('is-active');
+			
 			elm.removeClass('hide');
 			this.$el.addClass('is-active');
 		} else {
