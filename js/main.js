@@ -383,26 +383,53 @@ var BookAddView = Parse.View.extend({
 			return false;
 		}
 
-		this.model.set('name', this.$el.find("#bookname").val());
-		this.model.set('author', this.$el.find("#author").val());
-		this.model.set('genre',this.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
-		this.model.set('totalpages', this.$el.find("#totalpages").val());
-		this.model.set('currentPage', this.$el.find("#currpage").val());
-		this.model.set('total', parseFloat(this.$el.find("#totalpages").val()));
-		this.model.set('current', parseFloat(this.$el.find("#currpage").val()));
+		//TODO: Fix,
+		//  Trying to find if book exists case insensitive style
+		//  This can be slow as we have to fetch all book and compre
+		//  Add book can come from any page (so collection can't be sent in)
+		var self = this;
+		var query = new Books();
+		query.contains("user", Parse.User.current().get("username"));
+		var bookname = this.$el.find("#bookname").val().toLowerCase();
+		query.fetch({
+			success: function ( books ) {
+				var found = false;
+				books.each(function ( book ) {
 
-		for(var i =0, len = this.authorViewList.length; i < len; i++) {
-			this.authorViewList[i].saveauthor(this.model);
-		}
+					if(bookname.localeCompare(book.get("name").toLowerCase()) == 0) {
+						Notify.warn("Book with same name exists");
+						found = true;
+					}
+				});
+				if(!found) {
+				
+					self.model.set('name', self.$el.find("#bookname").val());
+					self.model.set('author', self.$el.find("#author").val());
+					self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
+					self.model.set('totalpages', self.$el.find("#totalpages").val());
+					self.model.set('currentPage', self.$el.find("#currpage").val());
+					self.model.set('total', parseFloat(self.$el.find("#totalpages").val()));
+					self.model.set('current', parseFloat(self.$el.find("#currpage").val()));
 
-		this.model.save(null,{
-			success: function( author ) {
-				window.location.hash = "#list";
+					for(var i =0, len = self.authorViewList.length; i < len; i++) {
+						self.authorViewList[i].saveauthor(self.model);
+					}
+
+					self.model.save(null,{
+						success: function( author ) {
+							window.location.hash = "#list";
+						},
+						error: function( author, error ) {
+							Notify.error(error.message);
+						},
+					});
+				}
 			},
-			error: function( author, error ) {
+			error: function( book, error ) {
 				Notify.error(error.message);
-			},
+			}
 		});
+
 
 		return false;
 	}
