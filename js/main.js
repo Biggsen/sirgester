@@ -405,7 +405,7 @@ var BookListView = Parse.View.extend({
 		//this.books.query.ascending("shelfed"); 
 
 		this.books.comparator = function (book) {
-			return book.percentageLeft();
+			return parseFloat(book.percentageLeft());
 		}
 
 		this.books.bind('add',     this.addOne);
