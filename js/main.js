@@ -185,7 +185,8 @@ var AuthorView = Parse.View.extend({
 		//var action = (this.parent) ? 'add' : 'remove';
 
 		var render = {
-			author: this.model.get("author"),
+			firstname: this.model.get("firstname"),
+			lastname: this.model.get("lastname"),
 			sign: this.options.sign,
 			action: this.options.action
 		};
@@ -238,21 +239,24 @@ var BookAddView = Parse.View.extend({
 
 	initialize: function() {
 
-		_.bindAll(this, 'savebook', 'validateBook', 'addauthor', 'removeauthor' );
+		_.bindAll(this, 'savebook', 'validateBook', 'addauthor', 'removeauthor', 'addOne', 'addAll' );
 
 		var html = tpl.get('add'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		
 		this.authorViewList = [];
 
-		var view = new AuthorView({
-			model: this.model,
-			parent: this,
-			sign: 'plus',
-			action: 'add'
-		});
-		this.authorViewList.push(view);
-		this.$el.find("#author").append(view.render().el);
+		if(!this.model.isNew()) {
+			this.authors = new Authors();
+			this.authors.query = new Parse.Query(Author);
+			this.authors.query.equalTo("book", this.model);
+			this.authors.bind('add', this.addOne)
+			this.authors.bind('all', this.addAll)
+			this.authors.fetch();
+		} else {
+			var author = new Author();
+			this.addOne(author);
+		}
 
 		if(this.genresView) this.genresView.close();
 
@@ -263,6 +267,43 @@ var BookAddView = Parse.View.extend({
 
 		this.model.set("username", Parse.User.current().get("username"));
 	},
+
+	addOne: function(author) {
+      var view = new AuthorView({
+			model: author,
+			parent: this,
+			sign: 'plus',
+			action: 'add'
+		});
+		this.authorViewList.push(view);
+		this.$el.find("#author").append(view.render().el);
+    },
+
+    // Add all items in the Book collection at once.
+    addAll: function(collection, filter) {
+
+
+    	if(this.authors.length == 0) {
+    		//SHORTTERM: backwards compatability
+    		var names = this.model.get("author").split(" ");
+    		var firstname = _.reduce(names.slice(0, names.length-1), 
+    			function (a, b) 
+    				{ return a + " " + b }, ''
+    			);
+    		var lastname = names[names.length-1];
+
+      		var author = new Author({
+      			firstname: firstname,
+      			lastname: lastname
+      		});
+      		this.addOne(author);
+      	}
+      	else
+      		this.authors.each(this.addOne);
+      /*this.$el.find("#list-genre").html("");
+      this.genres.each(this.addOne);
+      this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');*/
+    },
 
 	addauthor: function() {
 		var view = new AuthorView({
