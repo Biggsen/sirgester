@@ -255,10 +255,17 @@ display:block;
 }
 
 .mod-booklist li {
+	float: left;
+	width: 100%;
 	padding: 5px 0 0 0;
 }
 
+.mod-booklist hr {
+	margin: 0;
+}
+
 .mod-booklist .is-active {
+	width: 320px;
 	margin: 0 -15px 0 -15px;
 	padding: 5px 15px 10px 15px;
 	background: #fff;
@@ -268,14 +275,26 @@ display:block;
 	display: none;
 }
 
+.booklist-panel {
+	float: left;
+	width: 100%;
+}
 
-.mod-booklist h6 {
+.booklist-panel h6 {
 	float: left;
 	margin: 2px 0 0 0;
 }
 
-.mod-booklist hr {
-	margin: 0;
+.booklist-details {
+	float: left;
+	width: 100%;
+}
+
+.booklist-details input {
+	width: 100px;
+	margin-top: -5px;
+	padding: 10px;
+	font-size: 1.4em;
 }
 
 /* Progress */
@@ -311,9 +330,4 @@ display:block;
 }
 
 /* Book details */
-.mod-bookdetails input {
-	width: 100px;
-	margin-top: -5px;
-	padding: 10px;
-	font-size: 1.4em;
-}
+
