@@ -337,7 +337,7 @@ var BookDetailsView = Parse.View.extend({
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		this.$el.addClass("js-book-details");
 		if(this.model.get("shelfed")) {
-			this.$el.find("#shelf").html("unshelf");
+			this.$el.find("#shelf i").removeClass('icon-pause').addClass('icon-play');
 		}
 		return this;
 	},
