@@ -425,7 +425,7 @@ var BookDetailsView = Parse.View.extend({
 		this.model.bind('change', this.render);
 		this.model.bind('create', this.render);
 
-		// state open 
+		// state
 		this.active = false;
 	},
 
@@ -442,6 +442,9 @@ var BookDetailsView = Parse.View.extend({
 	},
 
 	render: function() {
+		var query = new Parse.Query(Author);
+		query.equalTo("book", this.model);
+
 		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		this.$el.addClass("js-book-details");
@@ -453,7 +456,29 @@ var BookDetailsView = Parse.View.extend({
 		if(this.model.get("shelfed")) {
 			this.$el.find("#shelf i").removeClass('icon-pause').addClass('icon-play');
 		}
-		
+		var self = this;
+		var authors = new Authors();
+		authors.query = new Parse.Query(Author);
+		authors.query.equalTo("book", this.model);
+		authors.query.ascending("createdAt");
+		authors.fetch({
+			success: function( authors ) {
+				if(authors.length > 0) {
+					if(authors.length > 1) {
+						self.$el.find("#plural").text("Authors: ");
+					}
+					var text = "";
+					///text = _.reduce(authors, function(a, b) { return author.get("firstname") + " " + author.get("lastname") }, "");
+					authors.each(function ( author ){
+						text += author.get("firstname") + " " + author.get("lastname") + ", "
+					});
+					if(text.endsWith(", "))
+						text = text.slice(0, -2);
+					self.$el.find("#author").text(text);
+				}
+			}
+		});
+
 		return this;
 	},
 
