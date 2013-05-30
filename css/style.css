@@ -173,6 +173,7 @@ display:block;
 /* Logo */
 
 .mod-logo {
+	float: left;
 	padding-bottom: .05em;
 }
 
@@ -235,6 +236,16 @@ display:block;
 		color: #9d9d9d;
 	}
 
+}
+
+/* Utility (header) */
+.mod-utility {
+	float: right;
+}
+
+.mod-utility .button-bar {
+	float: right;
+	margin-top: 10px;
 }
 
 /* Booklist */
