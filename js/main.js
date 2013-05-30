@@ -103,16 +103,20 @@ var GenreListView = Parse.View.extend({
 			return false;
 		}
 
+		var genreName = this.$el.find("#newgenre").val();
+		this.$el.find("#newgenre").val("");
+
 		var genreObj = new Genre();
 		var self = this;
 		genreObj.save({
-			name: this.$el.find("#newgenre").val()
+			name: genreName
 		}, {
 			success: function( genre ) {
 				self.genres.add(genre);
 				self.genres.sort();
 				Notify.success("Genre was saved");
 				self.hide();
+				self.$el.find("#list-genre option:contains('" + genre.get("name") + "')").attr('selected', 'selected');
 			},
 			error: function( genre, error ) {
 				Notify.error(error.message);
