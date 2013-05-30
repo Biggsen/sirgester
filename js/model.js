@@ -1,3 +1,16 @@
+var Author = Parse.Object.extend("Author", {
+	defaults: {
+		firstname: '',
+		lastname: '',
+		book: null
+	}
+});
+
+var Authors = Parse.Collection.extend({
+	model: Author,
+});
+
+
 var Genre = Parse.Object.extend("Genre", {
 	defaults: {
 		name: '',
@@ -19,13 +32,14 @@ var Book = Parse.Object.extend("Book", {
 		"id": null,
 		"name": "",
 		"genre" : "",
-		"author": "",
-		"totalpages": 100,
-		"currentPage": 0,
+		//"author": "",
+		"totalpages": "100",
+		"currentPage": "0",
+		"total": 100,
+		"current": 0,
 		"shelfed": false
 	},
 
-	
 	//calculated fields
   	percentage: function() {
   		return ((parseFloat(this.get("currentPage")) / parseFloat(this.get("totalpages"))) * 100).toFixed(2);

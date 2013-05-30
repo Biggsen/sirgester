@@ -194,6 +194,17 @@ var AuthorView = Parse.View.extend({
 		
 	},
 
+	validateAuthor: function() {
+		return validate([ this.$el.find('#firstname'), this.$el.find('#lastname')]);
+	},
+
+	getAuthor: function() {
+		return {
+			firstname: this.$el.find("#firstname").val(),
+			lastname: this.$el.find("#lastname").val(),
+		}
+	},
+
 	render: function() {
 		return this;
 	},
@@ -278,8 +289,14 @@ var BookAddView = Parse.View.extend({
 	},
 
 	validateBook: function() {
-		if(this.submit)
-			return validate(['#bookname', '#author', '#totalpages', '#currpage']);
+		if(this.submit) {
+			var result = true;
+			for(var i =0, len = this.authorViewList.length; i < len; i++) {
+				result = this.authorViewList[i].validateAuthor() && result;
+			}
+			result = validate(['#bookname', '#totalpages', '#currpage']) && result;
+			return result;
+		}
 	},
 
 	savebook: function() {
@@ -295,22 +312,33 @@ var BookAddView = Parse.View.extend({
 		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
 			Notify.warn("Have you read this book already?");
 			return false;
-		}	
+		}
 
-		this.model.save({
-			name: this.$el.find("#bookname").val(),
-			author: this.$el.find("#author").val(),
-			genre: this.$el.find("#list-genre option:selected").text(),  //TODO use val to get Id
-			totalpages: this.$el.find("#totalpages").val(),
-			currentPage: this.$el.find("#currpage").val()
-		},{
-			success: function( instance ) {
-				Notify.success("Book was saved");
-			},
-			error: function(object, error) {
-				Notify.error(error.message);
+		this.model.set('name', this.$el.find("#bookname").val());
+		this.model.set('author', this.$el.find("#author").val());
+		this.model.set('genre',this.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
+		this.model.set('totalpages', this.$el.find("#totalpages").val());
+		this.model.set('currentPage', this.$el.find("#currpage").val());
+		this.model.set('total', parseFloat(this.$el.find("#totalpages").val()));
+		this.model.set('current', parseFloat(this.$el.find("#currpage").val()));
+
+		for(var i =0, len = this.authorViewList.length; i < len; i++) {
+			var author = new Author();
+			var info = this.authorViewList[i].getAuthor();
+			author.save({
+				firstname: info.firstname,
+				lastname: info.lastname,
+				book: this.model
+			},{
+				success: function( author ) {
+					Notify.success("Book was saved");
+				},
+				error: function( author, error ) {
+					Notify.error(error.message);
+				}
 			}
-		});
+			);		
+		}
 		return false;
 	}
 });
