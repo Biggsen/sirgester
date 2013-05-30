@@ -365,7 +365,7 @@ var BookAddView = Parse.View.extend({
 	},
 
 	savebook: function() {
-		/*
+		
 		this.submit = true;
 
 		if(!this.validateBook()) {	
@@ -377,7 +377,7 @@ var BookAddView = Parse.View.extend({
 		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
 			Notify.warn("Have you read this book already?");
 			return false;
-		}*/
+		}
 
 		this.model.set('name', this.$el.find("#bookname").val());
 		this.model.set('author', this.$el.find("#author").val());
@@ -390,6 +390,16 @@ var BookAddView = Parse.View.extend({
 		for(var i =0, len = this.authorViewList.length; i < len; i++) {
 			this.authorViewList[i].saveauthor(this.model);
 		}
+
+		this.model.save(null,{
+			success: function( author ) {
+				window.location.hash = "#list";
+			},
+			error: function( author, error ) {
+				Notify.error(error.message);
+			},
+		});
+
 		return false;
 	}
 });
