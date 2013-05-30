@@ -85,7 +85,7 @@ var GenreListView = Parse.View.extend({
 		this.genres.fetch();
 
 		this.genres.comparator = function (genre) {
-			return genre.get("name");
+			return genre.get("name").toLowerCase();
 		}
 
 		var html = tpl.get('genre-list');
