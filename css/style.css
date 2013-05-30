@@ -176,6 +176,11 @@ display:block;
 	padding-bottom: .05em;
 }
 
+.mod-logo a {
+	color: #000;
+	text-decoration: none;
+}
+
 .mod-logo h1 {
 	font-family: 'Berkshire Swash', cursive;
 }
