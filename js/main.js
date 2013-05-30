@@ -248,68 +248,6 @@ var BookAddView = Parse.View.extend({
 	}
 });
 
-
-var BookEditView = Parse.View.extend({
-
-	el: $("#content"),
-
-	events: {
-		"click #savebook":  				"savebook", 
-		//"submit":  							"savebook", 
-		"change input#bookname":			"validateBook",
-		"change input#author":				"validateBook",
-		"change input#totalpages":			"validateBook",
-		"change input#currpage":			"validateBook",
-	},
-
-	initialize: function() {
-
-		_.bindAll(this, 'savebook' );
-
-		var html = tpl.get('edit'); 
-		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
-		
-		if(this.genresView) this.genresView.close();
-
-		this.genresView = new GenreListView({
-			model: this.model
-		});
-	},
-
-	validateBook: function() {
-		return validate(['#bookname', '#author', '#totalpages', '#currpage']);
-	},
-
-	savebook: function() {
-		
-		if(!this.validateBook()) {	
-			Notify.error("No empty boxes allowed");
-			return false;
-		}
-
-		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
-			Notify.warn("Have you read this book already?");
-			return false;
-		}	
-
-		this.model.save({
-			name: this.$el.find("#bookname").val(),
-			author: this.$el.find("#author").val(),
-			genre: this.$el.find("#list-genre option:selected").text(),  //TODO use val to get Id
-			totalpages: this.$el.find("#totalpages").val(),
-			currentPage: this.$el.find("#currpage").val()
-		},{
-			success: function( instance ) {
-				Notify.success("Book was saved");
-			},
-			error: function(object, error) {
-				Notify.error(error.message);
-			}
-		});
-		return false;
-	}
-});
-
 var BookDetailsView = Parse.View.extend({
 
 	//el: "#book-details",
@@ -750,7 +688,7 @@ var AppRouter = Parse.Router.extend({
 
 	edit: function(id) {
 		if(!Parse.User.current()) this.login();
-		return this.showViewQuery(id, Book, BookEditView);
+		return this.showViewQuery(id, Book, BookAddView);
 	},
 
 	details: function(id) {
