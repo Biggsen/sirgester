@@ -175,11 +175,9 @@ var AuthorView = Parse.View.extend({
 
 	initialize: function() {
 
-		_.bindAll(this, 'add')
+		_.bindAll(this, 'add', 'saveauthor', 'getauthor');
 
 		var html = tpl.get('author'); 
-
-		this.parent = this.options.parent
 
 		//var sign = (this.parent) ? 'plus' : 'minus';
 		//var action = (this.parent) ? 'add' : 'remove';
@@ -199,13 +197,6 @@ var AuthorView = Parse.View.extend({
 		return validate([ this.$el.find('#firstname'), this.$el.find('#lastname')]);
 	},
 
-	getAuthor: function() {
-		return {
-			firstname: this.$el.find("#firstname").val(),
-			lastname: this.$el.find("#lastname").val(),
-		}
-	},
-
 	render: function() {
 		return this;
 	},
@@ -217,9 +208,35 @@ var AuthorView = Parse.View.extend({
 	},
 
 	removeauthor: function() {
+
+		this.model.destroy();
+
 		if(this.options.parent)
 			this.options.parent.removeauthor(this);
 		return false;
+	},
+
+	getauthor: function () {
+		return {
+			firstname: this.$el.find("#firstname").val(),
+			lastname: this.$el.find("#lastname").val(),
+		}
+	},
+
+	saveauthor: function(book) {
+		var self = this;
+		this.model.save({
+			firstname: self.$el.find("#firstname").val(),
+			lastname: self.$el.find("#lastname").val(),
+			book: book
+		}); /*,{
+			success: function( author ) {
+				Notify.success("Book was saved");
+			},
+			error: function( author, error ) {
+				Notify.error(error.message);
+			}
+		});*/
 	}
 });
 
@@ -250,12 +267,14 @@ var BookAddView = Parse.View.extend({
 			this.authors = new Authors();
 			this.authors.query = new Parse.Query(Author);
 			this.authors.query.equalTo("book", this.model);
-			this.authors.bind('add', this.addOne)
-			this.authors.bind('all', this.addAll)
+			this.authors.query.ascending("createdAt");
+			//this.authors.bind('add', this.addOne);
+			//this.authors.bind('change', this.changeOne);
+			this.authors.bind('reset', this.addAll);
 			this.authors.fetch();
 		} else {
 			var author = new Author();
-			this.addOne(author);
+			this.addOne(author, true);
 		}
 
 		if(this.genresView) this.genresView.close();
@@ -268,12 +287,18 @@ var BookAddView = Parse.View.extend({
 		this.model.set("username", Parse.User.current().get("username"));
 	},
 
-	addOne: function(author) {
-      var view = new AuthorView({
+	changeOne: function() {
+		alert('change');
+	},
+
+	addOne: function(author, plus) {
+		var sign = (plus) ? 'plus' : 'minus';
+		var action = (plus) ? 'add' : 'remove';
+      	var view = new AuthorView({
 			model: author,
 			parent: this,
-			sign: 'plus',
-			action: 'add'
+			sign: sign,
+			action: action
 		});
 		this.authorViewList.push(view);
 		this.$el.find("#author").append(view.render().el);
@@ -281,7 +306,12 @@ var BookAddView = Parse.View.extend({
 
     // Add all items in the Book collection at once.
     addAll: function(collection, filter) {
+    	this.$el.find("#author").empty();
 
+    	//close all current views
+    	for(var i =0, len = this.authorViewList.length; i < len; i++) {
+    		this.authorViewList[i].close();
+    	}
 
     	if(this.authors.length == 0) {
     		//SHORTTERM: backwards compatability
@@ -296,24 +326,18 @@ var BookAddView = Parse.View.extend({
       			firstname: firstname,
       			lastname: lastname
       		});
-      		this.addOne(author);
+      		this.addOne(author, true);
+      	} else {
+      		var first = true;
+      		this.authors.each(function (author) {
+      			this.addOne(author, first);
+      			first = false;
+      		}, this);
       	}
-      	else
-      		this.authors.each(this.addOne);
-      /*this.$el.find("#list-genre").html("");
-      this.genres.each(this.addOne);
-      this.$el.find("#list-genre option:contains('" + this.model.get("genre") + "')").attr('selected', 'selected');*/
     },
 
 	addauthor: function() {
-		var view = new AuthorView({
-			model: this.model,
-			parent: this,
-			sign: 'minus',
-			action: 'remove'
-		});
-		this.authorViewList.push(view);
-		this.$el.find("#author").append(view.render().el);
+		this.addOne(new Author(), false);
 		return false;		
 	},
 
@@ -341,7 +365,7 @@ var BookAddView = Parse.View.extend({
 	},
 
 	savebook: function() {
-		
+		/*
 		this.submit = true;
 
 		if(!this.validateBook()) {	
@@ -353,7 +377,7 @@ var BookAddView = Parse.View.extend({
 		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
 			Notify.warn("Have you read this book already?");
 			return false;
-		}
+		}*/
 
 		this.model.set('name', this.$el.find("#bookname").val());
 		this.model.set('author', this.$el.find("#author").val());
@@ -364,21 +388,7 @@ var BookAddView = Parse.View.extend({
 		this.model.set('current', parseFloat(this.$el.find("#currpage").val()));
 
 		for(var i =0, len = this.authorViewList.length; i < len; i++) {
-			var author = new Author();
-			var info = this.authorViewList[i].getAuthor();
-			author.save({
-				firstname: info.firstname,
-				lastname: info.lastname,
-				book: this.model
-			},{
-				success: function( author ) {
-					Notify.success("Book was saved");
-				},
-				error: function( author, error ) {
-					Notify.error(error.message);
-				}
-			}
-			);		
+			this.authorViewList[i].saveauthor(this.model);
 		}
 		return false;
 	}
@@ -771,7 +781,7 @@ var EmptyView = Parse.View.extend({
 });
 
 Parse.View.prototype.close = function () {
-    console.log('Closing view ' + this);
+    console.log('Closing view ' + this.el.id);
     if (this.beforeClose) {
         this.beforeClose();
     }
