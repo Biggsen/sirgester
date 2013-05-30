@@ -406,8 +406,8 @@ var BookAddView = Parse.View.extend({
 
 var BookDetailsView = Parse.View.extend({
 
-	//el: "#book-details",
-	tagName: "div",
+	el: "#book-details",
+	//tagName: "div",
 
 	events: {
 		"click #edit":  	"edit",
@@ -415,33 +415,76 @@ var BookDetailsView = Parse.View.extend({
 		"submit":  			"save", 
 		"click #delete": 	"delete", 
 		"click #shelf": 	"shelf", 
+		"click #done": 		"done", 
 	},
 
 	initialize: function() {
 		
-		_.bindAll(this, 'render', 'save', 'delete', 'shelf');
+		_.bindAll(this, 'render', 'save', 'delete', 'shelf', 'done', 'is_active', 'switch_state');
 
 		this.model.bind('change', this.render);
 		this.model.bind('create', this.render);
-//		this.render();
-	},	
+
+		// state open 
+		this.active = false;
+	},
+
+	is_active: function() {
+		return this.active;
+	},
+
+	switch_state: function () {
+		this.active = !this.active
+		if(this.active)
+			this.$el.removeClass('hide');
+		else
+			this.$el.addClass('hide');
+	},
 
 	render: function() {
 		var html = tpl.get('book-detail'); 
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 		this.$el.addClass("js-book-details");
+		if(!this.active) {
+			this.$el.addClass('hide');
+		}
+		this.$el.attr('id', 'show_' + this.model.id);
+
 		if(this.model.get("shelfed")) {
 			this.$el.find("#shelf i").removeClass('icon-pause').addClass('icon-play');
 		}
+		
 		return this;
 	},
 
+	done: function() {
+		if(confirm("Are you sure you want to mark book as done?")) {
+			var self = this;
+			var totalpages = this.model.get("totalpages");
+			this.model.save({
+					done: true,
+					currentPage: totalpages
+				},{
+					success: function( instance ) {
+						self.options.parentView.render();
+						Notify.success("Book marked as done");
+					},
+					error: function(object, error) {
+						Notify.error(error.message);
+					}
+				});
+		}
+		return false;
+	},
+
 	save: function() {
+		var self = this;
 		this.model.save({
 				currentPage: this.$el.find("#currpage").val()
 			},{
 				success: function( instance ) {
-					Notify.success("Book was saved");
+					self.options.parentView.render();
+					Notify.success("Book was updated");
 				},
 				error: function(object, error) {
 					Notify.error(error.message);
@@ -451,11 +494,13 @@ var BookDetailsView = Parse.View.extend({
 	},
 
 	shelf: function() {
+		var self = this;
 		var shelfValue = !this.model.get("shelfed");
 		this.model.save({
 				shelfed: shelfValue
 			},{
 				success: function( instance ) {
+					self.options.parentView.render();
 					if(shelfValue)
 						Notify.success("Book was shelfed");
 					else
@@ -477,9 +522,9 @@ var BookDetailsView = Parse.View.extend({
     delete: function() {
     	if(confirm("Are you sure you want to delete?")) {
     		this.model.destroy();
-    		this.model = new Book();
+    		window.location.reload();
     		Notify.success("Book was deleted");
-    		this.render();
+    		//self.options.parentView.render();
       	}
       	return false;
     }
@@ -497,6 +542,13 @@ var BookView = Parse.View.extend({
 		_.bindAll(this, 'render', 'remove', 'details' );
 		//this.model.bind('change', this.render);
 		//this.model.bind('destroy', this.remove);
+
+		if(this.detailView) this.detailView.close();
+
+		this.detailView = new BookDetailsView( {
+			model: this.model, 
+			parentView: this,
+		});
 	},
 
 	render: function() {
@@ -504,35 +556,35 @@ var BookView = Parse.View.extend({
 		var html = tpl.get('book'); 	
 		this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 
+		this.detailView.setElement(this.$el.find('#book-details')).render();
+
+		//this.$el.find('#book-details').append(this.detailView.render().el);
+
 		if(this.model.get("shelfed")) {
 			var del = this.$el.find("#shelfed").html();
 			this.$el.find("#shelfed").html("<del>" + del + "</del>");
 		}
-
-		var detailView = new BookDetailsView( {model: this.model });
-		var eldetail = detailView.render().el;
-		$(eldetail).addClass('hide');
-		$(eldetail).attr('id', 'show_' + this.model.id);
-		this.$el.find('#book-details').append(eldetail);
-
-
 		return this;
 	},
 
 	details: function() {
-
 		//prepare
 		$('#books li').removeClass('is-active');
 
+		if(!this.detailView.is_active()) {
+			$(".js-book-details").addClass('hide'); //hide everyone else
+			this.$el.addClass('is-active');
+		}
+		this.detailView.switch_state();
+/*
 		var elm = $('#show_' + this.model.id);
 		if(elm.hasClass('hide')){
-			$(".js-book-details").addClass('hide');
 			
-			elm.removeClass('hide');
-			this.$el.addClass('is-active');
+			this.detailView.active(true);
+			
 		} else {
-			elm.addClass('hide');
-		}
+			this.detailView.active(false);
+		}*/
 		//window.location.hash = "#details/" + this.model.id;
 		return false;
 	},

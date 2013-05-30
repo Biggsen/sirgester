@@ -37,7 +37,8 @@ var Book = Parse.Object.extend("Book", {
 		"currentPage": "0",
 		"total": 100,
 		"current": 0,
-		"shelfed": false
+		"shelfed": false,
+		"done": false
 	},
 
 	//calculated fields
