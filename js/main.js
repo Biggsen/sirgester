@@ -780,9 +780,8 @@ var BookListView = Parse.View.extend({
 		this.books.bind('add',     this.addOne);
      	this.books.bind('reset',   this.addAll);
      	this.books.comparator = function (book) {
-			var add = (book.get("shelfed")) ? 200 : 0;
-			add = (book.get("done")) ? 1000 : add;
-
+     		//for internal ordering .. 25% get -0,0000025 reduced.
+     		var add = -(book.nextMilestone() / 1000000);
 			return add + parseFloat(book.percentageLeft());
 		}
 		this.books.fetch();
