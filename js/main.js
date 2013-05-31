@@ -378,12 +378,13 @@ var BookAddView = Parse.View.extend({
 			return false;
 		}
 
-		if(parseFloat(this.$("#currpage").val()) >= parseFloat(this.$("#totalpages").val())) {
+		if(parseFloat(this.$("#currpage").val()) > parseFloat(this.$("#totalpages").val())) {
+			this.$el.find("#currpage").addClass('error');
 			Notify.warn("Have you read this book already?");
 			return false;
 		}
 
-		//TODO: Fix,
+		//TODO: Fix, this is ugly
 		//  Trying to find if book exists case insensitive style
 		//  This can be slow as we have to fetch all book and compre
 		//  Add book can come from any page (so collection can't be sent in)
@@ -394,22 +395,30 @@ var BookAddView = Parse.View.extend({
 		query.fetch({
 			success: function ( books ) {
 				var found = false;
-				books.each(function ( book ) {
+				if(self.model.isNew()) {
+					books.each(function ( book ) {
 
-					if(bookname.localeCompare(book.get("name").toLowerCase()) == 0) {
-						Notify.warn("Book with same name exists");
-						found = true;
-					}
-				});
+						if(bookname.localeCompare(book.get("name").toLowerCase()) == 0) {
+							Notify.warn("Book with same name exists");
+							found = true;
+						}
+					});
+				}
 				if(!found) {
+
+					var current = parseFloat(self.$el.find("#currpage").val());
+					var total = parseFloat(self.$el.find("#totalpages").val());
+					current = (current > total) ? total : current;
+					current = (current < 0 ) ? 0 : current;
+					total = (total < 0 ) ? 0 : total;
 				
 					self.model.set('name', self.$el.find("#bookname").val());
 					self.model.set('author', self.$el.find("#author").val());
 					self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
-					self.model.set('totalpages', self.$el.find("#totalpages").val());
-					self.model.set('currentPage', self.$el.find("#currpage").val());
-					self.model.set('total', parseFloat(self.$el.find("#totalpages").val()));
-					self.model.set('current', parseFloat(self.$el.find("#currpage").val()));
+					self.model.set('totalpages', total.toString());
+					self.model.set('currentPage', current.toString());
+					self.model.set('total', total);
+					self.model.set('current', current);
 
 					for(var i =0, len = self.authorViewList.length; i < len; i++) {
 						self.authorViewList[i].saveauthor(self.model);
@@ -534,11 +543,26 @@ var BookDetailsView = Parse.View.extend({
 	},
 
 	save: function() {
+
+		var current = parseFloat(this.$el.find("#currpage").val());
+		if(isNaN(current) || current < 0) {
+			this.$el.find("#currpage").addClass('error');
+			this.$el.find("#currpage").val(this.model.get("currentPage"));
+			return;
+		}
+		this.$el.find("#currpage").removeClass('error');
+
+		var total = parseFloat(this.model.get("totalpages"));
+		current = (current > total) ? total : current;
+		current = (current < 0 ) ? 0 : current;
+
 		var self = this;
 		this.model.save({
-				currentPage: this.$el.find("#currpage").val()
+				currentPage: current.toString(),
+				current: current
 			},{
 				success: function( instance ) {
+					///self.$el.find("#currpage").val(current);
 					self.options.parentView.render();
 					Notify.success("Book was updated");
 				},
