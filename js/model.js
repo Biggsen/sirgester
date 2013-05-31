@@ -1,3 +1,14 @@
+var BookHistory = Parse.Object.extend("BookHistory", {
+	defaults:{
+		page: 0,
+		book: null
+	}
+});
+
+var BookHistorys = Parse.Collection.extend({
+	model: BookHistory
+});
+
 var Author = Parse.Object.extend("Author", {
 	defaults: {
 		firstname: '',

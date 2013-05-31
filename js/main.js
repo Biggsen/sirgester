@@ -2,6 +2,69 @@
 
 Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8YTMSjIwCmE4x8ZX0ICktwpZ");
 
+var BookHistoryItemView = Parse.View.extend({
+
+	tagName: "li",
+
+	initialize: function() {
+		_.bindAll(this, 'render' );
+	},
+
+	render: function() {
+
+		var date = this.model.updatedAt.getFullYear() + "/" 
+				 + this.model.updatedAt.getMonth() + "/"
+				 + this.model.updatedAt.getDay() + " "
+				 + this.model.updatedAt.getHours() + ":"
+				 + this.model.updatedAt.getMinutes() + " "
+
+		var render = {
+			date: date,
+			page: this.model.get("page")
+		};
+
+		this.$el.html(Mustache.to_html(tpl.get("book-history-item"), render));
+		return this;
+	},
+
+});
+
+/* History Views */
+// http://localhost:8080/sirgester/#bookhistory/Vau52XDluf
+var BookHistoryView = Parse.View.extend({
+
+	el: "#content",
+
+	initialize: function () {
+
+		_.bindAll(this, 'render', 'addAll', 'addOne' );
+		this.bookhistory = new BookHistorys();
+		this.bookhistory.query = new Parse.Query(BookHistory);
+		this.bookhistory.query.equalTo("book", this.model);
+		this.bookhistory.bind('reset', this.addAll);
+		this.bookhistory.fetch();
+
+		this.render();
+	},
+
+	render: function() {
+		this.$el.html(Mustache.to_html(tpl.get("book-history"), this.model.toJSON()));
+		return this;
+	},
+
+	addOne: function(history) {
+      var view = new BookHistoryItemView({model: history});
+      this.$("#list-bookhistory").append(view.render().el);
+    },
+
+    // Add all items in the Book collection at once.
+    addAll: function(collection, filter) {
+      this.$el.find("#list-bookhistory").html("");
+      this.bookhistory.each(this.addOne);
+    },
+
+});
+
 /* Genre Views */
 
 var GenreEditView = Parse.View.extend({
@@ -411,6 +474,18 @@ var BookAddView = Parse.View.extend({
 					current = (current > total) ? total : current;
 					current = (current < 0 ) ? 0 : current;
 					total = (total < 0 ) ? 0 : total;
+
+					var history = new BookHistory();
+					history.set("page", current);
+					history.set("book", self.model);
+					history.save(null, {
+						success: function( history) {
+							//NOP
+						},
+						error: function( history, error ){
+							Notify.error("History: " + error.message);
+						}
+					});
 				
 					self.model.set('name', self.$el.find("#bookname").val());
 					self.model.set('author', self.$el.find("#author").val());
@@ -456,6 +531,7 @@ var BookDetailsView = Parse.View.extend({
 		"click #delete": 	"delete", 
 		"click #shelf": 	"shelf", 
 		"click #done": 		"done", 
+		"click #history": 	"bookhistory", 
 	},
 
 	initialize: function() {
@@ -556,6 +632,18 @@ var BookDetailsView = Parse.View.extend({
 		current = (current > total) ? total : current;
 		current = (current < 0 ) ? 0 : current;
 
+		var history = new BookHistory();
+		history.set("page", current);
+		history.set("book", this.model);
+		history.save(null, {
+			success: function( history) {
+				//NOP
+			},
+			error: function( history, error ){
+				Notify.error("History: " + error.message);
+			}
+		});
+
 		var self = this;
 		this.model.save({
 				currentPage: current.toString(),
@@ -595,6 +683,11 @@ var BookDetailsView = Parse.View.extend({
 
 	edit: function() {
 		window.location.hash = "#edit/" + this.model.id;
+		return false;
+	},
+	
+	bookhistory: function() {
+		window.location.hash = "#bookhistory/" + this.model.id;
 		return false;
 	},
 	
@@ -1046,6 +1139,7 @@ var AppRouter = Parse.Router.extend({
 		"genre/:id": 	"genre", 
 		"book": 		"book",
 		"suggest": 		"suggest",
+		"bookhistory/:id": "bookhistory", 
 	},
 
 	login: function() {
@@ -1079,6 +1173,11 @@ var AppRouter = Parse.Router.extend({
 	details: function(id) {
 		if(!Parse.User.current()) this.login();
 		return this.showViewQuery(id, Book, BookDetailsView);
+	},
+
+	bookhistory: function(id){
+		if(!Parse.User.current()) this.login();
+		return this.showViewQuery(id, Book, BookHistoryView);
 	},
 
 	showViewQuery: function(id, Constructor, View) {
@@ -1145,7 +1244,9 @@ $(document).ready(function() {
 			'author',
 			'genre-list', 
 			'genre-option', 
-			'genre-edit'], 
+			'genre-edit',
+			'book-history',
+			'book-history-item'], 
 		function () {
 		    new AppRouter();
 			//new AppView();
