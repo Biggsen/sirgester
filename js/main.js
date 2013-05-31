@@ -922,6 +922,35 @@ var EmptyView = Parse.View.extend({
 
 });
 
+var UtilityView = Parse.View.extend({
+
+	el: "#utilities",
+
+	events: {
+		"click #add": 		"addbook", 
+		"click #account" : 	"logout"
+	},
+
+	initialize: function() {
+		if(Parse.User.current()) {
+			this.$el.removeClass('hide');
+		} else {
+			this.$el.addClass('hide');
+		}
+	},
+
+	addbook: function() {
+		window.location.hash = "#add";
+		return false;
+	},
+
+	logout: function() {
+		Parse.User.logOut();
+		window.location.hash = "#login";
+		return false;
+	}
+});
+
 Parse.View.prototype.close = function () {
     console.log('Closing view ' + this.el.id);
     if (this.beforeClose) {
@@ -998,6 +1027,10 @@ var AppRouter = Parse.Router.extend({
 	},
 
 	showView: function(model, View) {
+		if(this.utilityView) this.utilityView.close();
+		
+		this.utilityView = new UtilityView();
+
 		if(this.currentView) this.currentView.close();
 
     	this.currentView = new View({
