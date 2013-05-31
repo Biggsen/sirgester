@@ -564,7 +564,7 @@ var BookDetailsView = Parse.View.extend({
 				success: function( instance ) {
 					///self.$el.find("#currpage").val(current);
 					self.options.parentView.render();
-					Notify.success("Book was updated");
+					//Notify.success("Book was updated");
 				},
 				error: function(object, error) {
 					Notify.error(error.message);
@@ -641,8 +641,11 @@ var BookView = Parse.View.extend({
 		//this.$el.find('#book-details').append(this.detailView.render().el);
 
 		if(this.model.get("shelfed")) {
-			var del = this.$el.find("#shelfed").html();
-			this.$el.find("#shelfed").html("<del>" + del + "</del>");
+			this.$el.find("#state").addClass("is-shelved");
+		}
+		if(this.model.get("done")) {
+
+			this.$el.find("#state").addClass("is-done");
 		}
 		return this;
 	},
@@ -650,22 +653,14 @@ var BookView = Parse.View.extend({
 	details: function() {
 		//prepare
 		$('#books li').removeClass('is-active');
+		$('#shelvedbooks li').removeClass('is-active');
+		$('#donebooks li').removeClass('is-active');
 
 		if(!this.detailView.is_active()) {
 			$(".js-book-details").addClass('hide'); //hide everyone else
 			this.$el.addClass('is-active');
 		}
 		this.detailView.switch_state();
-/*
-		var elm = $('#show_' + this.model.id);
-		if(elm.hasClass('hide')){
-			
-			this.detailView.active(true);
-			
-		} else {
-			this.detailView.active(false);
-		}*/
-		//window.location.hash = "#details/" + this.model.id;
 		return false;
 	},
 });
@@ -675,34 +670,98 @@ var BookListView = Parse.View.extend({
 	el: "#content",
 	
 	events: {
-		"click #logout": 	"logout",
-		"click #add":   	"addnewbook"	
+		"click #logout": 		"logout",
+		"click #add":   		"addnewbook",
+		"click #showshelved":   "showshelved",
+		"click #showdone":   	"showdone",	
 	},
 
 	initialize: function() {
 		Notify.clear();
 
-		_.bindAll(this, 'render', 'addOne', 'addAll' );
+		_.bindAll(this, 'render', 'addOne', 'addAll', 'addAllShelved', 'addAllDone', 
+			'addOne', 'addOneShelved', 'addOneDone', 'fetchbooks',
+			'showshelved', 'showdone' );
 
-		this.books = new Books();
-		this.books.query = new Parse.Query(Book);
-		//TODO: fix, so we can skip get("username")
-		//this.books.query.equalTo("shelfed", false);
-		this.books.query.equalTo("username", Parse.User.current().get("username"));
-		this.books.query.ascending("name"); 
-		//this.books.query.ascending("shelfed"); 
-
-		this.books.comparator = function (book) {
-			return parseFloat(book.percentageLeft());
-		}
-
+		this.books = this.fetchbooks(this.makeQueryRead);
 		this.books.bind('add',     this.addOne);
      	this.books.bind('reset',   this.addAll);
-		this.books.bind('all',     this.render);
+     	this.books.comparator = function (book) {
+			var add = (book.get("shelfed")) ? 200 : 0;
+			add = (book.get("done")) ? 1000 : add;
+
+			return add + parseFloat(book.percentageLeft());
+		}
 		this.books.fetch();
+
+		this.shelved = this.fetchbooks(this.makeQueryShelved);
+     	this.shelved.bind('reset',   this.addAllShelved);
+		this.shelved.fetch();
+
+		this.done = this.fetchbooks(this.makeQueryDone);
+		this.done.bind('reset',   this.addAllDone);
+		this.done.fetch();
 
 		var html = tpl.get('list'); // $('#bookListTemplate').html();
 		this.$el.html(html);
+	},
+
+	showshelved: function() {
+		this.$el.find("#shelvedbooks_content").removeClass('hide');
+		this.$el.find("#shelvedbooks_content button").addClass('hide');
+		this.$el.find("#books_content").addClass('hide');
+		this.$el.find("#donebooks_content").addClass('hide');
+
+		this.shelved = this.fetchbooks(this.makeQueryShelved, true);
+		this.shelved.bind('reset',   this.addAllShelved);
+		this.shelved.fetch();
+	},
+
+	showdone: function() {
+		this.$el.find("#donebooks_content").removeClass('hide');
+		this.$el.find("#donebooks_content button").addClass('hide');
+		this.$el.find("#books_content").addClass('hide');
+		this.$el.find("#shelvedbooks_content").addClass('hide');
+
+		this.done = this.fetchbooks(this.makeQueryDone, true);
+		this.done.bind('reset',   this.addAllDone);
+		this.done.fetch();
+	},
+
+	makeQueryRead: function () {
+		query = new Parse.Query(Book);
+		query.notEqualTo("shelfed", true); 
+		query.notEqualTo("done", true);
+		return query; 
+	},
+
+	makeQueryShelved: function (skipLimit) {
+		query = new Parse.Query(Book);
+		query.equalTo("shelfed", true); 
+		query.notEqualTo("done", true);
+		if(!skipLimit) {
+			query.limit(5);
+		}
+		query.descending("createdAt");
+		return query; 
+	},
+
+	makeQueryDone: function (skipLimit) {
+		query = new Parse.Query(Book);
+		query.equalTo("done", true);
+		if(!skipLimit) {
+			query.limit(5);
+		}
+		query.descending("createdAt");
+		return query; 
+	},
+
+	fetchbooks: function(query, skipLimit) {
+		var books = new Books();
+		books.query = query(skipLimit);
+		//TODO: fix, so we can skip get("username")
+		books.query.equalTo("username", Parse.User.current().get("username"));
+		return books;
 	},
 
 	render: function(){
@@ -712,25 +771,34 @@ var BookListView = Parse.View.extend({
 	// Add a single book item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(book) {
-      	if(parseFloat(book.get("currentPage")) < parseFloat(book.get("totalpages"))) { 
-      		var view = new BookView({model: book});
-      		this.$("#books").append(view.render().el);
-  		}
+  		var view = new BookView({model: book});
+  		this.$el.find("#books").append(view.render().el);
     },
 
     // Add all items in the Book collection at once.
     addAll: function(collection, filter) {
       this.$el.find("#books").html("");
-      //this.books.each(this.addOne);
-      this.books.each(function (book) { 
-      	if(!book.get("shelfed"))
-      		this.addOne(book);
-      	}, this);
+      this.books.each(this.addOne);
+    },
 
-     	this.books.each(function (book) { 
-      	if(book.get("shelfed"))
-      		this.addOne(book);
-      	}, this);
+    addOneShelved: function(book) {
+  		var view = new BookView({model: book});
+  		this.$el.find("#shelvedbooks").append(view.render().el);
+    },
+
+    addAllShelved: function(collection, filter) {
+      this.$el.find("#shelvedbooks").html("");
+      this.shelved.each(this.addOneShelved);
+    },
+
+    addOneDone: function(book) {
+  		var view = new BookView({model: book});
+  		this.$el.find("#donebooks").append(view.render().el);
+    },
+
+    addAllDone: function(collection, filter) {
+      this.$el.find("#donebooks").html("");
+      this.done.each(this.addOneDone);
     },
 
     addnewbook: function() {

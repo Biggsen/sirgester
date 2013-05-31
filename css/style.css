@@ -275,6 +275,15 @@ display:block;
 	display: none;
 }
 
+.mod-booklist .is-shelved {
+	color: #999;
+}
+
+.mod-booklist .is-done {
+	color: #999;
+	text-decoration: line-through;
+}
+
 .booklist-panel {
 	float: left;
 	width: 100%;
@@ -330,4 +339,3 @@ display:block;
 }
 
 /* Book details */
-
