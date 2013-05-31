@@ -1083,6 +1083,29 @@ var EmptyView = Parse.View.extend({
 
 });
 
+var AccountView = Parse.View.extend({
+
+	el: "#content",
+
+	events: {
+		"click #logout": "logout", 
+	},
+
+	initialize: function() {
+		this.render();
+	},
+
+	render: function() {
+		this.$el.html(Mustache.to_html(tpl.get("account"), this.model.toJSON()));
+	},
+
+	logout: function() {
+		Parse.User.logOut();
+		window.location.hash = "#login";
+		return false;
+	}
+});
+
 var UtilityView = Parse.View.extend({
 
 	el: "#utilities",
@@ -1106,8 +1129,7 @@ var UtilityView = Parse.View.extend({
 	},
 
 	logout: function() {
-		Parse.User.logOut();
-		window.location.hash = "#login";
+		window.location.hash = "#account";
 		return false;
 	}
 });
@@ -1140,6 +1162,7 @@ var AppRouter = Parse.Router.extend({
 		"book": 		"book",
 		"suggest": 		"suggest",
 		"bookhistory/:id": "bookhistory", 
+		"account": 		"account", 
 	},
 
 	login: function() {
@@ -1178,6 +1201,11 @@ var AppRouter = Parse.Router.extend({
 	bookhistory: function(id){
 		if(!Parse.User.current()) this.login();
 		return this.showViewQuery(id, Book, BookHistoryView);
+	},
+
+	account: function(){
+		if(!Parse.User.current()) this.login();
+		return this.showView(Parse.User.current(), AccountView);
 	},
 
 	showViewQuery: function(id, Constructor, View) {
@@ -1246,7 +1274,8 @@ $(document).ready(function() {
 			'genre-option', 
 			'genre-edit',
 			'book-history',
-			'book-history-item'], 
+			'book-history-item',
+			'account'], 
 		function () {
 		    new AppRouter();
 			//new AppView();
