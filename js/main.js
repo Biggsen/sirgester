@@ -12,11 +12,17 @@ var BookHistoryItemView = Parse.View.extend({
 
 	render: function() {
 
+		var hour
+
+		var min = this.model.updatedAt.getMinutes();
+		if(min < 10)
+			min = "0"+min;
+
 		var date = this.model.updatedAt.getFullYear() + "/" 
-				 + this.model.updatedAt.getMonth() + "/"
-				 + this.model.updatedAt.getDay() + " "
-				 + this.model.updatedAt.getHours() + ":"
-				 + this.model.updatedAt.getMinutes() + " "
+				 + pad((this.model.updatedAt.getMonth()+1), 2, "0") + "/"
+				 + pad(this.model.updatedAt.getDate(), 2, "0") + " "
+				 + pad(this.model.updatedAt.getHours(), 2, "0") + ":"
+				 + pad(this.model.updatedAt.getMinutes(), 2, "0");
 
 		var render = {
 			date: date,
