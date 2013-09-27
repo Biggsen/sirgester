@@ -47,6 +47,10 @@ em,i{}
 .center{text-align:center;}
 .left{text-align:left;}
 .right{text-align:right;}
+.gap { margin-bottom: 20px;}
+.gap--top {margin-top: 20px;}
+.trim { margin-bottom: 0 !important; }
+.trim--top { margin-top: 0 !important; }
 
 /*---------------------------------
 	HR
