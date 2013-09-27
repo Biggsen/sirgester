@@ -4,7 +4,7 @@ Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8Y
 
 var BookHistoryItemView = Parse.View.extend({
 
-	tagName: "li",
+	tagName: "tr",
 
 	initialize: function() {
 		_.bindAll(this, 'render' );
@@ -256,7 +256,7 @@ var AuthorView = Parse.View.extend({
 			action: this.options.action
 		};
 
-		this.$el.html(Mustache.to_html(html, render));
+		this.$el.addClass('input-pair-with-icon').html(Mustache.to_html(html, render));
 		
 	},
 
