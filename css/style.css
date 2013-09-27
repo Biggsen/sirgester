@@ -250,6 +250,7 @@ display:block;
 
 /* Booklist */
 .mod-booklist {
+	display: inline-block;
 	list-style: none;
 	margin-left: 0;
 }

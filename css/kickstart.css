@@ -51,6 +51,7 @@ em,i{}
 .gap--top {margin-top: 20px;}
 .trim { margin-bottom: 0 !important; }
 .trim--top { margin-top: 0 !important; }
+.pad { padding-bottom: 20px; }
 
 /*---------------------------------
 	HR
