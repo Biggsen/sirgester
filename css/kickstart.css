@@ -47,11 +47,20 @@ em,i{}
 .center{text-align:center;}
 .left{text-align:left;}
 .right{text-align:right;}
-.gap { margin-bottom: 20px;}
-.gap--top {margin-top: 20px;}
+.gap { margin-bottom: 15px;}
+.gap--top {margin-top: 15px;}
+.gap--right {margin-right: 15px;}
+.gap--bottom {margin-bottom: 15px;}
+.gap--left {margin-left: 15px;}
 .trim { margin-bottom: 0 !important; }
 .trim--top { margin-top: 0 !important; }
-.pad { padding-bottom: 20px; }
+.pad { padding-bottom: 15px; }
+.pad--sides {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.pad--left { padding-left: 15px;}
+.pad--right { padding-right: 15px; }
 
 /*---------------------------------
 	HR
