@@ -361,10 +361,6 @@ var BookAddView = Parse.View.extend({
 	this.model.set("username", Parse.User.current().get("username"));
     },
 
-    changeOne: function() {
-	alert('change');
-    },
-
     addOne: function(author, plus) {
 	var sign = (plus) ? 'plus' : 'minus';
 	var action = (plus) ? 'add' : 'remove';
