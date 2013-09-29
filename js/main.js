@@ -46,10 +46,14 @@ var BookHistoryView = Parse.View.extend({
 		_.bindAll(this, 'render', 'addAll', 'addOne' );
 		this.bookhistory = new BookHistorys();
 		this.bookhistory.query = new Parse.Query(BookHistory);
-		this.bookhistory.query.equalTo("book", this.model);
+	        this.bookhistory.query.equalTo("book", this.model);
+	   this.bookhistory.query.descending("updatedAt");
 		this.bookhistory.bind('reset', this.addAll);
 		this.bookhistory.fetch();
 
+//	    this.bookhistory.comparator = function (history) {
+//			return history.get("date").toLowerCase();
+//		}
 		this.render();
 	},
 
@@ -153,7 +157,7 @@ var GenreListView = Parse.View.extend({
 		this.genres.bind('reset',   this.addAll);
 		this.genres.fetch();
 
-		this.genres.comparator = function (genre) {
+	        this.genres.comparator = function (genre) {
 			return genre.get("name").toLowerCase();
 		}
 

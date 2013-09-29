@@ -32,8 +32,8 @@ var Genres = Parse.Collection.extend({
 	model: Genre,
 });
 
-
 var Book = Parse.Object.extend("Book", {
+
 
 	initialize: function() {
 		_.bindAll(this, 'toJSON' );	
