@@ -130,7 +130,6 @@ var GenreOptionView = Parse.View.extend({
 
 var GenreListView = Parse.View.extend({
     
-    //el: "#genre",
     tagName: "div",
 
     events: {
@@ -145,11 +144,7 @@ var GenreListView = Parse.View.extend({
 
 	_.bindAll(this, 'render', 'addOne', 'addAll', 'show', 'add' );
 	this.genres = new Genres();
-	//this.genres.bind('all',     this.render);
-
-	//this.model.bind('change', this.render);
 	this.genres.query = new Parse.Query(Genre);
-	//this.genres.query.ascending("name");
 	this.genres.bind('add',     this.addOne);
 	this.genres.bind('reset',   this.addAll);
 	this.genres.fetch();
@@ -204,12 +199,6 @@ var GenreListView = Parse.View.extend({
 	this.$el.find("#inputgenre").addClass("hide");
 	return false;
     },
-    /*
-      delete: function() {
-      this.$el.html('');
-      return false;
-      },
-    */
     // Add a single book item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(genre) {
@@ -239,7 +228,6 @@ var GenreListView = Parse.View.extend({
 
 var AuthorView = Parse.View.extend({
 
-    //el: "#author",
     tagName: 'div',
 
     events: {
@@ -303,14 +291,7 @@ var AuthorView = Parse.View.extend({
 	    firstname: self.$el.find("#firstname").val(),
 	    lastname: self.$el.find("#lastname").val(),
 	    book: book
-	}); /*,{
-	      success: function( author ) {
-	      Notify.success("Book was saved");
-	      },
-	      error: function( author, error ) {
-	      Notify.error(error.message);
-	      }
-	      });*/
+	}); 
     }
 });
 
@@ -342,8 +323,6 @@ var BookAddView = Parse.View.extend({
 	    this.authors.query = new Parse.Query(Author);
 	    this.authors.query.equalTo("book", this.model);
 	    this.authors.query.ascending("createdAt");
-	    //this.authors.bind('add', this.addOne);
-	    //this.authors.bind('change', this.changeOne);
 	    this.authors.bind('reset', this.addAll);
 	    this.authors.fetch();
 	} else {
@@ -449,66 +428,51 @@ var BookAddView = Parse.View.extend({
 	    return false;
 	}
 
-	//TODO: Fix, this is ugly
-	//  Trying to find if book exists case insensitive style
-	//  This can be slow as we have to fetch all book and compare
 	var self = this;
 	var query = new Books();
 	query.contains("user", Parse.User.current().get("username"));
 	var bookname = this.$el.find("#bookname").val().toLowerCase();
 	query.fetch({
 	    success: function ( books ) {
-		var found = false;
-		if(self.model.isNew()) {
-		    books.each(function ( book ) {
-			
-			if(bookname.localeCompare(book.get("name").toLowerCase()) == 0) {
-			    Notify.warn("Book with same name exists");
-			    found = true;
-			}
-		    });
-		}
-		if(!found) {
 
-		    var current = parseFloat(self.$el.find("#currpage").val());
-		    var total = parseFloat(self.$el.find("#totalpages").val());
-		    current = (current > total) ? total : current;
-		    current = (current < 0 ) ? 0 : current;
-		    total = (total < 0 ) ? 0 : total;
+		var current = parseFloat(self.$el.find("#currpage").val());
+		var total = parseFloat(self.$el.find("#totalpages").val());
+		current = (current > total) ? total : current;
+		current = (current < 0 ) ? 0 : current;
+		total = (total < 0 ) ? 0 : total;
 
-		    var history = new BookHistory();
-		    history.set("page", current);
-		    history.set("book", self.model);
-		    history.save(null, {
-			success: function( history) {
-			    //NOP
-			},
-			error: function( history, error ){
-			    Notify.error("History: " + error.message);
-			}
-		    });
-		    
-		    self.model.set('name', self.$el.find("#bookname").val());
-		    self.model.set('author', self.$el.find("#author").val());
-		    self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
-		    self.model.set('totalpages', total.toString());
-		    self.model.set('currentPage', current.toString());
-		    self.model.set('total', total);
-		    self.model.set('current', current);
-
-		    for(var i =0, len = self.authorViewList.length; i < len; i++) {
-			self.authorViewList[i].saveauthor(self.model);
+		var history = new BookHistory();
+		history.set("page", current);
+		history.set("book", self.model);
+		history.save(null, {
+		    success: function( history) {
+			//NOP
+		    },
+		    error: function( history, error ){
+			Notify.error("History: " + error.message);
 		    }
+		});
+		
+		self.model.set('name', self.$el.find("#bookname").val());
+		self.model.set('author', self.$el.find("#author").val());
+		self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
+		self.model.set('totalpages', total.toString());
+		self.model.set('currentPage', current.toString());
+		self.model.set('total', total);
+		self.model.set('current', current);
 
-		    self.model.save(null,{
-			success: function( author ) {
-			    window.location.hash = "#list";
-			},
-			error: function( author, error ) {
-			    Notify.error(error.message);
-			},
-		    });
+		for(var i =0, len = self.authorViewList.length; i < len; i++) {
+		    self.authorViewList[i].saveauthor(self.model);
 		}
+
+		self.model.save(null,{
+		    success: function( author ) {
+			window.location.hash = "#list";
+		    },
+		    error: function( author, error ) {
+			Notify.error(error.message);
+		    },
+		});
 	    },
 	    error: function( book, error ) {
 		Notify.error(error.message);
@@ -666,9 +630,7 @@ var BookDetailsView = Parse.View.extend({
 	    current: current
 	},{
 	    success: function( instance ) {
-		///self.$el.find("#currpage").val(current);
 		self.options.parentView.render();
-		//Notify.success("Book was updated");
 	    },
 	    error: function(object, error) {
 		Notify.error(error.message);
@@ -711,9 +673,9 @@ var BookDetailsView = Parse.View.extend({
     delete: function() {
     	if(confirm("Are you sure you want to delete?")) {
     	    this.model.destroy();
+	    alert("The book was deleted!!");
     	    window.location.reload();
-    	    Notify.success("Book was deleted");
-    	    //self.options.parentView.render();
+	    return false;
       	}
       	return false;
     }
@@ -729,8 +691,6 @@ var BookView = Parse.View.extend({
 
     initialize: function() {
 	_.bindAll(this, 'render', 'remove', 'details' );
-	//this.model.bind('change', this.render);
-	//this.model.bind('destroy', this.remove);
 
 	if(this.detailView) this.detailView.close();
 
@@ -746,8 +706,6 @@ var BookView = Parse.View.extend({
 	this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 
 	this.detailView.setElement(this.$el.find('#book-details')).render();
-
-	//this.$el.find('#book-details').append(this.detailView.render().el);
 
 	if(this.model.get("shelfed")) {
 	    this.$el.find("#state").addClass("is-shelved");
@@ -810,7 +768,7 @@ var BookListView = Parse.View.extend({
 	this.done.bind('reset',   this.addAllDone);
 	this.done.fetch();
 
-	var html = tpl.get('list'); // $('#bookListTemplate').html();
+	var html = tpl.get('list'); 
 	this.$el.html(html);
     },
 
@@ -823,6 +781,7 @@ var BookListView = Parse.View.extend({
 	this.shelved = this.fetchbooks(this.makeQueryShelved, true);
 	this.shelved.bind('reset',   this.addAllShelved);
 	this.shelved.fetch();
+	window.history.pushState(this.books, "Shelved", "/shelved");
     },
 
     showdone: function() {
@@ -956,17 +915,11 @@ var LoginView = Parse.View.extend({
     render: function() {
 	Notify.clear();
 
-	var html = tpl.get('login');//  $('#loginTemplate').html();
+	var html = tpl.get('login');
 	this.$el.empty();
 	this.$el.append(html);
 
 	$.getScript("js/kickstart.js");
-	/*.done(function(script, textStatus) {
-	  console.log( textStatus );
-	  })
-	  .fail(function(jqxhr, settings, exception) {
-	  console.log( exception );
-	  });*/
     },
 
     user: function() {
@@ -1293,7 +1246,6 @@ $(document).ready(function() {
 	'account'], 
 		      function () {
 			  new AppRouter();
-			  //new AppView();
 			  Parse.history.start();
 		      });
 });
