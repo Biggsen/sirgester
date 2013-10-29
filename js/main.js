@@ -338,6 +338,7 @@ var BookAddView = Parse.View.extend({
 	this.$el.find("#genre").append(this.genresView.render().el);
 
 	this.model.set("username", Parse.User.current().get("username"));
+	this.model.set("user", Parse.User.current());
     },
 
     addOne: function(author, plus) {
@@ -429,56 +430,46 @@ var BookAddView = Parse.View.extend({
 	}
 
 	var self = this;
-	var query = new Books();
-	query.contains("user", Parse.User.current().get("username"));
-	var bookname = this.$el.find("#bookname").val().toLowerCase();
-	query.fetch({
-	    success: function ( books ) {
 
-		var current = parseFloat(self.$el.find("#currpage").val());
-		var total = parseFloat(self.$el.find("#totalpages").val());
-		current = (current > total) ? total : current;
-		current = (current < 0 ) ? 0 : current;
-		total = (total < 0 ) ? 0 : total;
+	var current = parseFloat(self.$el.find("#currpage").val());
+	var total = parseFloat(self.$el.find("#totalpages").val());
+	current = (current > total) ? total : current;
+	current = (current < 0 ) ? 0 : current;
+	total = (total < 0 ) ? 0 : total;
 
-		var history = new BookHistory();
-		history.set("page", current);
-		history.set("book", self.model);
-		history.save(null, {
-		    success: function( history) {
-			//NOP
-		    },
-		    error: function( history, error ){
-			Notify.error("History: " + error.message);
-		    }
-		});
-		
-		self.model.set('name', self.$el.find("#bookname").val());
-		self.model.set('author', self.$el.find("#author").val());
-		self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
-		self.model.set('totalpages', total.toString());
-		self.model.set('currentPage', current.toString());
-		self.model.set('total', total);
-		self.model.set('current', current);
-
-		for(var i =0, len = self.authorViewList.length; i < len; i++) {
-		    self.authorViewList[i].saveauthor(self.model);
-		}
-
-		self.model.save(null,{
-		    success: function( author ) {
-			window.location.hash = "#list";
-		    },
-		    error: function( author, error ) {
-			Notify.error(error.message);
-		    },
-		});
+	var history = new BookHistory();
+	history.set("page", current);
+	history.set("book", self.model);
+	history.save(null, {
+	    success: function( history) {
+		//NOP
 	    },
-	    error: function( book, error ) {
-		Notify.error(error.message);
+	    error: function( history, error ){
+		Notify.error("History: " + error.message);
 	    }
 	});
+	
+	self.model.set('name', self.$el.find("#bookname").val());
+	self.model.set('author', self.$el.find("#author").val());
+	self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
+	self.model.set('totalpages', total.toString());
+	self.model.set('currentPage', current.toString());
+	self.model.set('total', total);
+	self.model.set('current', current);
+	self.model.set('user', Parse.User.current());
 
+	for(var i =0, len = self.authorViewList.length; i < len; i++) {
+	    self.authorViewList[i].saveauthor(self.model);
+	}
+
+	self.model.save(null,{
+	    success: function( author ) {
+		window.location.hash = "#list";
+	    },
+	    error: function( author, error ) {
+		Notify.error(error.message);
+	    },
+	});
 
 	return false;
     }
@@ -623,11 +614,13 @@ var BookDetailsView = Parse.View.extend({
 		Notify.error("History: " + error.message);
 	    }
 	});
-
+	
 	var self = this;
 	this.model.save({
 	    currentPage: current.toString(),
-	    current: current
+	    current: current,
+	    total: total,
+	    user: Parse.User.current()
 	},{
 	    success: function( instance ) {
 		self.options.parentView.render();
@@ -826,8 +819,8 @@ var BookListView = Parse.View.extend({
     fetchbooks: function(query, skipLimit) {
 	var books = new Books();
 	books.query = query(skipLimit);
-	//TODO: fix, so we can skip get("username")
-	books.query.equalTo("username", Parse.User.current().get("username"));
+	books.query.equalTo("user", Parse.User.current());
+	//books.query.equalTo("username", Parse.User.current().get("username"));
 	return books;
     },
 
@@ -869,7 +862,7 @@ var BookListView = Parse.View.extend({
     },
 
     addnewbook: function() {
-	window.location.hash = "#add";
+//	window.location.hash = "#add";
 	return false;
     },
 
@@ -1092,6 +1085,7 @@ var UtilityView = Parse.View.extend({
     },
 
     addbook: function() {
+	
 	window.location.hash = "#add";
 	return false;
     },
@@ -1228,6 +1222,7 @@ var AppRouter = Parse.Router.extend({
 
 $(document).ready(function() {
 
+    
     tpl.loadTemplates([
 	'login', 
 	'list', 
