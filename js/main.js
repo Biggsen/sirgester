@@ -732,7 +732,7 @@ var BookListView = Parse.View.extend({
     events: {
 	"click #logout": 		"logout",
 	"click #add":   		"addnewbook",
-	"click #showshelved":   "showshelved",
+	"click #showshelved":   "showshelfed",
 	"click #showdone":   	"showdone",	
     },
 
@@ -741,8 +741,23 @@ var BookListView = Parse.View.extend({
 
 	_.bindAll(this, 'render', 'addOne', 'addAll', 'addAllShelved', 'addAllDone', 
 		  'addOne', 'addOneShelved', 'addOneDone', 'fetchbooks',
-		  'showshelved', 'showdone' );
+		  'showshelfed', 'showdone', 'defaultView', 'shelfedView', 'doneView' );
 
+	var html = tpl.get('list'); 
+	this.$el.html(html);
+
+	if(window.location.hash == "#shelfed") {
+	    this.shelfedView()
+	}
+	else if(window.location.hash == "#done") {
+	    this.doneView()
+	}
+	else {
+	    this.defaultView()
+	}
+    },
+
+    defaultView: function(){
 	this.books = this.fetchbooks(this.makeQueryRead);
 	this.books.bind('add',     this.addOne);
      	this.books.bind('reset',   this.addAll);
@@ -760,12 +775,9 @@ var BookListView = Parse.View.extend({
 	this.done = this.fetchbooks(this.makeQueryDone);
 	this.done.bind('reset',   this.addAllDone);
 	this.done.fetch();
-
-	var html = tpl.get('list'); 
-	this.$el.html(html);
     },
 
-    showshelved: function() {
+    shelfedView: function() {
 	this.$el.find("#shelvedbooks_content").removeClass('hide');
 	this.$el.find("#shelvedbooks_content button").addClass('hide');
 	this.$el.find("#books_content").addClass('hide');
@@ -774,11 +786,10 @@ var BookListView = Parse.View.extend({
 	this.shelved = this.fetchbooks(this.makeQueryShelved, true);
 	this.shelved.bind('reset',   this.addAllShelved);
 	this.shelved.fetch();
-	window.history.pushState(this.books, "Shelved", "/shelved");
     },
 
-    showdone: function() {
-	this.$el.find("#donebooks_content").removeClass('hide');
+    doneView: function() {
+	this.$el.find("#dofebooks_content").removeClass('hide');
 	this.$el.find("#donebooks_content button").addClass('hide');
 	this.$el.find("#books_content").addClass('hide');
 	this.$el.find("#shelvedbooks_content").addClass('hide');
@@ -786,6 +797,14 @@ var BookListView = Parse.View.extend({
 	this.done = this.fetchbooks(this.makeQueryDone, true);
 	this.done.bind('reset',   this.addAllDone);
 	this.done.fetch();
+    },
+
+    showshelfed: function() {	
+	window.location.hash = "#shelfed";
+    },
+
+    showdone: function() {
+	window.location.hash = "#done";
     },
 
     makeQueryRead: function () {
@@ -1111,20 +1130,22 @@ Parse.View.prototype.close = function () {
 
 var AppRouter = Parse.Router.extend({
     routes: {
-	"": 			"index",
-	"login": 		"login", 
-	"signup": 		"login",
-	"newpassword":	"password",
-	"list":  		"list", 
-	"add": 			"add", 
-	"edit/:id": 	"edit", 
-	"details/:id": 	"details",
-	"genre":  		"genre",  
-	"genre/:id": 	"genre", 
-	"book": 		"book",
-	"suggest": 		"suggest",
+	"": "index",
+	"login": "login", 
+	"signup":"login",
+	"newpassword":"password",
+	"list": "list", 
+	"shelfed": "list",
+	"done": "list",
+	"add": "add", 
+	"edit/:id": "edit", 
+	"details/:id": "details",
+	"genre": "genre",  
+	"genre/:id": "genre", 
+	"book": "book",
+	"suggest": "suggest",
 	"bookhistory/:id": "bookhistory", 
-	"account": 		"account", 
+	"account": "account", 
     },
 
     login: function() {
@@ -1243,4 +1264,4 @@ $(document).ready(function() {
 			  new AppRouter();
 			  Parse.history.start();
 		      });
-});
+ });
