@@ -898,10 +898,29 @@ var PasswordView = Parse.View.extend({
 
     el: "#content",
 
+    events: {
+	"click #newpassword": "sendpassword"
+    },
+
     initialize: function() {
 	var html = tpl.get('password'); 
 	this.$el.html(html);
     },
+
+    sendpassword: function(){
+
+	var email = this.$el.find("#email").val()
+	
+	Parse.User.requestPasswordReset(email, {
+	    success: function() {
+		Notify.success("Password request was sent successfully");
+		window.location.hash = "#login";
+	    },
+	    error: function(error) {
+		Notify.error(error.message);
+	    }
+	});
+   }
 });
 
 var LoginView = Parse.View.extend({
