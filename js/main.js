@@ -732,15 +732,15 @@ var BookListView = Parse.View.extend({
     events: {
 	"click #logout": 		"logout",
 	"click #add":   		"addnewbook",
-	"click #showshelved":   "showshelfed",
+	"click #showshelfed":   "showshelfed",
 	"click #showdone":   	"showdone",	
     },
 
     initialize: function() {
 	Notify.clear();
 
-	_.bindAll(this, 'render', 'addOne', 'addAll', 'addAllShelved', 'addAllDone', 
-		  'addOne', 'addOneShelved', 'addOneDone', 'fetchbooks',
+	_.bindAll(this, 'render', 'addOne', 'addAll', 'addAllShelfed', 'addAllDone', 
+		  'addOne', 'addOneShelfed', 'addOneDone', 'fetchbooks',
 		  'showshelfed', 'showdone', 'defaultView', 'shelfedView', 'doneView' );
 
 	var html = tpl.get('list'); 
@@ -768,9 +768,9 @@ var BookListView = Parse.View.extend({
 	}
 	this.books.fetch();
 
-	this.shelved = this.fetchbooks(this.makeQueryShelved);
-     	this.shelved.bind('reset',   this.addAllShelved);
-	this.shelved.fetch();
+	this.shelfed = this.fetchbooks(this.makeQueryShelved);
+     	this.shelfed.bind('reset',   this.addAllShelfed);
+	this.shelfed.fetch();
 
 	this.done = this.fetchbooks(this.makeQueryDone);
 	this.done.bind('reset',   this.addAllDone);
@@ -778,21 +778,21 @@ var BookListView = Parse.View.extend({
     },
 
     shelfedView: function() {
-	this.$el.find("#shelvedbooks_content").removeClass('hide');
-	this.$el.find("#shelvedbooks_content button").addClass('hide');
+	this.$el.find("#shelfedbooks_content").removeClass('hide');
+	this.$el.find("#shelfedbooks_content button").addClass('hide');
 	this.$el.find("#books_content").addClass('hide');
 	this.$el.find("#donebooks_content").addClass('hide');
 
-	this.shelved = this.fetchbooks(this.makeQueryShelved, true);
-	this.shelved.bind('reset',   this.addAllShelved);
-	this.shelved.fetch();
+	this.shelfed = this.fetchbooks(this.makeQueryShelved, true);
+	this.shelfed.bind('reset',   this.addAllShelfed);
+	this.shelfed.fetch();
     },
 
     doneView: function() {
-	this.$el.find("#dofebooks_content").removeClass('hide');
+	this.$el.find("#donebooks_content").removeClass('hide');
 	this.$el.find("#donebooks_content button").addClass('hide');
 	this.$el.find("#books_content").addClass('hide');
-	this.$el.find("#shelvedbooks_content").addClass('hide');
+	this.$el.find("#shelfedbooks_content").addClass('hide');
 
 	this.done = this.fetchbooks(this.makeQueryDone, true);
 	this.done.bind('reset',   this.addAllDone);
@@ -860,14 +860,14 @@ var BookListView = Parse.View.extend({
 	this.books.each(this.addOne);
     },
 
-    addOneShelved: function(book) {
+    addOneShelfed: function(book) {
   	var view = new BookView({model: book});
-  	this.$el.find("#shelvedbooks").append(view.render().el);
+  	this.$el.find("#shelfedbooks").append(view.render().el);
     },
 
-    addAllShelved: function(collection, filter) {
-	this.$el.find("#shelvedbooks").html("");
-	this.shelved.each(this.addOneShelved);
+    addAllShelfed: function(collection, filter) {
+	this.$el.find("#shelfedbooks").html("");
+	this.shelfed.each(this.addOneShelfed);
     },
 
     addOneDone: function(book) {
