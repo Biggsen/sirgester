@@ -313,12 +313,12 @@ var BookAddView = Parse.View.extend({
 
 	_.bindAll(this, 'savebook', 'validateBook', 'addauthor', 'removeauthor', 'addOne', 'addAll' );
 
-	var html = tpl.get('add'); 
-	this.$el.html(Mustache.to_html(html, this.model.toJSON()));
-	
 	this.authorViewList = [];
 
 	if(!this.model.isNew()) {
+	    var html = tpl.get('edit'); 
+	    this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+
 	    this.authors = new Authors();
 	    this.authors.query = new Parse.Query(Author);
 	    this.authors.query.equalTo("book", this.model);
@@ -326,6 +326,9 @@ var BookAddView = Parse.View.extend({
 	    this.authors.bind('reset', this.addAll);
 	    this.authors.fetch();
 	} else {
+	    var html = tpl.get('add'); 
+	    this.$el.html(Mustache.to_html(html, this.model.toJSON()));
+
 	    var author = new Author();
 	    this.addOne(author, true);
 	}

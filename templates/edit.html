@@ -1,29 +1,16 @@
-<form class="vertical left-floated">
+<form class="vertical left-floated pad--sides">
 	<label>Title:</label>
 	<input id="bookname" value="{{ name }}" type="text" />
 	<label>Author:</label>
-	<div class="input-pair-with-icon">
-		<input id="author" value="{{ author }}" class="l-half" placeholder="first name"/>
-		<input id="author" value="{{ author }}" class="l-half" placeholder="last name"/>
-		<a href><i class="icon-large icon-plus-sign"></i></a>
-	</div>
-	<div class="input-pair-with-icon">
-		<input id="author" value="{{ author }}" class="l-half" placeholder="first name"/>
-		<input id="author" value="{{ author }}" class="l-half" placeholder="last name"/>
-		<a href><i class="icon-large icon-minus-sign"></i></a>
+	<div id="author">
 	</div>
 	<label>Genre:</label>
 	<div id="genre">
 	</div>
-	<div class="input-pair-with-icon">
-		<input id="author" value="{{ author }}" class="l-half" placeholder="Genre"/>
-		<button class="green small">Add genre</button>
-		<a href><i class="icon-large icon-minus-sign"></i></a>
-	</div>
 	<label>Pages:</label>
 	<div class="input-pair">
-		<input id="totalpages" type="number" placeholder="Total"/>
-		<input id="currpage" type="number" placeholder="Current"/>
+		<input id="totalpages" value="{{ current }}" type="number" placeholder="Totalss"/>
+		<input id="currpage" value="{{ total }}"type="number" placeholder="Current"/>
 	</div>
 	<button id="savebook" class="green large icon-plus"> Add book</button> 
 </form>
