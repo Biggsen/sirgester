@@ -44,8 +44,8 @@ var Book = Parse.Object.extend("Book", {
 		"name": "",
 		"genre" : "",
 		//"author": "",
-		"totalpages": "100",
-		"currentPage": "0",
+		//"totalpages": "100",
+		//"currentPage": "0",
 		"total": 100,
 		"current": 0,
 		"shelfed": false,
@@ -54,7 +54,7 @@ var Book = Parse.Object.extend("Book", {
 
 	//calculated fields
   	percentage: function() {
-  		return ((parseFloat(this.get("currentPage")) / parseFloat(this.get("totalpages"))) * 100).toFixed(2);
+  		return ((parseFloat(this.get("current")) / parseFloat(this.get("total"))) * 100).toFixed(2);
   	},
 
 	nextMilestone: function () {
@@ -68,18 +68,18 @@ var Book = Parse.Object.extend("Book", {
 	},
 
 	pagesToMilestone: function ( milestone ) {
-	    var result  = this.mileStonePage( milestone ) - this.get("currentPage");
+	    var result  = this.mileStonePage( milestone ) - this.get("current");
 		if( result < 0 )
 			return 0;
 		return result;
 	},
 
 	mileStonePage: function ( milestone ) {
-		return (( milestone * this.get("totalpages") ) / 100).toFixed(0);
+		return (( milestone * this.get("total") ) / 100).toFixed(0);
 	},
 
 	pagesToNextMilestone: function ( ) {
-	    var result  = this.mileStonePage( this.nextMilestone() ) - this.get("currentPage");
+	    var result  = this.mileStonePage( this.nextMilestone() ) - this.get("current");
 		if( result < 0 )
 			return 0;
 		return result;

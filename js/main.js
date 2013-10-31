@@ -452,8 +452,6 @@ var BookAddView = Parse.View.extend({
 	self.model.set('name', self.$el.find("#bookname").val());
 	self.model.set('author', self.$el.find("#author").val());
 	self.model.set('genre',self.$el.find("#list-genre option:selected").text());  //TODO use val to get Id
-	self.model.set('totalpages', total.toString());
-	self.model.set('currentPage', current.toString());
 	self.model.set('total', total);
 	self.model.set('current', current);
 	self.model.set('user', Parse.User.current());
@@ -556,10 +554,10 @@ var BookDetailsView = Parse.View.extend({
     done: function() {
 	if(confirm("Are you sure you want to mark book as done?")) {
 	    var self = this;
-	    var totalpages = this.model.get("totalpages");
+	    var totalpages = parseFloat(this.model.get("totalpages"));
 	    this.model.save({
 		done: true,
-		currentPage: totalpages
+		current: totalpages
 	    },{
 		success: function( instance ) {
 		    
@@ -594,7 +592,7 @@ var BookDetailsView = Parse.View.extend({
 	var current = parseFloat(this.$el.find("#currpage").val());
 	if(isNaN(current) || current < 0) {
 	    this.$el.find("#currpage").addClass('error');
-	    this.$el.find("#currpage").val(this.model.get("currentPage"));
+	    this.$el.find("#currpage").val(this.model.get("current"));
 	    return;
 	}
 	this.$el.find("#currpage").removeClass('error');
@@ -617,7 +615,6 @@ var BookDetailsView = Parse.View.extend({
 	
 	var self = this;
 	this.model.save({
-	    currentPage: current.toString(),
 	    current: current,
 	    total: total,
 	    user: Parse.User.current()
