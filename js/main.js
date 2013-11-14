@@ -600,7 +600,7 @@ var BookDetailsView = Parse.View.extend({
 	}
 	this.$el.find("#currpage").removeClass('error');
 
-	var total = parseFloat(this.model.get("totalpages"));
+	var total = parseFloat(this.model.get("total"));
 	current = (current > total) ? total : current;
 	current = (current < 0 ) ? 0 : current;
 
