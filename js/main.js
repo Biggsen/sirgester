@@ -666,12 +666,7 @@ var BookDetailsView = Parse.View.extend({
     delete: function() {
     	if(confirm("Are you sure you want to delete?")) {
     	    this.model.destroy();
-//	    window.location.hash = "#list";
-
-	    this.options.parentView.options.parentView.render();
-//	    this.options.parentView.render();
-//	    alert("The book was deleted!!");
-//    	    window.location.reload();
+	    this.options.parentView.remove();
 	    return false;
       	}
       	return false;
