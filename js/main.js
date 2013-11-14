@@ -899,7 +899,8 @@ var PasswordView = Parse.View.extend({
     el: "#content",
 
     events: {
-	"click #newpassword": "sendpassword"
+	"click #newpassword": "sendpassword",
+	"click #login": "login"
     },
 
     initialize: function() {
@@ -907,20 +908,26 @@ var PasswordView = Parse.View.extend({
 	this.$el.html(html);
     },
 
-    sendpassword: function(){
+    sendpassword: function() {
 
 	var email = this.$el.find("#email").val()
-	
+
+	var self = this;
 	Parse.User.requestPasswordReset(email, {
 	    success: function() {
-		Notify.success("Password request was sent successfully");
-		window.location.hash = "#login";
+		self.$el.find("#newpass").addClass('hide');
+		self.$el.find("#login").removeClass('hide');
 	    },
 	    error: function(error) {
 		Notify.error(error.message);
 	    }
 	});
-   }
+    },
+    
+    login: function() {
+	window.location.hash = "#login";
+    }
+
 });
 
 var LoginView = Parse.View.extend({
