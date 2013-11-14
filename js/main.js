@@ -484,7 +484,7 @@ var BookDetailsView = Parse.View.extend({
     events: {
 	"click #edit":  	"edit",
 	"click #save":  	"save", 
-	"submit":  			"save", 
+	"submit": 		"save", 
 	"click #delete": 	"delete", 
 	"click #shelf": 	"shelf", 
 	"click #done": 		"done", 
@@ -666,8 +666,12 @@ var BookDetailsView = Parse.View.extend({
     delete: function() {
     	if(confirm("Are you sure you want to delete?")) {
     	    this.model.destroy();
-	    alert("The book was deleted!!");
-    	    window.location.reload();
+//	    window.location.hash = "#list";
+
+	    this.options.parentView.options.parentView.render();
+//	    this.options.parentView.render();
+//	    alert("The book was deleted!!");
+//    	    window.location.reload();
 	    return false;
       	}
       	return false;
@@ -694,7 +698,7 @@ var BookView = Parse.View.extend({
     },
 
     render: function() {
-
+	
 	var html = tpl.get('book'); 	
 	this.$el.html(Mustache.to_html(html, this.model.toJSON()));
 
@@ -743,6 +747,11 @@ var BookListView = Parse.View.extend({
 		  'addOne', 'addOneShelfed', 'addOneDone', 'fetchbooks',
 		  'showshelfed', 'showdone', 'defaultView', 'shelfedView', 'doneView' );
 
+	this.render();
+    },
+
+    render: function(){
+
 	var html = tpl.get('list'); 
 	this.$el.html(html);
 
@@ -755,7 +764,10 @@ var BookListView = Parse.View.extend({
 	else {
 	    this.defaultView()
 	}
+
+	return this;
     },
+
 
     defaultView: function(){
 	this.books = this.fetchbooks(this.makeQueryRead);
@@ -843,14 +855,13 @@ var BookListView = Parse.View.extend({
 	return books;
     },
 
-    render: function(){
-	return this;
-    },
-
     // Add a single book item to the list by creating a view for it, and
     // appending its element to the `<ul>`.
     addOne: function(book) {
-  	var view = new BookView({model: book});
+  	var view = new BookView({
+	    model: book,
+	    parentView: this
+	});
   	this.$el.find("#books").append(view.render().el);
     },
 
@@ -861,7 +872,10 @@ var BookListView = Parse.View.extend({
     },
 
     addOneShelfed: function(book) {
-  	var view = new BookView({model: book});
+  	var view = new BookView({
+	    model: book,
+	    parentView: this
+	});
   	this.$el.find("#shelfedbooks").append(view.render().el);
     },
 
@@ -871,7 +885,10 @@ var BookListView = Parse.View.extend({
     },
 
     addOneDone: function(book) {
-  	var view = new BookView({model: book});
+  	var view = new BookView({
+	    model: book,
+	    parentView: this
+	});
   	this.$el.find("#donebooks").append(view.render().el);
     },
 
