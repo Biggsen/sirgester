@@ -924,11 +924,13 @@ var PasswordView = Parse.View.extend({
 
 	var email = this.$el.find("#email").val()
 
+	Notify.warn("Sending email ...");
 	var self = this;
 	Parse.User.requestPasswordReset(email, {
 	    success: function() {
 		self.$el.find("#newpass").addClass('hide');
 		self.$el.find("#login").removeClass('hide');
+		Notify.clear();
 	    },
 	    error: function(error) {
 		Notify.error(error.message);
