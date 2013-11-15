@@ -579,7 +579,7 @@ var BookDetailsView = Parse.View.extend({
 		    });
 		    
 		    //render
-		    self.options.parentView.render();
+		    self.options.parentView.options.parentView.render();
 		    Notify.success("Book marked as done");
 		},
 		error: function(object, error) {
