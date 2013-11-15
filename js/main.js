@@ -557,7 +557,7 @@ var BookDetailsView = Parse.View.extend({
     done: function() {
 	if(confirm("Are you sure you want to mark book as done?")) {
 	    var self = this;
-	    var totalpages = parseFloat(this.model.get("totalpages"));
+	    var totalpages = parseFloat(this.model.get("total"));
 	    this.model.save({
 		done: true,
 		current: totalpages
