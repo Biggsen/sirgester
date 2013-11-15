@@ -639,7 +639,7 @@ var BookDetailsView = Parse.View.extend({
 	    shelfed: shelfValue
 	},{
 	    success: function( instance ) {
-		self.options.parentView.render();
+		self.options.parentView.options.parentView.render();
 		if(shelfValue)
 		    Notify.success("Book was shelfed");
 		else
