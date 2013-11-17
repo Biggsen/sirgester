@@ -832,7 +832,7 @@ var BookListView = Parse.View.extend({
 	if(!skipLimit) {
 	    query.limit(5);
 	}
-	query.descending("createdAt");
+	query.descending("updatededAt");
 	return query; 
     },
 
@@ -842,7 +842,7 @@ var BookListView = Parse.View.extend({
 	if(!skipLimit) {
 	    query.limit(5);
 	}
-	query.descending("createdAt");
+	query.descending("updatedAt");
 	return query; 
     },
 
