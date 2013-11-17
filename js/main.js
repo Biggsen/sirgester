@@ -710,16 +710,20 @@ var BookView = Parse.View.extend({
     },
 
     details: function() {
+
+	var isactive = this.$el.hasClass('is-active');
+
 	//prepare
 	$('#books li').removeClass('is-active');
 	$('#shelvedbooks li').removeClass('is-active');
-	$('#donebooks li').removeClass('is-active');
+	$('#donebooks li').removeClass('is-active');	
 
-	if(!this.detailView.is_active()) {
-	    $(".js-book-details").addClass('hide'); //hide everyone else
+	if(!isactive) {
 	    this.$el.addClass('is-active');
+	} else {
+	    this.$el.removeClass('is-active');
 	}
-	this.detailView.switch_state();
+	
 	return false;
     },
 });

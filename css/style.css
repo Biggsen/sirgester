@@ -297,6 +297,7 @@ display:block;
 .booklist-details {
 	float: left;
 	width: 100%;
+	display: none;
 }
 
 .booklist-details input {
@@ -304,6 +305,10 @@ display:block;
 	margin-top: -5px;
 	padding: 10px;
 	font-size: 1.4em;
+}
+
+.is-active .booklist-details {
+    display: block;
 }
 
 /* Progress */
