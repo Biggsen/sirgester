@@ -1,4 +1,5 @@
 /* Init parse */
+var appName = 'Sir Gester';
 
 Parse.initialize("LSmc8FIgALPmAp0QzU6mEn18KAajO5PPMBbigcER", "tZCSOtd32hTA7DLT8YTMSjIwCmE4x8ZX0ICktwpZ");
 
@@ -1154,13 +1155,13 @@ var UtilityView = Parse.View.extend({
     },
 
     logout: function() {
-	window.location.hash = "#account";
-	return false;
+        window.location.hash = "#account";
+        return false;
     }
 });
 
 Parse.View.prototype.close = function () {
-    console.log('Closing view ' + this.el.id);
+    //console.log('Closing view ' + this.el.id);
     if (this.beforeClose) {
         this.beforeClose();
     }
@@ -1193,73 +1194,123 @@ var AppRouter = Parse.Router.extend({
     },
 
     login: function() {
-	return this.showView(null, LoginView);
+        return this.showView(
+            null,
+            LoginView,
+            'Login'
+        );
     },
 
     password: function() {
-	return this.showView(null, PasswordView);
+        return this.showView(
+            null,
+            PasswordView,
+            'Reset Password'
+        );
     },
 
     index: function() {
-	if(!Parse.User.current()) this.login();
-	return this.showView(null, BookListView);
-    },
+        if(!Parse.User.current()) this.login();
+            return this.showView(
+                null,
+                BookListView,
+                'Reading List'
+            );
+        },
 
     list: function() {
-	if(!Parse.User.current()) this.login();
-	return this.showView(null, BookListView);
-    },
+        if(!Parse.User.current()) this.login();
+            return this.showView(
+                null,
+                BookListView,
+                'Reading List'
+            );
+        },
 
     add: function() {
-	if(!Parse.User.current()) this.login();
-	return this.showView(new Book(), BookAddView);
-    },
+        if(!Parse.User.current()) this.login();
+            return this.showView(
+                new Book(),
+                BookAddView,
+                'Add book'
+            );
+        },
 
     edit: function(id) {
-	if(!Parse.User.current()) this.login();
-	return this.showViewQuery(id, Book, BookAddView);
-    },
+        if(!Parse.User.current()) this.login();
+            return this.showViewQuery(
+                id,
+                Book,
+                BookAddView,
+                'Edit book'
+            );
+        },
 
     details: function(id) {
-	if(!Parse.User.current()) this.login();
-	return this.showViewQuery(id, Book, BookDetailsView);
-    },
+        if(!Parse.User.current()) this.login();
+            return this.showViewQuery(id, Book, BookDetailsView);
+        },
 
     bookhistory: function(id){
-	if(!Parse.User.current()) this.login();
-	return this.showViewQuery(id, Book, BookHistoryView);
+    if(!Parse.User.current()) this.login();
+        return this.showViewQuery(
+            id,
+            Book,
+            BookHistoryView,
+            'Reading History'
+        );
     },
 
     account: function(){
-	if(!Parse.User.current()) this.login();
-	return this.showView(Parse.User.current(), AccountView);
+    if(!Parse.User.current()) this.login();
+        return this.showView(
+            Parse.User.current(),
+            AccountView,
+            'Account'
+        );
     },
 
-    showViewQuery: function(id, Constructor, View) {
-	var self = this;
-	var query = new Parse.Query(Constructor);
-	query.get(id, {
-	    success: function(book) {
-		self.showView(book, View);
-	    },
-	    error: function(object, error) {
-		Notify.error(error.message);
-	    }
-	});
+    showViewQuery: function(id, Constructor, View, pagetitle) {
+        var self = this;
+        var query = new Parse.Query(Constructor);
+        query.get(id, {
+            success: function(book) {
+                self.showView(
+                    book,
+                    View,
+                    pagetitle
+                );
+            },
+            error: function(object, error) {
+                Notify.error(error.message);
+            }
+        });
     },
 
-    showView: function(model, View) {
-	if(this.utilityView) this.utilityView.close();
-	
-	this.utilityView = new UtilityView();
+    showView: function(model, View, pagetitle) {
 
-	if(this.currentView) this.currentView.close();
 
-    	this.currentView = new View({
-    	    el: "#content",
-    	    model: (model) ? model : null
-	});
-	return false;
+        if (pagetitle) {
+            if (model !== null) {
+                $('title').text( model._serverData.name +' - '+ pagetitle +' - ' + appName);
+            } else {
+                $('title').text(pagetitle +' - ' + appName);
+            }
+        } else {
+            $('title').text(appName);
+        }
+
+        if(this.utilityView) this.utilityView.close();
+
+        this.utilityView = new UtilityView();
+
+        if(this.currentView) this.currentView.close();
+
+        this.currentView = new View({
+            el: "#content",
+            model: (model) ? model : null
+        });
+        return false;
     },
 
     /*TODO need to fix this */
