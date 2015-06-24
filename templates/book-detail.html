@@ -3,9 +3,9 @@
 	 	<span class='books-author'><strong id="plural">Author: </strong><span id="author">{{ author }}</span></span><br/>
 		<span class='books-genre'><strong>Genre: </strong>{{ genre }}</span>
 	</p>
-	<p>At page <strong>{{ pagesToMilestone }}</strong> you will have read <strong>{{ nextMilestone }}%</strong><br/>
+	<p class="js-remove-on-done">At page <strong>{{ pagesToMilestone }}</strong> you will have read <strong>{{ nextMilestone }}%</strong><br/>
 		You've only got <strong>{{ pagesToNextMilestone }}</strong> pages to go!</p>
-	<form> 
+	<form class="js-remove-on-done"> 
 		<br>
 		<input id="currpage" value="{{ current }}" type="number" pattern="[0-9]*" min="0"/>
 		<button id="save" type="submit" class='green large'> Update</button>
@@ -14,5 +14,5 @@
 	<br/>
 	<button id="edit" class='large'><i class="icon-edit"></i></button>
 	<button id="history" class='large'><i class="icon-time"></i></button>
-	<button id="shelf" class='large'><i class="icon-pause"></i></button>
+	<button id="shelf" class='large js-remove-on-done'><i class="icon-pause"></i></button>
 	<button id="delete" class='large'><i class="icon-trash"></i></button>

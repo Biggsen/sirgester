@@ -705,7 +705,8 @@ var BookView = Parse.View.extend({
 	}
 	if(this.model.get("done")) {
 
-	    this.$el.find("#state").addClass("is-done");
+        this.$el.find("#state").addClass("is-done");
+	    this.$el.find(".js-remove-on-done").remove()
 	}
 	return this;
     },
