@@ -679,7 +679,7 @@ var BookView = Parse.View.extend({
     tagName: "li",
 
     events: {
-	"click #book"   	: "details",
+	"click .js-book"   	: "details",
     },
 
     initialize: function() {
@@ -712,20 +712,21 @@ var BookView = Parse.View.extend({
 
     details: function() {
 
-	var isactive = this.$el.hasClass('is-active');
+        var isactive = this.$el.hasClass('is-active');
 
-	//prepare
-	$('#books li').removeClass('is-active');
-	$('#shelvedbooks li').removeClass('is-active');
-	$('#donebooks li').removeClass('is-active');	
+        //prepare
+        $('#books li').removeClass('is-active');
+        $('#shelvedbooks li').removeClass('is-active');
+        $('#donebooks li').removeClass('is-active');	
 
-	if(!isactive) {
-	    this.$el.addClass('is-active');
-	} else {
-	    this.$el.removeClass('is-active');
-	}
-	
-	return false;
+        if(!isactive) {
+            this.$el.addClass('is-active');
+            util.scrollToTop(this.$el);
+        } else {
+            this.$el.removeClass('is-active');
+        }
+
+        return false;
     },
 });
 

@@ -59,3 +59,11 @@ tpl = {
     }
  
 };
+
+var util = {
+    'scrollToTop': function(el){
+        $('html, body').animate({
+            scrollTop: el.offset().top
+        }, 500);
+    }
+}
