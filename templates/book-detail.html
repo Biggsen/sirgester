@@ -1,18 +1,35 @@
  
 	<p>
-	 	<span class='books-author'><strong id="plural">Author: </strong><span id="author">{{ author }}</span></span><br/>
-		<span class='books-genre'><strong>Genre: </strong>{{ genre }}</span>
+	 	<span class='books-author'><strong>Tempo: </strong> 82 bpm</span><br/>
+	 	<span><strong>Notes: </strong>Some stuff worth writing down. Could be quite a bit of stuff here , so it'll need to be in a textarea.</span>
 	</p>
-	<p>At page <strong>{{ pagesToMilestone }}</strong> you will have read <strong>{{ nextMilestone }}%</strong><br/>
-		You've only got <strong>{{ pagesToNextMilestone }}</strong> pages to go!</p>
+	<p><strong>Latest version: </strong><a href="https://www.dropbox.com/s/kpvu3q4li8kpvf5/Serfdom.mp3?dl=0">Serfdom - 3</a></p>
 	<form> 
 		<br>
-		<input id="currpage" value="{{ current }}" type="number" pattern="[0-9]*" min="0"/>
-		<button id="save" type="submit" class='green large'> Update</button>
-		<button id="done" class='green large'><i class="icon-check"></i></button>
+		<div class="push--bottom">
+			<label for="" class="l-fifth text-large">Structure</label>
+			<button id="done" class='green small'><i class="icon-plus"></i></button>
+			<button id="done" class='orange small'><i class="icon-minus"></i></button>
+		</div>
+		<div class="push--bottom">
+			<label for="" class="l-fifth text-large">Arrangement</label>
+			<button id="done" class='green small'><i class="icon-plus"></i></button>
+			<button id="done" class='orange small'><i class="icon-minus"></i></button>
+		</div>
+		<div class="push--bottom">
+			<label for="" class="l-fifth text-large">Vocals</label>
+			<button id="done" class='green small'><i class="icon-plus"></i></button>
+			<button id="done" class='orange small'><i class="icon-minus"></i></button>
+		</div>
+		<div class="push--bottom">
+			<label for="" class="l-fifth text-large">Lyrics</label>
+			<button id="done" class='green small'><i class="icon-plus"></i></button>
+			<button id="done" class='orange small'><i class="icon-minus"></i></button>
+		</div>
 	</form>
 	<br/>
 	<button id="edit" class='large'><i class="icon-edit"></i></button>
 	<button id="history" class='large'><i class="icon-time"></i></button>
 	<button id="shelf" class='large'><i class="icon-pause"></i></button>
 	<button id="delete" class='large'><i class="icon-trash"></i></button>
+	<button id="delete" class='large'><i class="icon-forward"></i></button>
