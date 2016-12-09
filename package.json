@@ -1,11 +1,13 @@
 {
-	"name": "sirgester",
-	"version": "1.0.0",
-	"description": "Sir Gester on Heroku",
-	"engines": {
-		"node": "4.5.0"
-	},
-	"dependencies": {
-		"harp": "^0.20.3"
-	}
+  "name": "sirgester",
+  "version": "1.0.0",
+  "description": "Sir Gester on Heroku",
+  "engines": {
+    "node": "4.5.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.18.2",
+    "gulp": "^3.9.1",
+    "harp": "^0.20.3"
+  }
 }

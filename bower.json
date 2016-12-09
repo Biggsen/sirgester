@@ -1,0 +1,20 @@
+{
+  "name": "sirgester",
+  "description": "Sir Gester",
+  "version": "1.0.0",
+  "authors": [
+    "Biggs Thorarensen <biggs@devillion.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "outline": "^1.4.0"
+  }
+}
