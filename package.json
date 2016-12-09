@@ -1,0 +1,8 @@
+{
+	"name": "Sir Gester",
+	"version": "1.0.0",
+	"description": "Sir Gester on Heroku",
+	"dependencies": {
+		"harp": "*"
+	}
+}
