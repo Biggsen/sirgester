@@ -1,0 +1,1875 @@
+{ "results": [
+	{
+        "author": "",
+        "createdAt": "2013-09-27T19:30:56.791Z",
+        "current": 126,
+        "currentPage": "0",
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Windup Girl",
+        "objectId": "0Ye95uyj3d",
+        "shelfed": false,
+        "shelved": false,
+        "total": 505,
+        "totalpages": "505",
+        "updatedAt": "2014-05-16T00:41:44.677Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Robert A. Heinlein",
+        "createdAt": "2013-03-11T03:53:08.888Z",
+        "current": 143,
+        "currentPage": "143",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "Double Star",
+        "objectId": "0dFP1uihif",
+        "total": 143,
+        "totalpages": "143",
+        "updatedAt": "2013-10-29T00:06:47.674Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Jesse James Garrett",
+        "createdAt": "2013-02-05T22:56:46.681Z",
+        "current": 163,
+        "currentPage": "163",
+        "done": true,
+        "genre": "Web Development",
+        "name": "The Elements of User Experience",
+        "objectId": "1of4EhXrCe",
+        "shelfed": false,
+        "shelved": false,
+        "total": 163,
+        "totalpages": "163",
+        "updatedAt": "2013-11-17T21:59:50.843Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Michael Chabon",
+        "createdAt": "2013-03-27T21:56:16.128Z",
+        "current": 0,
+        "currentPage": "0",
+        "genre": "Mystery",
+        "name": "The Yiddish Policemen's Union",
+        "objectId": "29KyrFVGiW",
+        "shelfed": false,
+        "shelved": false,
+        "total": 411,
+        "totalpages": "411",
+        "updatedAt": "2013-11-17T21:59:26.593Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Drew Magary",
+        "createdAt": "2013-03-24T21:36:52.053Z",
+        "current": 415,
+        "currentPage": "415",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "The End Specialist",
+        "objectId": "3oEUxGHf5s",
+        "shelfed": false,
+        "shelved": false,
+        "total": 415,
+        "totalpages": "415",
+        "updatedAt": "2013-11-17T21:59:34.137Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-08-16T16:25:29.441Z",
+        "current": 408,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "Among Others",
+        "objectId": "53WsKpMeby",
+        "shelved": false,
+        "total": 408,
+        "updatedAt": "2014-09-30T08:25:36.195Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-06-11T11:25:05.601Z",
+        "current": 430,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Beyond The Frontier - Dreadnaught",
+        "objectId": "5IUxg2BnXZ",
+        "shelved": false,
+        "total": 430,
+        "updatedAt": "2015-07-01T22:00:07.045Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-07-01T22:03:10.948Z",
+        "current": 461,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Beyond The Frontier - Invincible",
+        "objectId": "5JW5Jz4BXx",
+        "shelved": false,
+        "total": 461,
+        "updatedAt": "2015-07-17T15:33:42.863Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-12-26T00:23:37.625Z",
+        "current": 142,
+        "done": false,
+        "genre": "Philosophy",
+        "id": null,
+        "name": "Gödel, Escher, Bach: an Eternal Golden Braid",
+        "objectId": "5XkegrQEwb",
+        "shelved": false,
+        "total": 742,
+        "updatedAt": "2013-12-31T14:18:49.730Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-06-04T15:06:52.882Z",
+        "current": 27,
+        "done": false,
+        "genre": "Self Help",
+        "id": null,
+        "name": "The Artist's Way",
+        "objectId": "5ke8t2tDdd",
+        "shelved": false,
+        "total": 204,
+        "updatedAt": "2016-10-23T07:50:24.339Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-07-21T09:52:16.133Z",
+        "current": 252,
+        "done": true,
+        "genre": "Autobiography ",
+        "id": null,
+        "name": "The Book of Drugs",
+        "objectId": "6KyMdXDhoK",
+        "shelved": false,
+        "total": 252,
+        "updatedAt": "2016-08-08T10:54:05.907Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-05-19T09:10:46.070Z",
+        "currentPage": "1",
+        "genre": "Self Help",
+        "name": "Sex",
+        "objectId": "7NXtO1HAao",
+        "shelfed": false,
+        "shelved": false,
+        "totalpages": "",
+        "updatedAt": "2013-11-17T21:58:47.359Z",
+        "username": "Lol"
+    },
+	{
+        "author": "Jack Campbell",
+        "createdAt": "2013-03-27T21:52:42.860Z",
+        "current": 358,
+        "currentPage": "358",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "The Lost Fleet - Courageous",
+        "objectId": "7PbNWsQcXf",
+        "shelfed": false,
+        "shelved": false,
+        "total": 358,
+        "totalpages": "358",
+        "updatedAt": "2013-11-17T21:59:31.832Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-03-16T15:43:17.463Z",
+        "current": 113,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "Green Mars",
+        "objectId": "8EniUb9dfW",
+        "shelved": false,
+        "total": 113,
+        "updatedAt": "2016-08-08T10:54:21.314Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-05-08T09:02:00.587Z",
+        "current": 52,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "The AB guide to music theory Part 1. ",
+        "objectId": "8TF8hK805i",
+        "shelved": false,
+        "total": 103,
+        "updatedAt": "2016-02-14T18:55:39.784Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-11-18T09:22:38.989Z",
+        "current": 1,
+        "done": false,
+        "genre": "Business",
+        "id": null,
+        "name": "My test book",
+        "objectId": "8UqlVTSj7b",
+        "shelved": false,
+        "total": 150,
+        "updatedAt": "2013-11-18T09:23:31.888Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "uo5w0E4eEB"
+        },
+        "username": "stone"
+    },
+	{
+        "author": "Clifford D. Simak",
+        "createdAt": "2013-02-05T23:20:55.449Z",
+        "current": 189,
+        "currentPage": "189",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "Way Station",
+        "objectId": "8WSJbQgLSP",
+        "shelfed": false,
+        "shelved": false,
+        "total": 189,
+        "totalpages": "189",
+        "updatedAt": "2013-11-17T21:59:46.984Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "John Ralston Saul",
+        "createdAt": "2013-02-05T23:22:13.333Z",
+        "current": 50,
+        "currentPage": "50",
+        "genre": "Philosophy",
+        "name": "The Unconscious Civilization",
+        "objectId": "93NxVMYkdr",
+        "shelfed": false,
+        "shelved": false,
+        "total": 195,
+        "totalpages": "195",
+        "updatedAt": "2013-11-17T21:59:44.573Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Stoyan Stefanov",
+        "createdAt": "2013-02-05T22:41:40.702Z",
+        "current": 207,
+        "currentPage": "207",
+        "done": true,
+        "genre": "Web Development",
+        "name": "JavaScript Patterns",
+        "objectId": "9UxFfojqUj",
+        "shelfed": false,
+        "shelved": false,
+        "total": 207,
+        "totalpages": "207",
+        "updatedAt": "2013-11-17T21:59:52.683Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-02-19T01:02:05.170Z",
+        "current": 173,
+        "done": false,
+        "genre": "Programming",
+        "id": null,
+        "name": "Agile Software Development",
+        "objectId": "9tLbbcF4IH",
+        "shelved": false,
+        "total": 524,
+        "updatedAt": "2015-02-19T01:03:23.794Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-05-09T23:10:14.668Z",
+        "current": 248,
+        "currentPage": "248",
+        "done": true,
+        "genre": "UX",
+        "name": "The Mobile Frontier",
+        "objectId": "Ac4ft1nYAP",
+        "shelfed": false,
+        "shelved": false,
+        "total": 248,
+        "totalpages": "248",
+        "updatedAt": "2013-11-17T22:33:58.429Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-08-11T17:05:18.463Z",
+        "current": 245,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Left Hand Of Darkness ",
+        "objectId": "BYyfD9XYq6",
+        "shelved": false,
+        "total": 245,
+        "updatedAt": "2015-11-01T09:40:53.267Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-09-30T12:33:25.684Z",
+        "current": 467,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Stars: Perilous Shield",
+        "objectId": "BrQFiK8OaB",
+        "shelved": false,
+        "total": 467,
+        "updatedAt": "2016-10-25T17:55:40.683Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Nobody",
+        "createdAt": "2013-04-07T14:46:27.338Z",
+        "currentPage": "60",
+        "genre": "Business",
+        "name": "Test001",
+        "objectId": "C76GjEgIwD",
+        "shelfed": false,
+        "shelved": false,
+        "totalpages": "240",
+        "updatedAt": "2013-11-17T21:59:10.512Z",
+        "username": "Test001"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-12-03T13:34:37.215Z",
+        "current": 0,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Hydrogen Sonata ",
+        "objectId": "CMNu2baYj7",
+        "shelved": false,
+        "total": 605,
+        "updatedAt": "2016-12-03T13:34:37.634Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-09-17T16:37:21.384Z",
+        "current": 0,
+        "done": false,
+        "genre": "Spirituality ",
+        "id": null,
+        "name": "The Book Of Five Rings",
+        "objectId": "DM5QdtY267",
+        "shelved": false,
+        "total": 108,
+        "updatedAt": "2016-09-17T16:37:21.960Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Leon Sterling and Ehud Shapiro",
+        "createdAt": "2013-02-10T22:10:01.412Z",
+        "currentPage": "4",
+        "genre": "Programming",
+        "name": "The Art of Prolog",
+        "objectId": "F2m3DXSfiO",
+        "shelfed": false,
+        "shelved": false,
+        "totalpages": "227",
+        "updatedAt": "2013-11-17T21:59:42.350Z",
+        "username": "nisbus"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-08-22T19:50:11.545Z",
+        "current": 264,
+        "done": true,
+        "genre": "Music",
+        "id": null,
+        "name": "Music 4.0",
+        "objectId": "FBEOFZXxar",
+        "shelved": false,
+        "total": 264,
+        "updatedAt": "2015-10-22T01:07:43.863Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Jeremy Keith",
+        "createdAt": "2013-02-05T22:58:53.590Z",
+        "current": 51,
+        "currentPage": "51",
+        "genre": "Web Development",
+        "name": "Bulletproof Ajax",
+        "objectId": "Fhqf9kezqS",
+        "shelfed": true,
+        "shelved": true,
+        "total": 196,
+        "totalpages": "196",
+        "updatedAt": "2013-11-17T21:59:48.949Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-06-02T21:36:00.541Z",
+        "current": 142,
+        "currentPage": "142",
+        "done": false,
+        "genre": "Programming",
+        "id": null,
+        "name": "Practices of an Agile Developer",
+        "objectId": "GK9kJzykmE",
+        "shelfed": false,
+        "shelved": true,
+        "total": 178,
+        "totalpages": "178",
+        "updatedAt": "2015-02-05T00:50:26.635Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-12-03T15:58:07.110Z",
+        "current": 0,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Fountains of Paradise ",
+        "objectId": "GvBajbhgHO",
+        "shelved": false,
+        "total": 228,
+        "updatedAt": "2016-12-03T15:58:07.527Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Jesse Freeman",
+        "createdAt": "2013-01-30T20:18:42.828Z",
+        "current": 104,
+        "currentPage": "104",
+        "done": true,
+        "genre": "Web Development",
+        "name": "HTML5 Game Development",
+        "objectId": "HjPwnQCZq2",
+        "shelfed": false,
+        "shelved": false,
+        "total": 104,
+        "totalpages": "104",
+        "updatedAt": "2013-11-17T22:00:15.940Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-12-03T09:02:29.550Z",
+        "current": 338,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Flicker Men",
+        "objectId": "Iixe4ksc4d",
+        "shelved": false,
+        "total": 338,
+        "updatedAt": "2016-12-05T22:06:25.131Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Jonathan Snook",
+        "createdAt": "2013-02-03T23:50:54.499Z",
+        "current": 105,
+        "currentPage": "105",
+        "done": true,
+        "genre": "Web Development",
+        "name": "Scalable and Modular Architecture for CSS",
+        "objectId": "LN2uDbS449",
+        "shelfed": false,
+        "shelved": false,
+        "total": 105,
+        "totalpages": "105",
+        "updatedAt": "2013-11-17T22:00:01.928Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-11-26T22:29:27.422Z",
+        "current": 0,
+        "done": false,
+        "genre": "Web Development",
+        "id": null,
+        "name": "Smashing Book #3: Redesigning the Web",
+        "objectId": "N2ZzSGFANN",
+        "shelved": false,
+        "total": 340,
+        "updatedAt": "2013-11-26T22:29:28.462Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "62AZRvvDGC"
+        },
+        "username": "mcky"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-03-11T23:38:05.085Z",
+        "current": 161,
+        "done": false,
+        "genre": "Autobiography ",
+        "id": null,
+        "name": "So Anyway",
+        "objectId": "NBz8wReDOf",
+        "shelved": false,
+        "total": 404,
+        "updatedAt": "2015-04-15T10:51:07.685Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-01-26T22:43:58.006Z",
+        "current": 188,
+        "currentPage": "80",
+        "genre": "Web Development",
+        "name": "Designing with Progressive Enhancement",
+        "objectId": "NGM0Po33a9",
+        "shelfed": false,
+        "shelved": true,
+        "total": 412,
+        "totalpages": "412",
+        "updatedAt": "2014-09-18T07:37:47.764Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-11-20T14:05:45.201Z",
+        "current": 521,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "Reamde",
+        "objectId": "NMEvAbBNqe",
+        "shelved": false,
+        "total": 1042,
+        "updatedAt": "2016-02-14T11:40:25.640Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Marijn Haverbeke",
+        "createdAt": "2013-04-28T10:54:07.072Z",
+        "current": 196,
+        "currentPage": "196",
+        "done": true,
+        "genre": "Web Development",
+        "name": "Eloquent JavaScript",
+        "objectId": "NsnxVdVR3i",
+        "shelfed": false,
+        "shelved": false,
+        "total": 196,
+        "totalpages": "196",
+        "updatedAt": "2013-11-17T21:59:03.210Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "Steven Hall",
+        "createdAt": "2013-03-27T21:57:30.972Z",
+        "current": 1,
+        "currentPage": "0",
+        "genre": "Sci-Fi",
+        "name": "The Raw Shark Texts",
+        "objectId": "PBr6B4qQ1N",
+        "shelfed": false,
+        "shelved": false,
+        "total": 427,
+        "totalpages": "427",
+        "updatedAt": "2013-11-17T21:59:22.432Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-05-27T12:35:46.467Z",
+        "current": 393,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Victorious",
+        "objectId": "Pu3sB02kn6",
+        "shelved": false,
+        "total": 393,
+        "updatedAt": "2015-06-01T23:25:31.084Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-02-03T12:31:06.398Z",
+        "current": 192,
+        "currentPage": "136",
+        "genre": "Self Help",
+        "name": "Switch",
+        "objectId": "SUKIgvUnfa",
+        "shelfed": false,
+        "shelved": true,
+        "total": 264,
+        "totalpages": "264",
+        "updatedAt": "2015-11-04T14:55:47.277Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Luke Wroblewski",
+        "createdAt": "2013-02-14T17:33:05.396Z",
+        "current": 121,
+        "currentPage": "121",
+        "done": true,
+        "genre": "Web Development",
+        "name": "Mobile First",
+        "objectId": "SqwdGs0BAZ",
+        "shelfed": false,
+        "shelved": false,
+        "total": 121,
+        "totalpages": "121",
+        "updatedAt": "2013-11-17T21:59:40.218Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Eric Ries",
+        "createdAt": "2013-02-03T23:48:59.966Z",
+        "current": 84,
+        "currentPage": "79",
+        "genre": "Business",
+        "name": "The Lean Startup",
+        "objectId": "TR90qG78nx",
+        "shelfed": false,
+        "shelved": true,
+        "total": 284,
+        "totalpages": "284",
+        "updatedAt": "2016-03-17T19:55:05.618Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-05-15T01:05:09.439Z",
+        "current": 109,
+        "currentPage": "109",
+        "genre": "Self Help",
+        "name": "Getting things done",
+        "objectId": "UZpIxybhKG",
+        "shelfed": false,
+        "shelved": true,
+        "total": 259,
+        "totalpages": "259",
+        "updatedAt": "2015-02-19T01:00:17.412Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-11-14T21:21:00.005Z",
+        "current": 18,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Man in the High Castle",
+        "objectId": "VOzMQJ3WQW",
+        "shelfed": false,
+        "shelved": false,
+        "total": 249,
+        "updatedAt": "2015-06-11T12:33:43.465Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-05-30T11:04:33.211Z",
+        "current": 310,
+        "currentPage": "40",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "Stark's War",
+        "objectId": "VR1DgqHPp9",
+        "shelfed": false,
+        "shelved": false,
+        "total": 310,
+        "totalpages": "310",
+        "updatedAt": "2014-09-25T07:55:29.489Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Ilsa J. Bick",
+        "createdAt": "2013-05-25T10:55:56.722Z",
+        "current": 465,
+        "currentPage": "465",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "Ashes",
+        "objectId": "Vau52XDluf",
+        "shelfed": false,
+        "shelved": false,
+        "total": 465,
+        "totalpages": "465",
+        "updatedAt": "2013-11-17T21:58:42.076Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-10-26T10:18:19.303Z",
+        "current": 252,
+        "currentPage": "252",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Gods Themselves",
+        "objectId": "W1gfjQROE1",
+        "shelfed": false,
+        "shelved": false,
+        "total": 252,
+        "totalpages": "252",
+        "updatedAt": "2013-11-17T22:44:39.592Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-02-21T22:15:31.205Z",
+        "current": 14,
+        "done": false,
+        "genre": "Fiction",
+        "id": null,
+        "name": "Canal Dreams",
+        "objectId": "WHNksiqndS",
+        "shelved": false,
+        "total": 198,
+        "updatedAt": "2016-02-21T22:15:31.616Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-06-11T20:21:03.234Z",
+        "current": 24,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Mixing Secrets for the small studio",
+        "objectId": "YQ6qXY0L1Y",
+        "shelved": false,
+        "total": 302,
+        "updatedAt": "2016-10-16T07:10:32.956Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-03-16T15:44:13.605Z",
+        "current": 48,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Moon Is A Harsh Mistress",
+        "objectId": "YrWXFPbTEm",
+        "shelved": false,
+        "total": 302,
+        "updatedAt": "2016-12-08T09:32:35.037Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-09-30T08:26:53.222Z",
+        "current": 365,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Valiant",
+        "objectId": "Yt98om8y1u",
+        "shelved": false,
+        "total": 365,
+        "updatedAt": "2014-10-09T13:21:13.912Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Neal Stephenson",
+        "createdAt": "2013-03-27T21:54:00.310Z",
+        "current": 4,
+        "currentPage": "4",
+        "genre": "Sci-Fi",
+        "name": "The Diamond Age",
+        "objectId": "Yw1YTXitmt",
+        "shelfed": false,
+        "shelved": false,
+        "total": 499,
+        "totalpages": "499",
+        "updatedAt": "2013-11-17T21:59:28.976Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Peter F. Hamilton",
+        "createdAt": "2013-05-20T23:28:45.034Z",
+        "current": 1221,
+        "currentPage": "1221",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "The Reality Dysfunction",
+        "objectId": "ZVzdheBpEw",
+        "shelfed": false,
+        "shelved": false,
+        "total": 1221,
+        "totalpages": "1221",
+        "updatedAt": "2013-11-17T21:58:45.245Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-04-25T10:55:02.256Z",
+        "current": 58,
+        "done": false,
+        "genre": "Science and society",
+        "id": null,
+        "name": "Thinking in Systems",
+        "objectId": "ZbiHSUuwwB",
+        "shelved": false,
+        "total": 185,
+        "updatedAt": "2016-08-29T06:06:41.187Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Kevin Beaver",
+        "createdAt": "2013-05-02T23:45:27.644Z",
+        "current": 21,
+        "currentPage": "21",
+        "genre": "Programming",
+        "name": "Hacking for Dummies",
+        "objectId": "a85IA45jB6",
+        "shelfed": true,
+        "shelved": true,
+        "total": 338,
+        "totalpages": "338",
+        "updatedAt": "2013-11-17T21:58:56.152Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "Cennydd Bowels \u0026 James Box",
+        "createdAt": "2013-02-03T23:52:43.128Z",
+        "currentPage": "8",
+        "genre": "Web Development",
+        "name": "Undercover User Experience Design",
+        "objectId": "bbNd5tQjPv",
+        "shelfed": false,
+        "shelved": false,
+        "totalpages": "177",
+        "updatedAt": "2013-11-17T21:59:56.016Z",
+        "username": "Biigs"
+    },
+	{
+        "author": "Erin Kissane",
+        "createdAt": "2013-01-26T22:32:03.297Z",
+        "current": 74,
+        "currentPage": "74",
+        "done": true,
+        "genre": "Content Strategy",
+        "name": "The Elements of Content Strategy",
+        "objectId": "d0QUyw6Oe4",
+        "shelfed": false,
+        "shelved": false,
+        "total": 74,
+        "totalpages": "74",
+        "updatedAt": "2013-11-17T22:00:29.667Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-06-06T12:19:04.490Z",
+        "current": 635,
+        "currentPage": "635",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "American Gods",
+        "objectId": "dKMzvt4Vq3",
+        "shelfed": false,
+        "shelved": false,
+        "total": 635,
+        "totalpages": "635",
+        "updatedAt": "2013-11-17T22:31:55.538Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-04-04T11:26:47.893Z",
+        "current": 1,
+        "done": false,
+        "genre": "Business",
+        "id": null,
+        "name": "la guarida del desván",
+        "objectId": "dwmHlZL09k",
+        "shelved": false,
+        "total": 5,
+        "updatedAt": "2016-04-04T11:26:48.314Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "p9QMa7X0PQ"
+        },
+        "username": "josemariavallejo"
+    },
+	{
+        "author": "Stephen Donaldson",
+        "createdAt": "2013-01-28T12:50:11.533Z",
+        "current": 184,
+        "currentPage": "184",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "The Real Story",
+        "objectId": "fXF9d4hn6K",
+        "shelfed": false,
+        "shelved": false,
+        "total": 184,
+        "totalpages": "184",
+        "updatedAt": "2013-11-17T22:00:19.064Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Stephen Hay",
+        "createdAt": "2013-05-11T10:07:10.069Z",
+        "current": 212,
+        "currentPage": "166",
+        "done": true,
+        "genre": "Design",
+        "name": "Responsive Design Workflow",
+        "objectId": "fo7LbeE8Zt",
+        "shelfed": false,
+        "shelved": false,
+        "total": 212,
+        "totalpages": "212",
+        "updatedAt": "2013-11-17T21:58:51.715Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-01-09T00:07:30.475Z",
+        "current": 250,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Demolished Man",
+        "objectId": "fwlakc1hng",
+        "shelved": false,
+        "total": 250,
+        "updatedAt": "2015-05-07T18:01:52.612Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-06-06T19:02:45.064Z",
+        "current": 44,
+        "done": false,
+        "genre": "Education",
+        "id": null,
+        "name": "Introducing Psychology",
+        "objectId": "gWDnHcCRh8",
+        "shelved": false,
+        "total": 172,
+        "updatedAt": "2016-08-29T06:24:00.468Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Jonathan Snook",
+        "createdAt": "2013-05-02T23:43:19.764Z",
+        "current": 105,
+        "currentPage": "105",
+        "done": true,
+        "genre": "Web Development",
+        "name": "Scalable and Modular Architecture for CSS",
+        "objectId": "gxDDWWSdou",
+        "shelfed": false,
+        "shelved": false,
+        "total": 105,
+        "totalpages": "105",
+        "updatedAt": "2013-11-17T21:58:58.493Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-04-13T23:03:27.752Z",
+        "current": 93,
+        "done": false,
+        "genre": "Self Help",
+        "id": null,
+        "name": "The power of habit",
+        "objectId": "h746Iq3VnP",
+        "shelved": false,
+        "total": 302,
+        "updatedAt": "2016-04-13T23:06:31.754Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-02-05T00:28:23.630Z",
+        "current": 15,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Harmony - Its Theory and Practice ",
+        "objectId": "h8vW1xEFqx",
+        "shelved": false,
+        "total": 254,
+        "updatedAt": "2016-02-13T00:57:06.547Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-09-05T20:49:18.994Z",
+        "current": 1259,
+        "currentPage": "1259",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Neutronium Alchemist",
+        "objectId": "ighoY8YTko",
+        "shelfed": false,
+        "shelved": false,
+        "total": 1259,
+        "totalpages": "1259",
+        "updatedAt": "2013-11-17T22:30:33.421Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-02-04T18:22:55.629Z",
+        "current": 16,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Melody \u0026 counterpoint ",
+        "objectId": "ijv3jhysHU",
+        "shelved": false,
+        "total": 31,
+        "updatedAt": "2016-07-12T11:21:25.412Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-03-17T14:09:29.000Z",
+        "current": 19,
+        "done": false,
+        "genre": "Fantasy",
+        "id": null,
+        "name": "Magician",
+        "objectId": "ipMZyhbXNc",
+        "shelved": false,
+        "total": 841,
+        "updatedAt": "2016-12-03T08:45:23.981Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-08-12T16:59:25.061Z",
+        "current": 0,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "A Jag In Space - A Just Determination",
+        "objectId": "ixVuqbZmCD",
+        "shelved": false,
+        "total": 339,
+        "updatedAt": "2015-08-12T16:59:25.537Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-06-07T10:58:34.538Z",
+        "current": 254,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Forever War",
+        "objectId": "jusW0kLqie",
+        "shelved": false,
+        "total": 254,
+        "updatedAt": "2016-01-01T11:33:38.990Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-01-11T13:21:04.664Z",
+        "current": 260,
+        "done": true,
+        "genre": "Self Help",
+        "id": null,
+        "name": "The Element",
+        "objectId": "kYUq9IFhI9",
+        "shelved": false,
+        "total": 260,
+        "updatedAt": "2015-04-30T08:25:57.438Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-08-12T11:48:08.377Z",
+        "current": 16,
+        "done": false,
+        "genre": "Horror",
+        "id": null,
+        "name": "Feed",
+        "objectId": "kjFbH4PqOC",
+        "shelved": false,
+        "total": 571,
+        "updatedAt": "2016-11-20T12:15:17.798Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-01-26T22:39:12.021Z",
+        "current": 210,
+        "currentPage": "210",
+        "genre": "Web Development",
+        "name": "Head First Mobile Web",
+        "objectId": "kxgv4bPRzw",
+        "shelfed": false,
+        "shelved": true,
+        "total": 415,
+        "totalpages": "415",
+        "updatedAt": "2014-11-03T15:32:22.861Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-11-01T18:14:30.331Z",
+        "current": 415,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Stars - Imperfect Sword",
+        "objectId": "lntqmwMpMQ",
+        "shelved": false,
+        "total": 415,
+        "updatedAt": "2016-11-19T10:46:40.109Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-09-08T11:45:25.823Z",
+        "current": 447,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Stars: Tarnished Knight",
+        "objectId": "lx0daQ5CLU",
+        "shelved": false,
+        "total": 447,
+        "updatedAt": "2016-09-27T16:52:37.015Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-10-09T13:23:08.100Z",
+        "current": 358,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Relentless",
+        "objectId": "oU14GxC7t8",
+        "shelved": false,
+        "total": 358,
+        "updatedAt": "2015-05-24T22:01:43.195Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-01-26T22:34:52.474Z",
+        "current": 234,
+        "currentPage": "234",
+        "genre": "Web Development",
+        "name": "Pro CSS for High Traffic Websites",
+        "objectId": "pA2yM6p0zA",
+        "shelfed": false,
+        "shelved": true,
+        "total": 382,
+        "totalpages": "382",
+        "updatedAt": "2014-09-18T07:37:53.057Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "David Drake",
+        "createdAt": "2013-02-20T20:19:25.843Z",
+        "current": 24,
+        "currentPage": "24",
+        "genre": "Sci-Fi",
+        "name": "Cross the Stars",
+        "objectId": "qjlLGDRjMG",
+        "shelfed": true,
+        "shelved": true,
+        "total": 342,
+        "totalpages": "342",
+        "updatedAt": "2013-11-17T21:59:36.345Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-03-16T15:42:33.884Z",
+        "current": 0,
+        "done": false,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "A Meeting With Medusa",
+        "objectId": "rb7oY0GRAw",
+        "shelved": false,
+        "total": 67,
+        "updatedAt": "2016-03-16T15:42:34.248Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Alastair Reynolds",
+        "createdAt": "2013-03-11T03:52:06.677Z",
+        "current": 490,
+        "currentPage": "490",
+        "done": true,
+        "genre": "Sci-Fi",
+        "name": "Terminal World",
+        "objectId": "rtrUWDhiXZ",
+        "total": 490,
+        "totalpages": "490",
+        "updatedAt": "2013-10-29T00:06:49.000Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-09-26T08:44:18.812Z",
+        "current": 1244,
+        "currentPage": "146",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Naked God",
+        "objectId": "sce1bCPaSM",
+        "shelfed": false,
+        "shelved": false,
+        "total": 1244,
+        "totalpages": "1244",
+        "updatedAt": "2014-07-09T17:22:03.579Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-08-15T15:45:38.308Z",
+        "current": 88,
+        "done": false,
+        "genre": "Fiction",
+        "id": null,
+        "name": "Bleeding London",
+        "objectId": "siO42YRYc3",
+        "shelved": false,
+        "total": 348,
+        "updatedAt": "2016-11-20T11:15:42.011Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-02-05T00:43:57.232Z",
+        "current": 0,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Melody Writing And Analysis",
+        "objectId": "sk6FzS2Kmy",
+        "shelved": false,
+        "total": 188,
+        "updatedAt": "2016-02-05T00:43:57.658Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-08-12T17:02:37.948Z",
+        "current": 72,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Understanding popular music",
+        "objectId": "uXlOsnO30l",
+        "shelved": false,
+        "total": 286,
+        "updatedAt": "2016-02-14T17:55:00.723Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Lawrence J. Cohen",
+        "createdAt": "2013-02-15T13:32:57.934Z",
+        "current": 295,
+        "currentPage": "114",
+        "done": true,
+        "genre": "Parenting",
+        "name": "Playful Parenting",
+        "objectId": "vLG4i67pK0",
+        "shelfed": false,
+        "shelved": false,
+        "total": 295,
+        "totalpages": "295",
+        "updatedAt": "2015-10-23T14:12:25.220Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2014-09-30T23:19:28.827Z",
+        "current": 682,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Complete Robot",
+        "objectId": "wc6L9Mn5in",
+        "shelved": false,
+        "total": 682,
+        "updatedAt": "2015-10-17T08:09:34.399Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "Marijn Haverbeke",
+        "createdAt": "2013-02-03T23:57:20.617Z",
+        "current": 100,
+        "currentPage": "100",
+        "genre": "Web Development",
+        "name": "Eloquent JavaScript",
+        "objectId": "wlZGTMZSRr",
+        "shelfed": true,
+        "shelved": true,
+        "total": 196,
+        "totalpages": "196",
+        "updatedAt": "2013-11-17T21:59:54.218Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-08-12T11:43:50.535Z",
+        "current": 489,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Beyond The Frontier - Guardian",
+        "objectId": "x4Y2h7I13w",
+        "shelved": false,
+        "total": 489,
+        "updatedAt": "2016-09-05T11:29:52.639Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-09-16T19:17:10.122Z",
+        "current": 461,
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "The Lost Fleet: Beyond The Frontier - Steadfast",
+        "objectId": "x6ZKKzKGMI",
+        "shelved": false,
+        "total": 461,
+        "updatedAt": "2016-11-09T13:24:04.135Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2013-08-29T10:09:28.526Z",
+        "current": 252,
+        "currentPage": "252",
+        "done": true,
+        "genre": "Sci-Fi",
+        "id": null,
+        "name": "Rendezvous with Rama",
+        "objectId": "xdTRCL8whw",
+        "shelfed": false,
+        "shelved": false,
+        "total": 252,
+        "totalpages": "252",
+        "updatedAt": "2013-11-17T22:31:06.250Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-02-03T00:07:29.989Z",
+        "current": 174,
+        "done": true,
+        "genre": "Self Help",
+        "id": null,
+        "name": "Instant Motivation",
+        "objectId": "yAKFMM0lw6",
+        "shelved": false,
+        "total": 174,
+        "updatedAt": "2015-03-12T23:20:42.942Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "ZrQZP9PD53"
+        },
+        "username": "steinar"
+    },
+	{
+        "author": "",
+        "createdAt": "2015-04-25T12:34:42.586Z",
+        "current": 200,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "How Music Works",
+        "objectId": "yDUtJ3puag",
+        "shelved": false,
+        "total": 358,
+        "updatedAt": "2016-12-03T08:36:35.706Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    },
+	{
+        "author": "",
+        "createdAt": "2016-02-10T17:53:14.584Z",
+        "current": 0,
+        "done": false,
+        "genre": "Music",
+        "id": null,
+        "name": "Harmony",
+        "objectId": "ypCiiss1HK",
+        "shelved": false,
+        "total": 322,
+        "updatedAt": "2016-02-10T17:53:14.908Z",
+        "user": {
+            "__type": "Pointer",
+            "className": "_User",
+            "objectId": "XDUTBwEw3h"
+        },
+        "username": "Biggs"
+    }
+] }
