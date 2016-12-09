@@ -1,1 +1,17 @@
 h1 The New Sir Gester
+
+h2 Login
+div(data-bind="with: user")
+  p Name:
+    input(data-bind="value: first")
+  p Password: 
+    input(data-bind="value: last")
+  input(type="button" value="Login" data-bind="click: login")
+
+div(data-bind="visible: loggedin")
+  ul(data-bind="foreach: books")
+    li(data-bind="text: name")
+
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js")
+script(type="text/javascript" src="js/main.js")

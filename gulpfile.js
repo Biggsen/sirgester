@@ -7,7 +7,7 @@ var harp        = require('harp');
  * Serve the Harp Site from the src directory
  */
 gulp.task('serve', function () {
-  harp.server(__dirname + '/src', {
+  harp.server(__dirname, {
     port: 9000
   }, function () {
     browserSync({
