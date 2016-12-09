@@ -3,6 +3,6 @@
 	"version": "1.0.0",
 	"description": "Sir Gester on Heroku",
 	"dependencies": {
-		"harp": "*"
+		"harp": "^0.20.3"
 	}
 }
