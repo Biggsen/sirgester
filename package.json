@@ -2,6 +2,9 @@
 	"name": "sirgester",
 	"version": "1.0.0",
 	"description": "Sir Gester on Heroku",
+	"engines": {
+		"node": "4.5.0"
+	},
 	"dependencies": {
 		"harp": "^0.20.3"
 	}
