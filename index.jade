@@ -1,11 +1,13 @@
 
 
-div.content(data-bind="visible: !loggedin()")
+
+
+.content(data-bind="visible: !loggedin()")
   h3 Login
   div(data-bind="with: user")
     form
       fieldset
-        div.form__row
+        .form__row
           label(for="name") Name
           input(type="text" data-bind="value: username" id="name")
           br
@@ -16,5 +18,18 @@ div.content(data-bind="visible: !loggedin()")
 
 div(data-bind="visible: loggedin")
   div(data-bind="with: booksView")
-    ul(data-bind="foreach: books")
-      li(data-bind="text: name")
+    ul(data-bind="foreach: books").list--unstyled
+      li
+        h6(data-bind="text: name")
+        .progressbar
+          span.pages-left 340
+          span.pages-read 23
+          span.pages-to-milestone 7
+          .progressbar-milestone(style="width: 25%")
+            .progressbar-inner(style="width: 80%")
+        dl.dlist--vertical
+          dt Author(s)
+          dd First Last
+          dt Genre
+          dd(data-bind="text: genre")
+
