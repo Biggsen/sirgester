@@ -1,47 +1,76 @@
 var bookId = '584b186a8ff5480300d05fad';
 var baseUrl = 'https://api.fieldbook.com/v1/' + bookId;
-
 var appKey = "vA-OFzmGzxX0UtlZfVUk"
 
-var url = baseUrl + '/book';
-var jqxhr = $.ajax({
-    type: 'GET',
-    url: url,
-    headers: {
-        "accept":"application/json",
-    },
-    beforeSend : function(xhr) {
-      var basic = "Basic " + btoa("key-1" + ":" + appKey);
-      xhr.setRequestHeader("Authorization", basic);
-    },
-  })
-  .done(function(data) {
-    console.log(data);
-    viewModel.books(data);
-  })
-  .fail(function(er) {
-    console.log(er);  
-  })
-  .always(function() {
-    //console.log( "complete" );
-  });
+var UserView = function() {
+    var self = this;
 
-var user = function() {
-    this.first = ko.observable(),
-    this.last = ko.observable(),
+    this.username = ko.observable("biggs"),
+    this.password = ko.observable("biggs"),
     this.login = function() {
-      if(this.first() == "Biggs") {
-        alert('yey')
-      } else {
-        alert('sag')
-      }
-    }.bind(this);
+      var url = baseUrl + '/user?bcryptpassword=' + btoa(self.username() + ":" + self.password());
+      $.ajax({
+        type: 'GET',
+        url: url,
+        headers: {
+            "accept":"application/json",
+        },
+        beforeSend : function(xhr) {
+          var basic = "Basic " + btoa("key-1" + ":" + appKey);
+          xhr.setRequestHeader("Authorization", basic);
+        },
+      })
+      .done(function(data) {
+        if(data.length > 0) {
+          sessionStorage.loggedin = true;
+          sessionStorage.userid = data[0].objectid;
+          viewModel.loggedin(true);
+        }
+      })
+      .fail(function(er) {
+        console.log(er);  
+      });
+    };
 };
 
-var viewModel = {
-    user: user,
-    loggedin: true,
-    books: ko.observableArray()
+var BookView = function() {
+  var self = this;
+  self.books = ko.observableArray();
+}
+
+
+var ViewModel = function() {
+  sessionStorage.loggedin = false;
+  this.user = new UserView();
+  this.booksView = new BookView();
+  this.loggedin = ko.observable(sessionStorage.loggedin == true);
+
+  this.loggedin.subscribe(function(val){
+    var url = baseUrl + '/book?user_objectid=' + sessionStorage.userid;
+    if(val == true){
+      $.ajax({
+        type: 'GET',
+        url: url,
+        headers: {
+            "accept":"application/json",
+        },
+        beforeSend : function(xhr) {
+          var basic = "Basic " + btoa("key-1" + ":" + appKey);
+          xhr.setRequestHeader("Authorization", basic);
+        },
+      })
+      .done(function(data) {
+        viewModel.booksView.books(data);
+      })
+      .fail(function(er) {
+        console.log(er);  
+      })
+      .always(function() {
+        //console.log( "complete" );
+      });
+    }
+  });
 };
 
+var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
