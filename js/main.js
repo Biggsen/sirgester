@@ -40,12 +40,12 @@ var BookView = function() {
 
 
 var ViewModel = function() {
-  sessionStorage.loggedin = false;
   this.user = new UserView();
   this.booksView = new BookView();
-  this.loggedin = ko.observable(sessionStorage.loggedin == true);
+  this.loggedin = ko.observable(sessionStorage.loggedin == 'true');
 
   this.loggedin.subscribe(function(val){
+    console.log('subscribe');
     var url = baseUrl + '/book?user_objectid=' + sessionStorage.userid;
     if(val == true){
       $.ajax({
@@ -74,3 +74,10 @@ var ViewModel = function() {
 
 var viewModel = new ViewModel();
 ko.applyBindings(viewModel);
+
+$(document).ready(function() {
+  if(viewModel.loggedin() === true) {
+    console.log('notify');
+    viewModel.loggedin.notifySubscribers(true)
+  }
+});
