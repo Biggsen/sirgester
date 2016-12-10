@@ -1,35 +1,5 @@
-
-
-
-
-.content(data-bind="visible: !loggedin()")
-  h3 Login
-  div(data-bind="with: user")
-    form
-      fieldset
-        .form__row
-          label(for="name") Name
-          input(type="text" data-bind="value: username" id="name")
-          br
-          label(for="password") Password
-          input(type="password" data-bind="value: password" id="password")
-          br
-          input(type="button" value="Login" data-bind="click: login" class="btn")
-
-div(data-bind="visible: loggedin")
-  div(data-bind="with: booksView")
-    ul(data-bind="foreach: books").list--unstyled
-      li
-        h6(data-bind="text: name")
-        .progressbar
-          span.pages-left 340
-          span.pages-read 23
-          span.pages-to-milestone 7
-          .progressbar-milestone(style="width: 25%")
-            .progressbar-inner(style="width: 80%")
-        dl.dlist--vertical
-          dt Author(s)
-          dd First Last
-          dt Genre
-          dd(data-bind="text: genre")
-
+div.wrap
+  h2
+    a(href=".") Sir Gester
+  a.float--right Logout
+  div(id="page" data-bind="component: { name: route().page, params: route }")

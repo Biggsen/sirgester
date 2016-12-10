@@ -1,0 +1,13 @@
+.content
+  h3 Login
+  div
+    form
+      fieldset
+        .form__row
+          label(for="name") Name
+          input(type="text" data-bind="value: username" id="name")
+          br
+          label(for="password") Password
+          input(type="password" data-bind="value: password" id="password")
+          br
+          input(type="button" value="Login" data-bind="click: login" class="btn")

@@ -1,0 +1,15 @@
+div
+  ul(data-bind="foreach: books").list--unstyled
+    li
+      h6(data-bind="text: name")
+      .progressbar
+        span.pages-left 340
+        span.pages-read 23
+        span.pages-to-milestone 7
+        .progressbar-milestone(style="width: 25%")
+          .progressbar-inner(style="width: 80%")
+      dl.dlist--vertical
+        dt Author(s)
+        dd First Last
+        dt Genre
+        dd(data-bind="text: genre")
