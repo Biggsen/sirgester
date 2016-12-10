@@ -28,7 +28,7 @@ var UserView = function() {
         }
       })
       .fail(function(er) {
-        console.log(er);  
+        console.log(er);
       });
     };
 };
@@ -63,7 +63,7 @@ var ViewModel = function() {
         viewModel.booksView.books(data);
       })
       .fail(function(er) {
-        console.log(er);  
+        console.log(er);
       })
       .always(function() {
         //console.log( "complete" );
