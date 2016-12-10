@@ -3,9 +3,9 @@ div
     li
       h6(data-bind="text: name")
       .progressbar
-        span.pages-left 340
-        span.pages-read 23
-        span.pages-to-milestone 7
+        span.pages-left(data-bind="text: left")
+        span.pages-read(data-bind="text: current")
+        span.pages-to-milestone(data-bind="text: nextMileStone")
         .progressbar-milestone(style="width: 25%")
           .progressbar-inner(style="width: 80%")
       dl.dlist--vertical
