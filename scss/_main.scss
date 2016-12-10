@@ -14,3 +14,8 @@ $susy: (
 .wrap {
   @include container;
 }
+
+/* Tells Susy there's 8 columns in the content */
+.content {
+  @include span(6);
+}
