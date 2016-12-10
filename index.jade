@@ -1,14 +1,20 @@
-h1 The New Sir Gester
+div.wrap
 
-h2 Login
-div(data-bind="with: user")
-  p Name:
-    input(data-bind="value: first")
-  p Password: 
-    input(data-bind="value: last")
-  input(type="button" value="Login" data-bind="click: login")
+	h1 Sir Gester
 
-div(data-bind="visible: loggedin")
-  ul(data-bind="foreach: books")
-    li(data-bind="text: name")
+	h2 Login
+	div(data-bind="with: user")
+		form
+			fieldset
+				div.form__row
+					label(for="name") Name
+					input(type="text" data-bind="value: first" id="name")
+					br
+					label(for="password") Password
+					input(type="password" data-bind="value: last" id="password")
+					br
+					input(type="button" value="Login" data-bind="click: login" class="btn")
 
+	div(data-bind="visible: loggedin")
+		ul(data-bind="foreach: books")
+			li(data-bind="text: name")
