@@ -15,6 +15,9 @@ $susy: (
 
 .wrap {
   @include container;
+  @include mq(down,600px) {
+    padding: 10px;
+  }
 }
 
 /* Tells Susy there's 8 columns in the content */
