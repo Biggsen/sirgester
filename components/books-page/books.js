@@ -19,6 +19,14 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
       self.done.sort(self.sorthandler('updatedat', 'desc'));
     });
 
+    this.orderbyMilestone = function() {
+      self.books.sort(self.sorthandler('nextMilestone', 'asc'));
+    }
+
+    this.orderbyLeft = function() {
+      self.books.sort(self.sorthandler('left', 'asc'));
+    }
+
     this.update = function (books) {
       $.each(books, function (index, record) {
         record.left = record.total - record.current;
