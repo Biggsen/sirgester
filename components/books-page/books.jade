@@ -5,18 +5,21 @@ div
       .progressbar
         .progressbar-milestone(data-bind="style: { width: milestonePage + '%'}")
         .progressbar-inner(data-bind="style: { width: percentage + '%' }")
-      dl.dlist--vertical
-        dt Author(s)
-        dd First Last
-        dt Genre
-        dd(data-bind="text: genre")
-        dt Left
-        dd(data-bind="text: left")
-        dt Current
-        dd(data-bind="text: current")
-        dt Next ms
-        dd(data-bind="text: nextMilestone")
-        
+      details
+        summary Details
+        div
+          dl.dlist--vertical
+            dt Author(s)
+            dd First Last
+            dt Genre
+            dd(data-bind="text: genre")
+            dt Left
+            dd(data-bind="text: left")
+            dt Current
+            dd(data-bind="text: current")
+            dt Next ms
+            dd(data-bind="text: nextMilestone")
+
 div
   h2 Shelved
   ul(data-bind="foreach: shelved").list--unstyled
