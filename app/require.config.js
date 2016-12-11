@@ -7,6 +7,7 @@ var require = {
     "hasher":               "bower_components/hasher/dist/js/hasher.min",
     "signals":              "bower_components/js-signals/dist/signals.min",
     "text":                 "bower_components/text/text",
-    "api":                  "js/api"
+    "api":                  "js/api",
+    "calc":                 "js/calc"
   }
 }
