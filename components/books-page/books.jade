@@ -1,4 +1,6 @@
 div
+  input(type="button" value="Milestone" data-bind="click: orderbyMilestone")
+  input(type="button" value="Left" data-bind="click: orderbyLeft")
   ul(data-bind="foreach: books").list--unstyled
     li
       h6(data-bind="text: name")
