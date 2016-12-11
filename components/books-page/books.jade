@@ -3,13 +3,16 @@ div
     li
       h6(data-bind="text: name")
       .progressbar
-        span.pages-left(data-bind="text: left")
-        span.pages-read(data-bind="text: current")
-        span.pages-to-milestone(data-bind="text: nextMileStone")
-        .progressbar-milestone(style="width: 25%")
-          .progressbar-inner(style="width: 80%")
+        .progressbar-milestone(data-bind="style: { width: milestonePage + '%'}")
+        .progressbar-inner(data-bind="style: { width: percentage + '%' }")
       dl.dlist--vertical
         dt Author(s)
         dd First Last
         dt Genre
         dd(data-bind="text: genre")
+        dt Left
+        dd(data-bind="text: left")
+        dt Current
+        dd(data-bind="text: current")
+        dt Next ms
+        dd(data-bind="text: nextMilestone")
