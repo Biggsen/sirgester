@@ -12,7 +12,7 @@ define(function(require, exports, module) {
     },
 
     pagesToNextMilestone: function ( total, current ) {
-      var result  = this.mileStonePage( this.nextMilestone( total, current), total ) - current;
+      var result  = this.milestonePage( this.nextMilestone( total, current), total ) - current;
       if( result < 0 )
         return 0;
       return result;
@@ -29,13 +29,13 @@ define(function(require, exports, module) {
     },
 
     pagesToMilestone: function ( milestone, total, current ) {
-        var result  = this.mileStonePage( milestone, total ) - current;
+        var result  = this.milestonePage( milestone, total ) - current;
       if( result < 0 )
         return 0;
       return result;
     },
 
-    mileStonePage: function ( milestone, total ) {
+    milestonePage: function ( milestone, total ) {
       return (( milestone * total ) / 100).toFixed(0);
     }
   }

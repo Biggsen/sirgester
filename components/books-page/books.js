@@ -1,5 +1,5 @@
 define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, api, calc){
-  
+
   if(!sessionStorage.userid) {
     window.location.hash = '#login';
   }
@@ -18,9 +18,8 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
     this.update = function (books) {
       $.each(books, function (index, record) {
         record.left = record.total - record.current;
-
-        record.mileStonePage = calc.nextMilestone(record.total, record.current);
-        record.nextMileStone = calc.pagesToNextMilestone(record.total, record.current);
+        record.milestonePage = calc.nextMilestone(record.total, record.current);
+        record.nextMilestone = calc.pagesToNextMilestone(record.total, record.current);
         record.percentage = calc.percentage(record.total, record.current);
         record.percentageLeft = calc.percentageLeft(record.total, record.current);
       });
