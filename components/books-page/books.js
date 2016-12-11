@@ -1,5 +1,5 @@
 define(['knockout', 'text!./books.html', 'api'], function(ko, template, api){
-  
+
   if(!sessionStorage.userid) {
     window.location.hash = '#login';
   }
@@ -19,8 +19,8 @@ define(['knockout', 'text!./books.html', 'api'], function(ko, template, api){
       $.each(books, function (index, record) {
         record.left = record.total - record.current;
 
-        record.mileStonePage = self.nextMilestone(record.total, record.current);
-        record.nextMileStone = self.pagesToNextMilestone(record.total, record.current);
+        record.milestonePage = self.nextMilestone(record.total, record.current);
+        record.nextMilestone = self.pagesToNextMilestone(record.total, record.current);
         record.percentage = self.percentage(record.total, record.current);
         record.percentageLeft = self.percentageLeft(record.total, record.current);
       });
@@ -37,7 +37,7 @@ define(['knockout', 'text!./books.html', 'api'], function(ko, template, api){
     };
 
     this.pagesToNextMilestone = function ( total, current ) {
-      var result  = self.mileStonePage( self.nextMilestone( total, current), total ) - current;
+      var result  = self.milestonePage( self.nextMilestone( total, current), total ) - current;
       if( result < 0 )
         return 0;
       return result;
@@ -54,13 +54,13 @@ define(['knockout', 'text!./books.html', 'api'], function(ko, template, api){
     };
 
     this.pagesToMilestone = function ( milestone, total, current ) {
-        var result  = self.mileStonePage( milestone, total ) - current;
+        var result  = self.milestonePage( milestone, total ) - current;
       if( result < 0 )
         return 0;
       return result;
     };
 
-    this.mileStonePage = function ( milestone, total ) {
+    this.milestonePage = function ( milestone, total ) {
       return (( milestone * total ) / 100).toFixed(0);
     };
   }
