@@ -53,10 +53,18 @@ $susy: (
   background-color: $color-grey-dark;
 }
 
+
 // DETAILS ELEMENT
 
 summary {
   color: #888;
+}
+
+
+// FORM CONTROLS
+
+input.form-control--short {
+  width: 100px;
 }
 
 
