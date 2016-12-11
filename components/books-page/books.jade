@@ -16,3 +16,20 @@ div
         dd(data-bind="text: current")
         dt Next ms
         dd(data-bind="text: nextMilestone")
+        
+div
+  h2 Shelved
+  ul(data-bind="foreach: shelved").list--unstyled
+    li
+      h6(data-bind="text: name")
+      dl.dlist--vertical
+        dt Updated
+        dd(data-bind="text: updatedat")
+div
+  h2 Done
+  ul(data-bind="foreach: done").list--unstyled
+    li
+      h6(data-bind="text: name")
+      dl.dlist--vertical
+       dt Updated
+       dd(data-bind="text: updatedat")
