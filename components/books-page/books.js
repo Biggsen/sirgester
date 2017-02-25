@@ -4,6 +4,46 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
     window.location.hash = '#login';
   }
 
+  function BookViewModel(book) {
+    var self = this;
+
+    self.name = ko.observable(book.name);
+    self.genre = ko.observable(book.genre);
+    self.current = ko.observable(book.current);
+    self.total = book.total;
+    self.updatedat = book.updatedat;
+    self.objectid = book.objectid;
+
+    self.updatePage = function(obj) {
+      var selector = "#" + obj.objectid + " input[type=number]";
+      console.log(selector);
+      var val = $(selector).val();
+      val = (!val) ? 0 : val;
+      val = (val < 0) ? 0 : val;
+      console.log(val);
+      
+      obj.current(parseInt(val));
+      obj.updateInfo(obj.total, obj.current());
+    }
+
+    self.left = ko.observable();
+    self.milestonePage = ko.observable();
+    self.nextMilestone = ko.observable();
+    self.percentage = ko.observable();
+    self.percentageLeft = ko.observable();
+
+    self.updateInfo = function(total, current) {
+      self.left(total - current);
+      self.milestonePage(calc.nextMilestone(total, current));
+      self.nextMilestone(calc.pagesToNextMilestone(total, current));
+      self.percentage(calc.percentage(total, current));
+      self.percentageLeft(calc.percentageLeft(total, current));  
+    }
+
+    self.book = book;
+    self.updateInfo(book.total, book.current);
+  }
+
   function BooksViewModel(route) {
     var self = this;
 
@@ -29,19 +69,34 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
 
     this.update = function (books) {
       $.each(books, function (index, record) {
-        record.left = record.total - record.current;
-        record.milestonePage = calc.nextMilestone(record.total, record.current);
-        record.nextMilestone = calc.pagesToNextMilestone(record.total, record.current);
-        record.percentage = calc.percentage(record.total, record.current);
-        record.percentageLeft = calc.percentageLeft(record.total, record.current);
 
         if(record.done && record.done == 'true') {
-          self.done.push(record);
+          self.done.push(new BookViewModel(record));
         } else if(record.shelved && record.shelved == 'true') {
-          self.shelved.push(record);
+          self.shelved.push(new BookViewModel(record));
         } else {
-          self.books.push(record);
+          self.books.push(new BookViewModel(record));
         }
+        
+        /*
+        record.updateInfo = function(info) {
+          info.left = ko.observable(info.total - info.current);
+          info.milestonePage = calc.nextMilestone(info.total, info.current);
+          info.nextMilestone = calc.pagesToNextMilestone(info.total, info.current);
+          info.percentage = calc.percentage(info.total, info.current);
+          info.percentageLeft = calc.percentageLeft(info.total, info.current);  
+        }
+
+        record.updatePage = function(obj, e) {
+          obj.current = 2;
+          obj.updateInfo(obj);
+          document.debug = obj;
+          console.log(obj);
+        }
+
+        record.updateInfo(record);
+
+        */
       });
     };
 
