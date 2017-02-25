@@ -2,3 +2,6 @@
 bower_components
 node_modules
 sirgester.sublime-workspace
+
+#local
+test_curl

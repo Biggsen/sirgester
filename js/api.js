@@ -26,6 +26,27 @@ define(function(require, exports, module) {
         .always(function() {
           //console.log( "complete" );
         });
+    },
+    update: function(url, partial) {
+      $.ajax({
+          type: 'PATCH',
+          url: baseUrl + url,
+          headers: {
+              "accept":"application/json",
+              "Content-Type": "application/json"
+          },
+          beforeSend : function(xhr) {
+            var basic = "Basic " + btoa("key-1" + ":" + appKey);
+            xhr.setRequestHeader("Authorization", basic);
+          },
+          data : JSON.stringify(partial)
+        })
+        .fail(function(er) {
+          console.log(er);
+        })
+        .always(function() {
+          //console.log( "complete" );
+        });
     }
   }
 

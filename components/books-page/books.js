@@ -13,16 +13,20 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
     self.total = book.total;
     self.updatedat = book.updatedat;
     self.objectid = book.objectid;
+    self.id = book.id;
 
     self.updatePage = function(obj) {
+
       var selector = "#" + obj.objectid + " input[type=number]";
-      console.log(selector);
       var val = $(selector).val();
-      val = (!val) ? 0 : val;
+      val = (!val) ? 0 : parseInt(val);
       val = (val < 0) ? 0 : val;
-      console.log(val);
+
+      var url = '/book/' + obj.id;
+      var partial = {current: val };
+      api.update(url, partial);
       
-      obj.current(parseInt(val));
+      obj.current(val);
       obj.updateInfo(obj.total, obj.current());
     }
 
@@ -53,6 +57,7 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
 
     var url = '/book?user_objectid=' + sessionStorage.userid;
     api.get(url, function(data){
+      console.log(data.id);
       self.update(data);
       self.books.sort(self.sorthandler('nextMilestone', 'asc'));
       self.shelved.sort(self.sorthandler('updatedat', 'desc'));
@@ -77,26 +82,7 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
         } else {
           self.books.push(new BookViewModel(record));
         }
-        
-        /*
-        record.updateInfo = function(info) {
-          info.left = ko.observable(info.total - info.current);
-          info.milestonePage = calc.nextMilestone(info.total, info.current);
-          info.nextMilestone = calc.pagesToNextMilestone(info.total, info.current);
-          info.percentage = calc.percentage(info.total, info.current);
-          info.percentageLeft = calc.percentageLeft(info.total, info.current);  
-        }
 
-        record.updatePage = function(obj, e) {
-          obj.current = 2;
-          obj.updateInfo(obj);
-          document.debug = obj;
-          console.log(obj);
-        }
-
-        record.updateInfo(record);
-
-        */
       });
     };
 
