@@ -6,8 +6,8 @@ div
     li.list-item.push--bottom
       h4.flush--bottom(data-bind="text: name")
       .progressbar
-        .progressbar-milestone(data-bind="style: { width: milestonePage + '%'}")
-        .progressbar-inner(data-bind="style: { width: percentage + '%' }")
+        .progressbar-milestone(data-bind="style: { width: milestonePage() + '%'}")
+        .progressbar-inner(data-bind="style: { width: percentage() + '%' }")
       details.soft--bottom
         summary Details
         div(data-bind="attr: { id: objectid }")
@@ -32,8 +32,8 @@ div
     li.list-item.push--bottom
       h6.flush--bottom(data-bind="text: name")
       .progressbar
-        .progressbar-milestone(data-bind="style: { width: milestonePage + '%'}")
-        .progressbar-inner(data-bind="style: { width: percentage + '%' }")
+        .progressbar-milestone(data-bind="style: { width: milestonePage() + '%'}")
+        .progressbar-inner(data-bind="style: { width: percentage() + '%' }")
       details.soft--bottom
         summary Details
         div
