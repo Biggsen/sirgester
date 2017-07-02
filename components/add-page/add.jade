@@ -14,7 +14,7 @@
           input(type="text" id="lastName" data-bind="value: lastName")
           br
           label(for="genre") Genre
-          select(data-bind="options: genres")
+          select(data-bind="options: genres, optionsText: function(item) { return item.name }, value: selectedGenre")
           br
           label(for="totalPages") Total pages
           input(type="number" id="totalPages" data-bind="value: total")

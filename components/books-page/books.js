@@ -1,4 +1,4 @@
-define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, api, calc){
+define(['knockout', 'text!./books.html', 'api', 'calc', 'utils'], function(ko, template, api, calc, utils){
 
   if(!sessionStorage.userid) {
     window.location.hash = '#login';
@@ -58,17 +58,17 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
     var url = '/book?user_objectid=' + sessionStorage.userid;
     api.get(url, function(data){
       self.update(data);
-      self.books.sort(self.sorthandler('nextMilestone', 'asc'));
-      self.shelved.sort(self.sorthandler('updatedat', 'desc'));
-      self.done.sort(self.sorthandler('updatedat', 'desc'));
+      self.books.sort(utils.sort('nextMilestone', 'asc'));
+      self.shelved.sort(utils.sort('updatedat', 'desc'));
+      self.done.sort(utils.sort('updatedat', 'desc'));
     });
 
     this.orderbyMilestone = function() {
-      self.books.sort(self.sorthandler('nextMilestone', 'asc'));
+      self.books.sort(utils.sort('nextMilestone', 'asc'));
     }
 
     this.orderbyLeft = function() {
-      self.books.sort(self.sorthandler('left', 'asc'));
+      self.books.sort(utils.sort('left', 'asc'));
     }
 
     this.update = function (books) {
@@ -83,32 +83,6 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
         }
 
       });
-    };
-
-    this.sorthandler = function (orderby, dir, f) {
-      var result = null;
-
-      if (!f) {
-          f = function (obj) 
-          { 
-            if(typeof(obj) === "function") {
-              obj = obj();
-            }
-            return obj; 
-          }
-      }
-
-      if (dir && dir === 'desc') {
-        result = function (b, a) {
-            return f(a[orderby]) < f(b[orderby]) ? -1 : f(a[orderby]) > f(b[orderby]) ? 1 : f(a[orderby]) == f(b[orderby]) ? 0 : 0;
-        }
-      } else {
-        result = function (a, b) {
-            return f(a[orderby]) < f(b[orderby]) ? -1 : f(a[orderby]) > f(b[orderby]) ? 1 : f(a[orderby]) == f(b[orderby]) ? 0 : 0;
-        };  
-      }
-
-      return result;
     };
   }
 

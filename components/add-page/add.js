@@ -1,16 +1,56 @@
-define(['knockout', 'text!./add.html', 'api', 'utils'], function(ko, template, api, utils){
+define(['knockout', 'text!./add.html', 'jquery', 'api', 'utils'], function(ko, template, $, api, utils){
 
   function AddViewModel(route) {
-    this.title = ko.observable("Forgive me, I just sold my only friend!);
-    this.firstName = ko.observable("Stone");
-    this.lastName = ko.observable("Gislason");
-    this.genres = ko.observableArray(["Sci-Fi", "Action", "Dev"]);
-    this.total = ko.observable(150);
-    this.current = ko.observable(3);
+    var self = this;
+
+    this.title = ko.observable("");
+    this.firstName = ko.observable("");
+    this.lastName = ko.observable("");
+    this.genres = ko.observableArray([]);
+    this.selectedGenre = ko.observable();
+    this.total = ko.observable(0);
+    this.current = ko.observable(0);
+
+    var url = '/genre';
+    api.get(url, function(data){
+      $.map(data, function( val, i ) {
+        self.genres.push(val);
+      });
+
+      self.genres.sort(utils.sort('name', 'asc'));
+
+      if(self.genres().length > 0)
+      {
+        self.selectedGenre(self.genres()[0]);
+      }
+    });
 
     this.savebook = function() {
-      alert('saving book');
-      console.log(utils.hash('stone'));
+      var now = new Date();
+      var bookId = utils.hash(self.title());
+      var authorId = utils.hash(self.firstName()+self.lastName());
+
+      api.create('/book', {
+        user_objectid: sessionStorage.userid,
+        objectid: bookId,
+        name: self.title(),
+        current: self.current(),
+        total: self.total(),
+        done: false,
+        shelved: false,
+        genre: self.selectedGenre()["name"],
+        updatedat: now.toISOString(),
+        createdat: now.toISOString()
+      });
+
+      api.create('/author', {
+        objectid: authorId,
+        book_objectid: bookId,
+        firstname: self.firstName(),
+        lastname: self.lastName(),
+        updatedat: now.toISOString(),
+        createdat: now.toISOString()
+      });
     }
   }
 
