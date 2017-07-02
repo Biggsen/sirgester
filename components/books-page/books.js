@@ -25,7 +25,7 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
       var url = '/book/' + obj.id;
       var partial = {current: val };
       api.update(url, partial);
-      
+
       obj.current(val);
       obj.updateInfo(obj.total, obj.current());
     }
@@ -41,7 +41,7 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
       self.milestonePage(calc.nextMilestone(total, current));
       self.nextMilestone(calc.pagesToNextMilestone(total, current));
       self.percentage(calc.percentage(total, current));
-      self.percentageLeft(calc.percentageLeft(total, current));  
+      self.percentageLeft(calc.percentageLeft(total, current));
     }
 
     self.book = book;
