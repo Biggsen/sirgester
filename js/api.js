@@ -47,6 +47,27 @@ define(function(require, exports, module) {
         .always(function() {
           //console.log( "complete" );
         });
+    },
+    create: function(url, record) {
+      $.ajax({
+          type: 'POST',
+          url: baseUrl + url,
+          headers: {
+              "accept":"application/json",
+              "Content-Type": "application/json"
+          },
+          beforeSend : function(xhr) {
+            var basic = "Basic " + btoa("key-1" + ":" + appKey);
+            xhr.setRequestHeader("Authorization", basic);
+          },
+          data : JSON.stringify(record)
+        })
+        .fail(function(er) {
+          console.log(er);
+        })
+        .always(function() {
+          //console.log( "complete" );
+        });
     }
   }
 
