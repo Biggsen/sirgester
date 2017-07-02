@@ -1,4 +1,4 @@
-define(['knockout', 'text!./books.html', 'api', 'calc', 'utils'], function(ko, template, api, calc, utils){
+define(['knockout', 'text!./books.html', 'jquery', 'api', 'calc', 'utils'], function(ko, template, $, api, calc, utils){
 
   if(!sessionStorage.userid) {
     window.location.hash = '#login';
@@ -14,6 +14,24 @@ define(['knockout', 'text!./books.html', 'api', 'calc', 'utils'], function(ko, t
     self.updatedat = book.updatedat;
     self.objectid = book.objectid;
     self.id = book.id;
+    self.authors = ko.observable("fetching author ...");
+
+    if(book.author) { // backwards compatability
+      self.authors(book.author);
+    }
+
+    var url = '/author?book_objectid=' + book.objectid;
+    api.get(url, function(data){
+
+      var authors = [];
+      $.map(data, function( val, i ) {
+        authors.push(val['firstname'] + ' ' + val['lastname']);
+      });
+
+      if(authors.length > 0) {
+        self.authors(authors.join(', '));
+      }
+    });
 
     self.updatePage = function(obj) {
 

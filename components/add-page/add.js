@@ -11,8 +11,7 @@ define(['knockout', 'text!./add.html', 'jquery', 'api', 'utils'], function(ko, t
     this.total = ko.observable(0);
     this.current = ko.observable(0);
 
-    var url = '/genre';
-    api.get(url, function(data){
+    api.get('/genre', function(data){
       $.map(data, function( val, i ) {
         self.genres.push(val);
       });
@@ -41,6 +40,8 @@ define(['knockout', 'text!./add.html', 'jquery', 'api', 'utils'], function(ko, t
         genre: self.selectedGenre()["name"],
         updatedat: now.toISOString(),
         createdat: now.toISOString()
+      }, function() {
+        window.location.hash = '#';  
       });
 
       api.create('/author', {
@@ -51,8 +52,6 @@ define(['knockout', 'text!./add.html', 'jquery', 'api', 'utils'], function(ko, t
         updatedat: now.toISOString(),
         createdat: now.toISOString()
       });
-
-      window.location.hash = '#';
     }
   }
 
