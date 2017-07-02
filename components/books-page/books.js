@@ -90,18 +90,23 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
       var result = null;
 
       if (!f) {
-          f = function (obj) { return obj; }
+          f = function (obj) 
+          { 
+            if(typeof(obj) === "function") {
+              obj = obj();
+            }
+            return obj; 
+          }
       }
-
 
       if (dir && dir === 'desc') {
         result = function (b, a) {
-            return f(a[orderby]) < f(b[orderby]) ? -1 : f(a[orderby]) > (b[orderby]) ? 1 : f(a[orderby]) == f(b[orderby]) ? 0 : 0;
+            return f(a[orderby]) < f(b[orderby]) ? -1 : f(a[orderby]) > f(b[orderby]) ? 1 : f(a[orderby]) == f(b[orderby]) ? 0 : 0;
         }
       } else {
         result = function (a, b) {
             return f(a[orderby]) < f(b[orderby]) ? -1 : f(a[orderby]) > f(b[orderby]) ? 1 : f(a[orderby]) == f(b[orderby]) ? 0 : 0;
-        };
+        };  
       }
 
       return result;
