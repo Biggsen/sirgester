@@ -18,7 +18,9 @@ define(function(require, exports, module) {
           },
         })
         .done(function(data) {
-          callback(data);
+          if(typeof(callback) == 'function') {
+            callback(data);  
+          }
         })
         .fail(function(er) {
           console.log(er);
@@ -27,7 +29,7 @@ define(function(require, exports, module) {
           //console.log( "complete" );
         });
     },
-    update: function(url, partial) {
+    update: function(url, partial, callback) {
       $.ajax({
           type: 'PATCH',
           url: baseUrl + url,
@@ -41,6 +43,11 @@ define(function(require, exports, module) {
           },
           data : JSON.stringify(partial)
         })
+        .done(function(data) {
+          if(typeof(callback) == 'function') {
+            callback(data);  
+          }
+        })
         .fail(function(er) {
           console.log(er);
         })
@@ -48,7 +55,7 @@ define(function(require, exports, module) {
           //console.log( "complete" );
         });
     },
-    create: function(url, record) {
+    create: function(url, record, callback) {
       $.ajax({
           type: 'POST',
           url: baseUrl + url,
@@ -61,6 +68,11 @@ define(function(require, exports, module) {
             xhr.setRequestHeader("Authorization", basic);
           },
           data : JSON.stringify(record)
+        })
+        .done(function(data) {
+          if(typeof(callback) == 'function') {
+            callback(data);  
+          }
         })
         .fail(function(er) {
           console.log(er);
