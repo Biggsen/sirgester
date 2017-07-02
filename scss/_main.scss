@@ -14,6 +14,7 @@ $susy: (
 @include border-box-sizing;
 
 .wrap {
+  padding: 20px;
   @include container;
   @include mq(down,600px) {
     padding: 10px;
@@ -21,17 +22,37 @@ $susy: (
 }
 
 /* Tells Susy there's 8 columns in the content */
-.content {
-  @include span(6);
+// .content {
+//   @include span(6);
+// }
+
+// LOGO
+
+.logo {
+  @include mq(up,440px) {
+    float: left;
+  }
 }
 
 // MENU
 
 .menu {
-  padding-top: 12px;
+  @include mq(up, 440px) {
+    float: right;
+    padding-top: 12px;
+  }
   a {
     margin-left: 16px;
+    &:first-child {
+      margin-left: 0;
+    }
   }
+}
+
+// CONTENT
+
+.content {
+  padding-top: 20px;
 }
 
 // ICONS
@@ -56,12 +77,18 @@ $susy: (
   position: relative;
   width: 100%;
   height: 20px;
-  background-color: $color-grey-light;
+  background-color: #eee;
+  @include mq(down,440px) {
+    height: 10px;
+  }
 }
 
 .progressbar-milestone {
   height: 20px;
-  background-color: $color-grey;
+  background-color: #ddd;
+  @include mq(down,440px) {
+    height: 10px;
+  }
 }
 
 .progressbar-inner {
@@ -69,7 +96,11 @@ $susy: (
   top: -20px;
   z-index: 1;
   height: 20px;
-  background-color: $color-grey-dark;
+  background-color: #bbb;
+  @include mq(down,440px) {
+    height: 10px;
+    top: -10px;
+  }
 }
 
 
@@ -84,6 +115,21 @@ summary {
 
 input.form-control--short {
   width: 100px;
+}
+
+// BOOK LIST
+
+.list-item {
+  margin-bottom: 20px;
+  @include mq(down,440px) {
+    margin-bottom: 10px;
+  }
+}
+
+.book-title {
+  @include mq(down,440px) {
+    font-size: 1.2rem;
+  }
 }
 
 

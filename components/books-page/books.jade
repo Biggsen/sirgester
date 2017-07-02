@@ -3,12 +3,12 @@ div
   input(type="button" value="Milestone" data-bind="click: orderbyMilestone").btn.push-half--right
   input(type="button" value="Left" data-bind="click: orderbyLeft").btn
   ul(data-bind="foreach: books").list--unstyled.push--top
-    li.list-item.push--bottom
-      h4.flush--bottom(data-bind="text: name")
+    li.list-item
+      h4.flush--bottom.book-title(data-bind="text: name")
       .progressbar
         .progressbar-milestone(data-bind="style: { width: milestonePage() + '%'}")
         .progressbar-inner(data-bind="style: { width: percentage() + '%' }")
-      details.soft--bottom
+      details
         summary Details
         div(data-bind="attr: { id: objectid }")
           dl.dlist--vertical
@@ -27,6 +27,8 @@ div
           input(type="number").form-control--short.float--left.push--right
           input(data-bind="click: updatePage" type="button" value="Update").btn.push-half--right
           input(type="button" value="Finish").btn
+          br
+          a Delete
 
 div
   h2 Shelved

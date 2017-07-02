@@ -11,13 +11,13 @@ html
     script(data-main="app/startup" src="bower_components/requirejs/require.js")
   body
     div.wrap
-      div.clearfix.soft
-        h2.float--left.flush--top
+      div.clearfix
+        h2.logo.flush--top
           a(href=".") Sir Gester
-        nav.menu.float--right
+        nav.menu
           a(href=".") Books
           a(href="#add")
-            i.icon.icon-plus.push-quarter--right
+            i.icon.icon-plus
             span Add book
           a Logout
-      div(id="page" data-bind="component: { name: route().page, params: route }").soft
+      div(id="page" data-bind="component: { name: route().page, params: route }").content
