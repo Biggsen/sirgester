@@ -11,9 +11,13 @@ html
     script(data-main="app/startup" src="bower_components/requirejs/require.js")
   body
     div.wrap
-      h2
-        a(href=".") Sir Gester
-      a.float--right Logout
-      a(href="#add").float--right.push--right Add book
-      a(href=".").float--right.push--right Booklist
-      div(id="page" data-bind="component: { name: route().page, params: route }")
+      div.clearfix.soft
+        h2.float--left.flush--top
+          a(href=".") Sir Gester
+        nav.menu.float--right
+          a(href=".") Books
+          a(href="#add")
+            i.icon.icon-plus.push-quarter--right
+            span Add book
+          a Logout
+      div(id="page" data-bind="component: { name: route().page, params: route }").soft

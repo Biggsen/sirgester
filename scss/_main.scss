@@ -25,6 +25,22 @@ $susy: (
   @include span(6);
 }
 
+// MENU
+
+.menu {
+  padding-top: 12px;
+  a {
+    margin-left: 16px;
+  }
+}
+
+// ICONS
+
+.icon-plus {
+  @include icon(plus);
+  @include icon-before(plus, 4px);
+}
+
 // LISTS
 
 .dlist--vertical {
