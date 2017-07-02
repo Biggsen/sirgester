@@ -1,0 +1,26 @@
+.content
+  h3 Add new book
+  div
+    form
+      fieldset
+        .form__row
+          label(for="title") Title
+          input(type="text" id="title")
+          br
+          label(for="firstName") Author first name
+          input(type="text" id="firstName")
+          br
+          label(for="lastName") Author last name
+          input(type="text" id="lastName")
+          br
+          label(for="genre") Genre
+          select
+            option
+          br
+          label(for="totalPages") Total pages
+          input(type="number" id="totalPages")
+          br
+          label(for="currentPage") Current page
+          input(type="number" id="currentPage")
+          br
+          input(type="button" value="Save book" data-bind="click: savebook" class="btn")
