@@ -57,7 +57,6 @@ define(['knockout', 'text!./books.html', 'api', 'calc'], function(ko, template, 
 
     var url = '/book?user_objectid=' + sessionStorage.userid;
     api.get(url, function(data){
-      console.log(data.id);
       self.update(data);
       self.books.sort(self.sorthandler('nextMilestone', 'asc'));
       self.shelved.sort(self.sorthandler('updatedat', 'desc'));

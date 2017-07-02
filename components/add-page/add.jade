@@ -5,22 +5,21 @@
       fieldset
         .form__row
           label(for="title") Title
-          input(type="text" id="title")
+          input(type="text" id="title" data-bind="value: title")
           br
           label(for="firstName") Author first name
-          input(type="text" id="firstName")
+          input(type="text" id="firstName" data-bind="value: firstName")
           br
           label(for="lastName") Author last name
-          input(type="text" id="lastName")
+          input(type="text" id="lastName" data-bind="value: lastName")
           br
           label(for="genre") Genre
-          select
-            option
+          select(data-bind="options: genres")
           br
           label(for="totalPages") Total pages
-          input(type="number" id="totalPages")
+          input(type="number" id="totalPages" data-bind="value: total")
           br
           label(for="currentPage") Current page
-          input(type="number" id="currentPage")
+          input(type="number" id="currentPage" data-bind="value: current")
           br
           input(type="button" value="Save book" data-bind="click: savebook" class="btn")

@@ -8,6 +8,7 @@ var require = {
     "signals":              "bower_components/js-signals/dist/signals.min",
     "text":                 "bower_components/text/text",
     "api":                  "js/api",
-    "calc":                 "js/calc"
+    "calc":                 "js/calc",
+    "utils":                "js/utils"
   }
 }
