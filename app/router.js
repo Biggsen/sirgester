@@ -4,6 +4,7 @@ define(['knockout', 'crossroads', 'hasher'], function(ko, crossroads, hasher){
     routes: [
       { url: '',              params: { page: 'books-page' } },
       { url: 'login',         params: { page: 'login-page' } },
+      { url: 'add',           params: { page: 'add-page' } },
     ]
   });
 

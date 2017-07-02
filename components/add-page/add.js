@@ -1,4 +1,4 @@
-define(['knockout', 'text!./home.html'], function(ko, template){
+define(['knockout', 'text!./add.html'], function(ko, template){
 
   function HomeViewModel(route) {
       this.search = ko.observable("hi");
