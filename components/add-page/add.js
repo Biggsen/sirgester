@@ -51,6 +51,8 @@ define(['knockout', 'text!./add.html', 'jquery', 'api', 'utils'], function(ko, t
         updatedat: now.toISOString(),
         createdat: now.toISOString()
       });
+
+      window.location.hash = '#';
     }
   }
 
