@@ -80,6 +80,32 @@ define(function(require, exports, module) {
         .always(function() {
           //console.log( "complete" );
         });
+    },
+    delete: function(url, callback) {
+      $.ajax({
+          type: 'DELETE',
+          url: baseUrl + url,
+          headers: {
+              "accept":"application/json",
+              "Content-Type": "application/json"
+          },
+          beforeSend : function(xhr) {
+            var basic = "Basic " + btoa("key-1" + ":" + appKey);
+            xhr.setRequestHeader("Authorization", basic);
+          }
+        })
+        .done(function(data) {
+          console.log('delete done');
+        })
+        .fail(function(er) {
+          console.log(er);
+        })
+        .always(function() {
+          console.log( "complete" );
+          if(typeof(callback) == 'function') {
+            callback();  
+          }
+        });
     }
   }
 

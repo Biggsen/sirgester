@@ -28,7 +28,7 @@ div
           input(data-bind="click: updatePage" type="button" value="Update").btn.push-half--right
           input(type="button" value="Finish").btn
           br
-          a Delete
+          a(data-bind="click: deleteBook") Delete
 
 div
   h2 Shelved
@@ -43,7 +43,7 @@ div
         div
           dl.dlist--vertical
             dt Author(s)
-            dd First Last
+            dd(data-bind="text: authors")
             dt Genre
             dd(data-bind="text: genre")
             dt Updated
@@ -65,7 +65,7 @@ div
         div
           dl.dlist--vertical
             dt Author(s)
-            dd First Last
+            dd(data-bind="text: authors")
             dt Genre
             dd(data-bind="text: genre")
             dt Updated

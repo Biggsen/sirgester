@@ -7,6 +7,7 @@ define(['knockout', 'text!./books.html', 'jquery', 'api', 'calc', 'utils'], func
   function BookViewModel(book) {
     var self = this;
 
+    self.id = book.id;
     self.name = ko.observable(book.name);
     self.genre = ko.observable(book.genre);
     self.current = ko.observable(book.current);
@@ -46,6 +47,13 @@ define(['knockout', 'text!./books.html', 'jquery', 'api', 'calc', 'utils'], func
 
       obj.current(val);
       obj.updateInfo(obj.total, obj.current());
+    }
+
+    self.deleteBook = function (obj) {
+      var url = '/book/' + obj.id;
+      api.delete(url, function() {
+        location.reload();
+      });
     }
 
     self.left = ko.observable();
